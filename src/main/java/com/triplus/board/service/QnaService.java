@@ -14,6 +14,9 @@ public class QnaService {
     public ArrayList<QnaDto> selectList()
     { return qnaMapper.selectList(); }
 
+    public QnaDto selectOne(long num)
+    { return qnaMapper.selectOne(num); }
+
     public int insert(QnaDto qnaDto)
     { return qnaMapper.insert(qnaDto); }
 

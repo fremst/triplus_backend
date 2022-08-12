@@ -9,6 +9,11 @@
 		select * from qna inner join board
 		    on qna.brdnum = board.brdnum
 	</select>
+	<select id="selectOne" parameterType="long" resultType="com.triplus.board.dto.QnaDto">
+		select * from qna inner join board
+			on qna.brdnum = board.brdnum
+			where qna.brdnum = #{num}
+	</select>
     <insert id="insert" parameterType="com.triplus.board.dto.QnaDto">
 		insert into qna values(#{brdNum}, #{answerNum}, #{category}, #{tempEmail}, #{tempPwd})
 	</insert>

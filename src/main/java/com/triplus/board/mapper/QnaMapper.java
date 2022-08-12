@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public interface QnaMapper
 {
     public ArrayList<QnaDto> selectList();
+    public QnaDto selectOne(long num);
     public int insert(QnaDto boardDto);
     public int delete(int brdNum);
     public int update(QnaDto boardDto);
