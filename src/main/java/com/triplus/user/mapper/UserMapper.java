@@ -12,6 +12,7 @@ public interface UserMapper {
     UserDto login(HashMap<String, String> map);
 
     int insert(UserDto dto);
+
     UserDto identify(HashMap<String, String> map);
 
     UserDto identifyId(String id);
@@ -19,6 +20,5 @@ public interface UserMapper {
     UserDto showId(String name);
 
     int changePwd(HashMap<String, String> map);
-
-
+    
 }

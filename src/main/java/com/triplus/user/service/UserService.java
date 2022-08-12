@@ -34,10 +34,8 @@ public class UserService {
 
     }
 
-
     public UserDto showId(String name){
         return userMapper.showId(name);
     }
-
 
 }
