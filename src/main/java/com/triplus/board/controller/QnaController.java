@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
+@CrossOrigin("*")
 @RestController
 public class QnaController
 {
@@ -25,5 +26,10 @@ public class QnaController
     public ArrayList<QnaDto> getList()
     {
         return qnaService.selectList();
+    }
+    @GetMapping(value = "/api/service/qna/detail", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public QnaDto getDetail(int num)
+    {
+        return qnaService.selectOne(num);
     }
 }
