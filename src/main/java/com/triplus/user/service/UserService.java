@@ -22,4 +22,23 @@ public class UserService {
     }
 
 
+    public UserDto identify(HashMap<String, String> map){
+        return userMapper.identify(map);
+    }
+
+    public UserDto identifyId(String id){
+        return userMapper.identifyId(id);
+    }
+
+    public int changePwd(HashMap<String, String> map){
+        return userMapper.changePwd(map);
+
+    }
+
+
+    public UserDto showId(String name){
+        return userMapper.showId(name);
+    }
+
+
 }

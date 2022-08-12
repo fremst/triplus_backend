@@ -15,4 +15,21 @@
           and pwd = #{pwd, jdbcType=VARCHAR}
     </select>
 
+
+    <select id="identify" parameterType="hashmap" resultType="com.triplus.user.dto.UserDto">
+        select * from "USER" where name = #{name, jdbcType=VARCHAR} and email = #{email, jdbcType=VARCHAR}
+    </select>
+
+    <select id="identifyId" resultType="com.triplus.user.dto.UserDto">
+        select * from "USER" where id = #{id, jdbcType=VARCHAR}
+    </select>
+
+    <select id="showId" parameterType="String" resultType="com.triplus.user.dto.UserDto">
+        select * from "USER" where name = #{name , jdbcType=VARCHAR}
+    </select>
+
+    <update id="changePwd" parameterType="hashmap">
+        update "USER" set pwd = #{pwd, jdbcType=VARCHAR} where id=#{id, jdbcType=VARCHAR}
+    </update>
+
 </mapper>
