@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.triplus.board.mapper.PackageMapper">
+    <select id="select" parameterType="int" resultType="com.triplus.board.dto.PackageDto">
+        SELECT *
+        FROM PACKAGE
+        WHERE BRDNUM = #{brdNum}
+    </select>
+    <select id="selectAll" resultType="com.triplus.board.dto.PackageDto">
+        SELECT *
+        FROM PACKAGE
+    </select>
+    <select id="selectWithBoard" parameterType="int" resultType="com.triplus.board.dto.PackageWithBoardDto">
+        SELECT *
+        FROM BOARD
+                 JOIN PACKAGE USING (BRDNUM)
+        WHERE BRDNUM = #{brdNum}
+    </select>
+    <select id="selectAllWithBoard" resultType="com.triplus.board.dto.PackageWithBoardDto">
+        SELECT *
+        FROM BOARD
+                 JOIN PACKAGE USING (BRDNUM)
+    </select>
+</mapper>
