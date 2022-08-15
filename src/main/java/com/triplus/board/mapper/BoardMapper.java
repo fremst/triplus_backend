@@ -11,6 +11,9 @@ public interface BoardMapper
 {
     public ArrayList<BoardDto> select();
     public int insert(BoardDto boardDto);
+    public int fixedInsert(BoardDto boardDto);
     public int delete(int brdNum);
     public int update(BoardDto boardDto);
+
+    public long getNextBrdNum();
 }
