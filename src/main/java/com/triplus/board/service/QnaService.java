@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 @Service
 public class QnaService {
@@ -20,8 +21,8 @@ public class QnaService {
     public int insert(QnaDto qnaDto)
     { return qnaMapper.insert(qnaDto); }
 
-    public int delete(int brdnum)
-    { return qnaMapper.delete(brdnum); }
+    public int delete(QnaDto qnaDto)
+    { return qnaMapper.delete(qnaDto); }
 
     public int update(QnaDto qnaDto)
     { return qnaMapper.update(qnaDto); }
