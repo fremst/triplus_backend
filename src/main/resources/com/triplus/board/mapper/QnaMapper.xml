@@ -17,8 +17,8 @@
     <insert id="insert" parameterType="com.triplus.board.dto.QnaDto">
 		insert into qna values(#{brdNum}, #{answerNum}, #{category}, #{tempEmail}, #{tempPwd})
 	</insert>
-    <delete id="delete" parameterType="int">
-		delete from qna where brdnum = ${brdNum}
+    <delete id="delete" parameterType="com.triplus.board.dto.QnaDto">
+		delete from qna where brdnum = #{brdNum} and temppwd = #{tempPwd}
 	</delete>
     <update id="update" parameterType="com.triplus.board.dto.QnaDto">
 		update qna
