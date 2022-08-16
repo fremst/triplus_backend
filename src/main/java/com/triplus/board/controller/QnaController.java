@@ -30,7 +30,7 @@ public class QnaController {
 
     @GetMapping(value = "/api/service/qna/list", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ArrayList<QnaDto> getList() {
-        return qnaService.selectAll();
+        return qnaService.getPageList();
     }
 
     @GetMapping(value = "/api/service/qna/detail", produces = {MediaType.APPLICATION_JSON_VALUE})
