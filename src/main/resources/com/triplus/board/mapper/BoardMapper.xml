@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.triplus.board.mapper.BoardMapper">
+    <select id="select" resultType="com.triplus.board.dto.BoardDto">
+		select * from board
+	</select>
+    <insert id="insert" parameterType="com.triplus.board.dto.BoardDto">
+		insert into board values(board_seq.nextval, #{writerId}, #{title}, #{contents}, #{tImg}, sysdate, #{hit}, #{published})
+	</insert>
+	<insert id="fixedInsert" parameterType="com.triplus.board.dto.BoardDto">
+		insert into board values(#{brdNum}, #{writerId}, #{title}, #{contents}, #{tImg}, sysdate, #{hit}, #{published})
+	</insert>
+    <delete id="delete" parameterType="int">
+		delete from board where brdnum = ${brdNum}
+	</delete>
+    <update id="update" parameterType="com.triplus.board.dto.BoardDto">
+		update board
+			set writerid = #{writerId}, title = ${title}, contents = ${contents}, timg = ${tImg}, hit = ${hit}, published = ${published}
+			where brdnum = #{brdNum}
+	</update>
+
+	<select id="getNextBrdNum" resultType="long">
+		select board_seq.nextval from dual
+	</select>
+</mapper>
