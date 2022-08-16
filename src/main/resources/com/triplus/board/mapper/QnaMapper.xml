@@ -8,18 +8,30 @@
     <select id="selectAll" resultType="com.triplus.board.dto.QnaDto">
 		select * from qna inner join board
 		    on qna.brdnum = board.brdnum
+			order by brdnum desc
 	</select>
+
 	<select id="select" parameterType="int" resultType="com.triplus.board.dto.QnaDto">
 		select * from qna inner join board
 			on qna.brdnum = board.brdnum
 			where qna.brdnum = #{brdNum}
 	</select>
+
+	<select id="getPageList" resultType="com.triplus.board.dto.QnaDto">
+		select qna.brdnum, writerId, title, wDate, hit, published
+		from qna inner join board
+		on qna.brdnum = board.brdnum
+		order by qna.brdnum desc
+	</select>
+
     <insert id="insert" parameterType="com.triplus.board.dto.QnaDto">
 		insert into qna values(#{brdNum}, #{answerNum}, #{category}, #{tempEmail}, #{tempPwd})
 	</insert>
+
     <delete id="delete" parameterType="com.triplus.board.dto.QnaDto">
 		delete from qna where brdnum = #{brdNum} and temppwd = #{tempPwd}
 	</delete>
+
     <update id="update" parameterType="com.triplus.board.dto.QnaDto">
 		update qna
 			set answernum = #{answerNum}, category = #{category}, tempEmail = #{tempEmail}, tempPwd = #{tempPwd}

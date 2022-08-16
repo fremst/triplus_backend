@@ -18,6 +18,9 @@ public class BoardService {
     public ArrayList<BoardDto> selectAll()
     { return boardMapper.selectAll(); }
 
+    public ArrayList<BoardDto> getPageList()
+    { return boardMapper.getPageList(); }
+
     // brdNum을 board_seq.nextval에 맡기고 insert
     public int insert(BoardDto boardDto)
     { return boardMapper.insert(boardDto); }
