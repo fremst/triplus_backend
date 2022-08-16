@@ -24,7 +24,7 @@ public class QnaDto extends BoardDto
     {
         super(board.getBrdNum(), board.getWriterId(),
                 board.getTitle(), board.getContents(), board.getTImg(),
-                board.getWDate(), board.getHit(), board.getPublished());
+                board.getWDate(), board.getHit(), board.isPublished());
         this.answerNum = answerNum;
         this.category = category;
         this.tempEmail = tempEmail;

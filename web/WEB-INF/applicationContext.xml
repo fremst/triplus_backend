@@ -22,8 +22,16 @@
         <property name="dataSource" ref="dataSource"/>
     </bean>
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="{com.triplus.board.mapper, com.triplus.cs.mapper, com.triplus.diary.mapper,
-        com.triplus.payment.mapper, com.triplus.schedule.mapper, com.triplus.user.mapper,com.triplus.test.mapper"/>
+        <property name="basePackage"
+                  value="{
+                  com.triplus.test.mapper
+                  com.triplus.board.mapper,
+                  com.triplus.cs.mapper,
+                  com.triplus.diary.mapper,
+                  com.triplus.reservation.mapper,
+                  com.triplus.schedule.mapper,
+                  com.triplus.user.mapper,
+                  }"/>
     </bean>
     <context:component-scan base-package="com.triplus.*.service"/>
     <tx:advice id="advice" transaction-manager="transactionManager">

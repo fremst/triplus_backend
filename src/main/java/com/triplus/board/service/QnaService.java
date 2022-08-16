@@ -6,17 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 @Service
 public class QnaService {
     @Autowired private QnaMapper qnaMapper;
 
-    public ArrayList<QnaDto> selectList()
-    { return qnaMapper.selectList(); }
+    public ArrayList<QnaDto> selectAll()
+    { return qnaMapper.selectAll(); }
 
-    public QnaDto selectOne(long num)
-    { return qnaMapper.selectOne(num); }
+    public QnaDto select(int brdNum)
+    { return qnaMapper.select(brdNum); }
 
     public int insert(QnaDto qnaDto)
     { return qnaMapper.insert(qnaDto); }

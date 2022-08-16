@@ -9,8 +9,8 @@ import java.util.HashMap;
 @Mapper
 public interface QnaMapper
 {
-    public ArrayList<QnaDto> selectList();
-    public QnaDto selectOne(long num);
+    public QnaDto select(int brdNum);
+    public ArrayList<QnaDto>  selectAll();
     public int insert(QnaDto boardDto);
     public int delete(QnaDto boardDto);
     public int update(QnaDto boardDto);

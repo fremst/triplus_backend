@@ -10,23 +10,23 @@
         from board
         where brdnum = #{brdNum}
     </select>
-    
+
     <select id="selectAll" resultType="com.triplus.board.dto.BoardDto">
         select *
         from board
     </select>
-    
+
     <insert id="insert" parameterType="com.triplus.board.dto.BoardDto">
         insert into board
         values (board_seq.nextval, #{writerId}, #{title}, #{contents}, #{tImg}, sysdate, #{hit}, #{published})
     </insert>
-    
+
     <delete id="delete" parameterType="int">
         delete
         from board
         where brdnum = ${brdNum}
     </delete>
-    
+
     <update id="update" parameterType="com.triplus.board.dto.BoardDto">
         update board
         set writerid  = #{writerId},
@@ -39,11 +39,13 @@
     </update>
 
     <insert id="fixedInsert" parameterType="com.triplus.board.dto.BoardDto">
-        insert into board values(#{brdNum}, #{writerId}, #{title}, #{contents}, #{tImg}, sysdate, #{hit}, #{published})
+        insert into board
+        values (#{brdNum}, #{writerId}, #{title}, #{contents}, #{tImg}, sysdate, #{hit}, #{published})
     </insert>
-    
-    <select id="getNextBrdNum" resultType="long">
-        select board_seq.nextval from dual
+
+    <select id="getNextBrdNum" resultType="int">
+        select board_seq.nextval
+        from dual
     </select>
 
 </mapper>

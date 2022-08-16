@@ -14,35 +14,35 @@ import java.util.HashMap;
 
 @CrossOrigin("*")
 @RestController
-public class QnaController
-{
+public class QnaController {
     // static
     private static ObjectMapper objectMapper;
+
     static {
         objectMapper = new ObjectMapper();
     }
 
     // properties
-    @Autowired private BoardService boardService;
-    @Autowired private QnaService qnaService;
+    @Autowired
+    private BoardService boardService;
+    @Autowired
+    private QnaService qnaService;
 
     @GetMapping(value = "/api/service/qna/list", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ArrayList<QnaDto> getList()
-    {
-        return qnaService.selectList();
+    public ArrayList<QnaDto> getList() {
+        return qnaService.selectAll();
     }
+
     @GetMapping(value = "/api/service/qna/detail", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public QnaDto getDetail(int num)
-    {
-        return qnaService.selectOne(num);
+    public QnaDto getDetail(int num) {
+        return qnaService.select(num);
     }
 
     @PostMapping(value = "/api/service/qna/write", produces = {MediaType.APPLICATION_JSON_VALUE})
     public HashMap<String, Object> postWrite(
             String writerId, long answerNum,
             String title, String category,
-            String tempEmail, String tempPwd, String contents)
-    {
+            String tempEmail, String tempPwd, String contents) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("result", false);
         map.put("reason", "unknown");
@@ -50,11 +50,11 @@ public class QnaController
         try {
             // 보드 시퀀스의 가장 최신값을 얻을 방법이 없다
             // 차라리 nextval을 얻어와서 dto 간 brdNum 값을 동기화
-            long brdNum = boardService.getNextBrdNum();
+            int brdNum = boardService.getNextBrdNum();
 
             // 게시글 DB 입력
             BoardDto board = new BoardDto(brdNum,
-                    writerId, title, contents, "", null, 0, "Y");
+                    writerId, title, contents, "", null, 0, true);
             int result1 = boardService.fixedInsert(board);
             if (result1 <= 0) {
                 map.put("reason", "Board Service Error");
@@ -72,9 +72,7 @@ public class QnaController
             }
             map.put("result", result1 > 0 && result2 > 0);
             map.put("brdNum", brdNum);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
             map.put("reason", "DB 오류");
         }
@@ -83,8 +81,7 @@ public class QnaController
 
 
     @PostMapping(value = "/api/service/qna/delete", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public HashMap<String, Object> postDelete(long brdNum, String pwd)
-    {
+    public HashMap<String, Object> postDelete(int brdNum, String pwd) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("result", false);
         map.put("reason", "unknown");
@@ -100,7 +97,7 @@ public class QnaController
                 map.put("reason", "비밀번호가 틀렸음");
                 return map;
             }
-            int result2 = boardService.delete((int)brdNum);
+            int result2 = boardService.delete((int) brdNum);
             if (result2 <= 0) {
                 map.put("reason", "BoardService Error");
                 return map;
@@ -108,9 +105,7 @@ public class QnaController
 
             map.put("result", result1 > 0 && result2 > 0);
             map.put("brdNum", brdNum);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
             map.put("reason", "DB 오류");
         }
