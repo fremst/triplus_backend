@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.triplus.reservation.mapper.ReservationMapper">
+    <insert id="insert" parameterType="com.triplus.reservation.dto.ReservationDto">
+        INSERT INTO RESERVATION (OID, BRDNUM, ID, BOOKERNAME, BOOKERBDATE, BOOKEREMAIL, BOOKERTEL, CPNNUM, RESSTA)
+        VALUES (#{oid}, #{brdNum}, #{id}, #{bookerName}, #{bookerBDate}, #{bookerEmail}, #{bookerTel}, #{cpnNum},
+                #{resSta})
+    </insert>
+
+    <update id="updateResSta" parameterType="hashmap">
+        UPDATE RESERVATION
+        SET RESSTA = #{resSta}
+        where OID = #{oid}
+    </update>
+</mapper>

@@ -12,14 +12,15 @@ import java.sql.Date;
 @AllArgsConstructor
 @Data
 @ToString
-public class BoardDto
-{
-    private long brdNum;
+public class BoardDto {
+
+    private int brdNum;
     private String writerId;
     private String title;
     private String contents;
     private String tImg;
     private Date wDate;
-    private long hit;
-    private String published;
+    private int hit;
+    private boolean published;
+
 }

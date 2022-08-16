@@ -9,10 +9,14 @@ import java.util.ArrayList;
 
 @Service
 public class BoardService {
+
     @Autowired private BoardMapper boardMapper;
 
-    public ArrayList<BoardDto> select()
-    { return boardMapper.select(); }
+    BoardDto select(int brdNum)
+    { return boardMapper.select(brdNum); }
+    
+    public ArrayList<BoardDto> selectAll()
+    { return boardMapper.selectAll(); }
 
     // brdNum을 board_seq.nextval에 맡기고 insert
     public int insert(BoardDto boardDto)
@@ -28,8 +32,7 @@ public class BoardService {
     public int update(BoardDto boardDto)
     { return boardMapper.update(boardDto); }
 
-    public long getNextBrdNum()
-    {
-        return boardMapper.getNextBrdNum();
-    }
+    public int getNextBrdNum()
+    { return boardMapper.getNextBrdNum(); }
+    
 }
