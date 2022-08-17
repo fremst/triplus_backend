@@ -32,8 +32,14 @@ public class LoginController {
 
         HashMap<String, Object> map2 = new HashMap<String, Object>(); //
         if (dto != null) { // 회원존재(로그인 정보)
+            //토큰생성
+            CreateJWT jwt = new CreateJWT();
+            String token = jwt.createToken(id);
+            System.out.println(token);
+
             map2.put("result", "success");
             map2.put("dto", dto);
+            map2.put("token",token);
         } else { // 회원X
             map2.put("result", "fail");
         }
