@@ -1,6 +1,5 @@
 package com.triplus.board.controller;
 
-import com.triplus.board.dto.PackageDto;
 import com.triplus.board.dto.PackageWithBoardDto;
 import com.triplus.board.service.PackageService;
 import org.junit.Test;
@@ -41,7 +40,7 @@ public class PackageControllerTest {
         for (PackageWithBoardDto dto : packageWithBoardList) {
 
             HashMap<String, Object> map = new HashMap<>();
-        
+
             map.put("brdNum", dto.getBrdNum());
             map.put("title", dto.getTitle());
             map.put("adultPrice", dto.getAdultPrice());
@@ -56,5 +55,28 @@ public class PackageControllerTest {
         System.out.println(list);
 
     }
+
+    @Test
+    public void getRcrtSta() {
+
+        int remDays = 22;
+        int rcrtCnt = 40;
+        int vacancy = 9;
+
+        logger.info("remDays: " + remDays);
+        logger.info("vacancy: " + vacancy);
+
+        String rcrtSta = "모집중";
+        if (remDays <= 7 + 14 || vacancy <= rcrtCnt * 0.2) {
+            rcrtSta = "마감임박";
+        }
+        if (remDays <= 7 || vacancy == 0) {
+            rcrtSta = "모집완료";
+        }
+
+        logger.info("rcrtSta: " + rcrtSta);
+
+    }
+
 
 }

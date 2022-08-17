@@ -2,6 +2,7 @@ package com.triplus.board.service;
 
 import com.triplus.board.dto.PackageDto;
 import com.triplus.board.dto.PackageWithBoardDto;
+import com.triplus.board.dto.PkgImgDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -11,7 +12,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -64,6 +67,31 @@ public class PackageServiceTest {
         logger.info("list: " + list);
         assertNotNull(list);
 
+    }
+
+    @Test
+    public void selectByBrdNum() {
+
+        int brdNum = 103;
+
+        ArrayList<PkgImgDto> pkgImgDtos = packageService.selectByBrdNum(brdNum);
+        logger.info("pkgImgDtos: " + pkgImgDtos);
+        assertNotNull(pkgImgDtos);
+
+    }
+
+    @Test
+    public void getRecrtStaTotCnt() {
+
+        HashMap<String, Object> map = new HashMap<>();
+
+        map.put("resSta", "'예약', '승인'");
+        map.put("brdNum", 100);
+
+        int resStaTotCnt = packageService.getRecrtTotCnt(map);
+        logger.info("resStaTotCnt: " + resStaTotCnt);
+
+        assertEquals(9, resStaTotCnt);
     }
 
 }

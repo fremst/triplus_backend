@@ -9,6 +9,7 @@ import java.util.HashMap;
 
 @Service
 public class ReservationService {
+
     @Autowired
     private ReservationMapper reservationMapper;
 
@@ -19,4 +20,5 @@ public class ReservationService {
     public int updateResSta(HashMap<String, String> map) {
         return reservationMapper.updateResSta(map);
     }
+
 }
