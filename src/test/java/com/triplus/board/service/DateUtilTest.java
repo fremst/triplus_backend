@@ -1,6 +1,6 @@
 package com.triplus.board.service;
 
-import com.triplus.board.dto.BoardDto;
+import com.triplus.board.util.DateUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -15,32 +15,32 @@ import static java.time.temporal.ChronoUnit.DAYS;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("file:web/WEB-INF/applicationContext.xml")
-public class PacakageResStaTest {
+public class DateUtilTest {
 
     @Autowired
     PackageService packageService;
     Logger logger = LoggerFactory.getLogger(getClass());
 
     @Test
-    public void getBoardResSta() {
+    public void getPeriodTest() {
 
-        int brdNum = 101;
+        int brdNum = 100;
 
-        String resSta = "";
-
-        LocalDate fromDate = LocalDate.now();
-        LocalDate toDate = packageService.select(brdNum).getSDate().toLocalDate();
+        LocalDate fromDate = packageService.select(brdNum).getSDate().toLocalDate();
+        LocalDate toDate = packageService.select(brdNum).getEDate().toLocalDate();
         long daysBetween = DAYS.between(fromDate, toDate);
 
         logger.info("fromDate: " + fromDate);
         logger.info("toDate: " + toDate);
-        logger.info("daysBetween: " + daysBetween);
+        logger.info("daysBetween: " + new DateUtil().getDaysBetween(fromDate, toDate));
+        logger.info("period: " + new DateUtil().getPeriod(fromDate, toDate));
 
-        int recrtCnt = packageService.select(brdNum).getRecrtCnt();
-        
-        if (daysBetween <= 7) {
-            resSta = "모집완료";
-        }
+//        String resSta = "";
+//
+////        LocalDate fromDate = LocalDate.now();
+//        if (daysBetween <= 7) {
+//            resSta = "모집완료";
+//        }
 
     }
 
