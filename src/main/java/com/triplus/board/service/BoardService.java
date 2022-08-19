@@ -10,33 +10,51 @@ import java.util.ArrayList;
 @Service
 public class BoardService {
 
-    @Autowired private BoardMapper boardMapper;
+    @Autowired
+    private BoardMapper boardMapper;
 
-    BoardDto select(int brdNum)
-    { return boardMapper.select(brdNum); }
 
-    public ArrayList<BoardDto> selectAll()
-    { return boardMapper.selectAll(); }
+    BoardDto select(int brdNum) {
+        return boardMapper.select(brdNum);
+    }
 
-    public ArrayList<BoardDto> getPageList()
-    { return boardMapper.getPageList(); }
+    public ArrayList<BoardDto> selectAll() {
+        return boardMapper.selectAll();
+    }
+
+    public ArrayList<BoardDto> getPageList() {
+        return boardMapper.getPageList();
+    }
 
     // brdNum을 board_seq.nextval에 맡기고 insert
-    public int insert(BoardDto boardDto)
-    { return boardMapper.insert(boardDto); }
+    public int insert(BoardDto boardDto) {
+        return boardMapper.insert(boardDto);
+    }
 
     // brdNum을 고정해서 insert
-    public int fixedInsert(BoardDto boardDto)
-    { return boardMapper.fixedInsert(boardDto); }
+    public int fixedInsert(BoardDto boardDto) {
+        return boardMapper.fixedInsert(boardDto);
+    }
 
-    public int delete(int brdnum)
-    { return boardMapper.delete(brdnum); }
+    public int delete(int brdnum) {
+        return boardMapper.delete(brdnum);
+    }
 
-    public int update(BoardDto boardDto)
-    { return boardMapper.update(boardDto); }
+    public int update(BoardDto boardDto) {
+        return boardMapper.update(boardDto);
+    }
 
-    public int getNextBrdNum()
-    { return boardMapper.getNextBrdNum(); }
+    public int getNextBrdNum() {
+        return boardMapper.getNextBrdNum();
+    }
+
+    public int bPlaceUpdate(BoardDto boardDto) {
+        return boardMapper.bPlaceUpdate(boardDto);
+    }
+
+    public int getNextBrdNum() {
+        return boardMapper.getNextBrdNum();
+     }
 
     // 조회수 업데이트
     public int updateHit(int brdNum){
