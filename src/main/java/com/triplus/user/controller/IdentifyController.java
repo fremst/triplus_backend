@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.Map;
 
 @CrossOrigin("*")
 @RestController
@@ -20,7 +22,21 @@ public class IdentifyController {
 
     //이름, 이메일 -> 회원확인
     @RequestMapping(value = "/member/identify", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public HashMap<String, Object> identify(String name, String email){
+    public HashMap<String, Object> identify(String name, String email, HttpServletRequest request){
+
+        //jwt token test
+        String auth = request.getHeader("token");
+
+        CreateJWT jwt = new CreateJWT();
+        try{
+            Map<String, Object> check = jwt.verifyJWT(auth);
+            System.out.println(check);
+            //{sub=user, data=kj, exp=1660843425}
+        }catch (Exception e){ //오류-> 만료기간 끝
+            e.printStackTrace();
+            System.out.println("만료?? 오류-> 실패 응답");
+        }
+
 
         //이름, 이메일 회원인지 확인
         HashMap<String, String> map = new HashMap<String, String>();
