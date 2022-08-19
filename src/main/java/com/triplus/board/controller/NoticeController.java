@@ -53,7 +53,7 @@ public class NoticeController {
 
         try {
             int brdNum = boardService.getNextBrdNum();
-            BoardDto board = new BoardDto(brdNum, writerId, title, contents , "" ,null, 0, true);
+            BoardDto board = new BoardDto(brdNum, writerId, title, contents ,"",null, 0, true);
             int result1 = boardService.fixedInsert(board);
             if (result1 <= 0) {
                 map.put("reason", "Board Service Error");
@@ -85,4 +85,8 @@ public class NoticeController {
                 return "fail";
             }
         }
+    @GetMapping(value= "/api/service/notices/{brdNum}/update", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public NoticeDto noticeUpdate(@PathVariable("brdNum") int brdNum){
+        return noticeService.select(brdNum);
     }
+}
