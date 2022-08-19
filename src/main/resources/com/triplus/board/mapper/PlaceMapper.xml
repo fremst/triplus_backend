@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.triplus.board.mapper.PlaceMapper">
+    <select id="select" parameterType="int" resultType="com.triplus.board.dto.PlaceDto">
+        SELECT *
+        FROM PLACE
+                 INNER JOIN BOARD
+                            ON PLACE.BRDNUM = BOARD.BRDNUM
+        WHERE PLACE.BRDNUM = #{brdNum}
+
+    </select>
+    <select id="selectAll" resultType="com.triplus.board.dto.PlaceDto">
+        SELECT *
+        FROM PLACE
+                 INNER JOIN BOARD
+                            ON PLACE.BRDNUM = BOARD.BRDNUM
+    </select>
+    <insert id="insert" parameterType="com.triplus.board.dto.PlaceDto">
+        insert into PLACE (BRDNUM, MCATNUM, SCATNUM, REGION, ADDR, TEL, MAPX, MAPY, URL)
+        VALUES (#{brdNum}, #{mcatNum}, #{scatNum}, #{region}, #{addr}, #{tel}, #{mapx}, #{mapy}, #{url})
+    </insert>
+    <delete id="delete" parameterType="int">
+        delete
+        from place
+        where brdnum = #{brdNum}
+    </delete>
+    <update id="update" parameterType="com.triplus.board.dto.PlaceDto">
+        update place
+        set mcatnum = #{mcatNum},
+            scatnum =#{scatNum},
+            region= #{region},
+            addr= #{addr},
+            tel=#{tel},
+            mapx=#{mapx},
+            mapy=#{mapy},
+            url=#{url}
+        where brdnum = #{brdNum}
+    </update>
+</mapper>
