@@ -17,15 +17,18 @@
                  INNER JOIN BOARD
                             ON PLACE.BRDNUM = BOARD.BRDNUM
     </select>
+
     <insert id="insert" parameterType="com.triplus.board.dto.PlaceDto">
         insert into PLACE (BRDNUM, MCATNUM, SCATNUM, REGION, ADDR, TEL, MAPX, MAPY, URL)
         VALUES (#{brdNum}, #{mcatNum}, #{scatNum}, #{region}, #{addr}, #{tel}, #{mapx}, #{mapy}, #{url})
     </insert>
+
     <delete id="delete" parameterType="int">
         delete
         from place
         where brdnum = #{brdNum}
     </delete>
+
     <update id="update" parameterType="com.triplus.board.dto.PlaceDto">
         update place
         set mcatnum = #{mcatNum},
@@ -38,4 +41,5 @@
             url=#{url}
         where brdnum = #{brdNum}
     </update>
+
 </mapper>

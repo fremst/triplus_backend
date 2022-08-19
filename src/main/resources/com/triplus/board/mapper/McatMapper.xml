@@ -3,12 +3,11 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.triplus.board.mapper.McatMapper">
+
     <select id="select" parameterType="String" resultType="int">
         SELECT MCATNUM
         FROM MCAT
-
         WHERE MCATNAME = #{mcatName}
-
     </select>
 
 </mapper>

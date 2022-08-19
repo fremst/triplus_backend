@@ -31,7 +31,6 @@ public class PlaceController {
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ArrayList<PlaceDto> placeSelectAll() {
-        ArrayList<PlaceDto> list = new ArrayList<>();
         return placeService.selectAll();
     }
 
@@ -49,10 +48,11 @@ public class PlaceController {
         int mcatNum = mcatService.select(mcatName);
         int scatNum = scatService.select(scatName);
 
+        int brdNum = boardService.getNextBrdNum();
 
-        int boardResult = boardService.insert(
+        int boardResult = boardService.fixedInsert(
                 new BoardDto(
-                        0,
+                        brdNum,
                         userId,
                         title,
                         overview,
@@ -63,10 +63,9 @@ public class PlaceController {
                 )
         );
 
-
         int placeResult = placeService.insert(
                 new PlaceDto(
-                        0,
+                        brdNum,
                         mcatNum,
                         scatNum,
                         region,

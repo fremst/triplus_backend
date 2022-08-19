@@ -23,7 +23,7 @@
     </select>
 
     <insert id="insert" parameterType="com.triplus.board.dto.BoardDto">
-        insert into board
+        insert into board (brdnum, writerid, title, contents, timg, wdate, hit, published)
         values (board_seq.nextval, #{writerId}, #{title}, #{contents}, #{tImg}, sysdate, #{hit}, #{published})
     </insert>
 
@@ -46,7 +46,9 @@
 
     <!--조회수 기능 추가-->
     <update id="cntUpdate">
-        update board set hit = hit +1 where brdnum=#{brdnum}
+        update board
+        set hit = hit + 1
+        where brdnum = #{brdnum}
     </update>
 
     <insert id="fixedInsert" parameterType="com.triplus.board.dto.BoardDto">

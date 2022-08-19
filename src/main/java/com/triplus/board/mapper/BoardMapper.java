@@ -16,6 +16,7 @@ public interface BoardMapper {
 
     public int insert(BoardDto boardDto);
 
+
     public int delete(int brdNum);
 
     public int update(BoardDto boardDto);

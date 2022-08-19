@@ -10,6 +10,9 @@ public class McatService {
     McatMapper mcatMapper;
 
     public int select(String mcatName) {
+
         return mcatMapper.select(mcatName);
+        
     }
+
 }
