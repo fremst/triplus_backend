@@ -3,15 +3,30 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.triplus.reservation.mapper.ReservationMapper">
+
     <insert id="insert" parameterType="com.triplus.reservation.dto.ReservationDto">
         INSERT INTO RESERVATION (OID, BRDNUM, ID, BOOKERNAME, BOOKERBDATE, BOOKEREMAIL, BOOKERTEL, CPNNUM, RESSTA)
         VALUES (#{oid}, #{brdNum}, #{id}, #{bookerName}, #{bookerBDate}, #{bookerEmail}, #{bookerTel}, #{cpnNum},
                 #{resSta})
     </insert>
 
+    <select id="select" parameterType="string" resultType="com.triplus.reservation.dto.ReservationDto">
+        SELECT *
+        FROM RESERVATION
+        where OID = #{oid}
+    </select>
+
     <update id="updateResSta" parameterType="hashmap">
         UPDATE RESERVATION
         SET RESSTA = #{resSta}
         where OID = #{oid}
     </update>
+
+    <select id="getRcrtCnt" parameterType="hashmap" resultType="int">
+        SELECT COUNT(*)
+        FROM RESERVATION
+        WHERE BRDNUM = #{brdNum}
+          AND RESSTA IN (${resSta})
+    </select>
+
 </mapper>

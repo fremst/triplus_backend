@@ -9,7 +9,7 @@ import java.util.HashMap;
 public interface ReservationMapper {
     int insert(ReservationDto reservationDto);
 
-//    ReservationDto select(String oid);
+    ReservationDto select(String oid);
 
 //    int update(ReservationDto reservationDto);
 

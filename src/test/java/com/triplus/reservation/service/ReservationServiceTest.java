@@ -42,4 +42,16 @@ public class ReservationServiceTest {
         assertEquals(n, 1);
     }
 
+    @Test
+    public void select() {
+
+        String oid = "INIpayTest_1660879841115";
+
+        logger.info("reservationService: " + reservationService);
+        ReservationDto reservationDto = reservationService.select(oid);
+
+        logger.info("reservationDto: " + reservationDto);
+        assertNotNull(reservationDto);
+
+    }
 }

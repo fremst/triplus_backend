@@ -17,6 +17,10 @@ public class ReservationService {
         return reservationMapper.insert(reservationDto);
     }
 
+    public ReservationDto select(String oid) {
+        return reservationMapper.select(oid);
+    }
+
     public int updateResSta(HashMap<String, String> map) {
         return reservationMapper.updateResSta(map);
     }
