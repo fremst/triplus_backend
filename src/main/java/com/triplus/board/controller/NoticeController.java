@@ -36,6 +36,8 @@ public class NoticeController {
 
     @GetMapping(value = "/api/service/notices/{brdNum}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public NoticeDto getDetail(@PathVariable("brdNum") int num) {
+        // 조회수 기능 추가
+        boardService.updateHit(num);
 
         return noticeService.select(num);
     }
@@ -82,7 +84,5 @@ public class NoticeController {
             }else {
                 return "fail";
             }
-
         }
-
     }
