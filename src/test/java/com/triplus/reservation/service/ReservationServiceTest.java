@@ -10,6 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.sql.Date;
+import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -41,4 +42,16 @@ public class ReservationServiceTest {
         assertEquals(n, 1);
     }
 
+    @Test
+    public void select() {
+
+        String oid = "INIpayTest_1660879841115";
+
+        logger.info("reservationService: " + reservationService);
+        ReservationDto reservationDto = reservationService.select(oid);
+
+        logger.info("reservationDto: " + reservationDto);
+        assertNotNull(reservationDto);
+
+    }
 }
