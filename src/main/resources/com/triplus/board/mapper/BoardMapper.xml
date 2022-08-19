@@ -16,6 +16,12 @@
         from board
     </select>
 
+    <select id="getPageList" resultType="com.triplus.board.dto.QnaDto">
+        select brdnum, writerId, title, wDate, hit, published
+        from board
+        order by brdnum desc
+    </select>
+
     <insert id="insert" parameterType="com.triplus.board.dto.BoardDto">
         insert into board
         values (board_seq.nextval, #{writerId}, #{title}, #{contents}, #{tImg}, sysdate, #{hit}, #{published})
@@ -36,6 +42,11 @@
             hit       = ${hit},
             published = ${published}
         where brdnum = #{brdNum}
+    </update>
+
+    <!--조회수 기능 추가-->
+    <update id="cntUpdate">
+        update board set hit = hit +1 where brdnum=#{brdnum}
     </update>
 
     <insert id="fixedInsert" parameterType="com.triplus.board.dto.BoardDto">

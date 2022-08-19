@@ -12,6 +12,8 @@ public interface BoardMapper {
 
     public ArrayList<BoardDto> selectAll();
 
+    public ArrayList<BoardDto> getPageList();
+
     public int insert(BoardDto boardDto);
 
     public int delete(int brdNum);
@@ -21,6 +23,9 @@ public interface BoardMapper {
     public int fixedInsert(BoardDto boardDto);
 
     public int getNextBrdNum();
+
+    //조회수 업데이트
+    public int cntUpdate(int brdNum);
 
     public int bPlaceUpdate(BoardDto boardDto);
 

@@ -13,12 +13,17 @@ public class BoardService {
     @Autowired
     private BoardMapper boardMapper;
 
+
     BoardDto select(int brdNum) {
         return boardMapper.select(brdNum);
     }
 
     public ArrayList<BoardDto> selectAll() {
         return boardMapper.selectAll();
+    }
+
+    public ArrayList<BoardDto> getPageList() {
+        return boardMapper.getPageList();
     }
 
     // brdNum을 board_seq.nextval에 맡기고 insert
@@ -45,6 +50,15 @@ public class BoardService {
 
     public int bPlaceUpdate(BoardDto boardDto) {
         return boardMapper.bPlaceUpdate(boardDto);
+    }
+
+    public int getNextBrdNum() {
+        return boardMapper.getNextBrdNum();
+     }
+
+    // 조회수 업데이트
+    public int updateHit(int brdNum){
+        return boardMapper.cntUpdate(brdNum);
     }
 
 }
