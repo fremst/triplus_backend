@@ -17,6 +17,12 @@ public class QnaService {
     public QnaDto select(int brdNum)
     { return qnaMapper.select(brdNum); }
 
+    public QnaDto selectPwd(QnaDto dto)
+    { return qnaMapper.selectPwd(dto); }
+
+    public ArrayList<QnaDto> getPageList()
+    { return qnaMapper.getPageList(); }
+
     public int insert(QnaDto qnaDto)
     { return qnaMapper.insert(qnaDto); }
 
