@@ -30,19 +30,40 @@ public class QnaController {
 
     @GetMapping(value = "/api/service/qna/list", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ArrayList<QnaDto> getList() {
-        return qnaService.selectAll();
+        return qnaService.getPageList();
     }
 
     @GetMapping(value = "/api/service/qna/detail", produces = {MediaType.APPLICATION_JSON_VALUE})
     public QnaDto getDetail(int num) {
-        return qnaService.select(num);
+        QnaDto qnaDto = qnaService.select(num);
+        if (!qnaDto.isPublished())
+            qnaDto.setContents("");
+        return qnaDto;
+    }
+    @GetMapping(value = "/api/service/qna/detail/password", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public HashMap<String, Object> getDetailWithPwd(int num, String pwd) {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("result", false);
+        map.put("contents", "");
+        QnaDto qnaDto = new QnaDto();
+        qnaDto.setBrdNum(num);
+        qnaDto.setTempPwd(pwd);
+        try {
+            qnaDto = qnaService.selectPwd(qnaDto);
+            if (qnaDto != null) {
+                map.put("result", true);
+                map.put("article", qnaDto);
+            }
+        } catch (Exception e)
+        { }
+        return map;
     }
 
     @PostMapping(value = "/api/service/qna/write", produces = {MediaType.APPLICATION_JSON_VALUE})
     public HashMap<String, Object> postWrite(
-            String writerId, long answerNum,
+            String writerId, int answerNum,
             String title, String category,
-            String tempEmail, String tempPwd, String contents) {
+            String tempEmail, String tempPwd, String contents, boolean isSecret) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("result", false);
         map.put("reason", "unknown");
@@ -54,7 +75,7 @@ public class QnaController {
 
             // 게시글 DB 입력
             BoardDto board = new BoardDto(brdNum,
-                    writerId, title, contents, "", null, 0, true);
+                    writerId, title, contents, "", null, 0, !isSecret);
             int result1 = boardService.fixedInsert(board);
             if (result1 <= 0) {
                 map.put("reason", "Board Service Error");
@@ -66,6 +87,43 @@ public class QnaController {
                     tempEmail, tempPwd);
             qna.setBrdNum(brdNum);
             int result2 = qnaService.insert(qna);
+            if (result2 <= 0) {
+                map.put("reason", "QnA Service Error");
+                return map;
+            }
+            map.put("result", result1 > 0 && result2 > 0);
+            map.put("brdNum", brdNum);
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("reason", "DB 오류");
+        }
+        return map;
+    }
+
+    @PostMapping(value = "/api/service/qna/update", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public HashMap<String, Object> postUpdate(
+            int brdNum, String writerId, int answerNum,
+            String title, String category,
+            String tempEmail, String tempPwd, String contents, boolean isSecret) {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("result", false);
+        map.put("reason", "unknown");
+
+        try {
+            // 게시글 DB 입력
+            BoardDto board = new BoardDto(brdNum,
+                    writerId, title, contents, "", null, 0, !isSecret);
+            int result1 = boardService.update(board);
+            if (result1 <= 0) {
+                map.put("reason", "Board Service Error");
+                return map;
+            }
+
+            // 문의글 DB 입력
+            QnaDto qna = new QnaDto(board, answerNum, category,
+                    tempEmail, tempPwd);
+            qna.setBrdNum(brdNum);
+            int result2 = qnaService.update(qna);
             if (result2 <= 0) {
                 map.put("reason", "QnA Service Error");
                 return map;
