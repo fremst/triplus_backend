@@ -18,22 +18,27 @@ public class NoticeService {
     }
 
     public NoticeDto select(int brdNum) {
+
         return noticeMapper.select(brdNum);
     }
 
     public ArrayList<NoticeDto> getPageList() {
+
         return noticeMapper.getPageList();
     }
 
     public int insert(NoticeDto noticeDto) {
+
         return noticeMapper.insert(noticeDto);
     }
 
     public int delete(int brdNum) {
+
         return noticeMapper.delete(brdNum);
     }
 
     public int update(NoticeDto noticeDto) {
+
         return noticeMapper.update(noticeDto);
     }
 }

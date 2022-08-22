@@ -45,7 +45,7 @@
     </update>
 
     <!--조회수 기능 추가-->
-    <update id="cntUpdate">
+    <update id="updateHit">
         update board
         set hit = hit + 1
         where brdnum = #{brdnum}
@@ -67,6 +67,13 @@
             contents = #{contents},
             timg     = #{tImg}
         where brdnum = #{brdNum}
+    </update>
+    <!--공지사항 업데이트-->
+    <update id="updateNotice" parameterType="com.triplus.board.dto.BoardDto">
+        update board
+        set title = #{title,jdbcType=VARCHAR},
+            contents = #{contents,jdbcType=VARCHAR}
+        where brdNum = #{brdNum}
     </update>
 
 </mapper>

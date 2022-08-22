@@ -3,10 +3,12 @@ package com.triplus.board.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.triplus.board.dto.BoardDto;
 import com.triplus.board.dto.NoticeDto;
+import com.triplus.board.dto.NoticeWithBoardDto;
 import com.triplus.board.service.BoardService;
 import com.triplus.board.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -43,7 +45,7 @@ public class NoticeController {
     }
 
     @PostMapping(value = "/api/service/notices/write", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public HashMap<String, Object> noticeWrite(
+    public HashMap<String, Object> writeNotice(
             String writerId, long noticeNum,
             String title, String category,
             String contents) {
@@ -76,7 +78,7 @@ public class NoticeController {
 
 
     @DeleteMapping(value = "/api/service/notices/{brdNum}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public String noticeDelete(@PathVariable("brdNum") int brdNum) {
+    public String deleteNotice(@PathVariable("brdNum") int brdNum) {
             int n1 = noticeService.delete(brdNum);
             int n2 = boardService.delete(brdNum);
             if(n1>0 && n2>0){
@@ -86,7 +88,30 @@ public class NoticeController {
             }
         }
     @GetMapping(value= "/api/service/notices/{brdNum}/update", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public NoticeDto noticeUpdate(@PathVariable("brdNum") int brdNum){
-        return noticeService.select(brdNum);
+    public NoticeDto prevDetail(@PathVariable("brdNum") int brdNum, Model model){
+        NoticeDto notice= noticeService.select(brdNum);
+        return notice;
+    }
+
+    @PutMapping(value= "/api/service/notices/{brdNum}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public HashMap<String, String> updateNotice(@PathVariable("brdNum") int brdNum,
+                                                @RequestBody NoticeWithBoardDto noticeWithBoardDto
+                                                ){
+        HashMap<String, String> map = new HashMap<String, String>();
+        System.out.println(noticeWithBoardDto.getTitle() + noticeWithBoardDto.getCategory() + noticeWithBoardDto.getContents() + brdNum);
+        try {
+            BoardDto board = new BoardDto(brdNum, null, noticeWithBoardDto.getTitle(), noticeWithBoardDto.getContents(), "", null, 0, true);
+            int n1 = boardService.updateNotice(board);
+            NoticeDto notice = new NoticeDto(board, noticeWithBoardDto.getCategory(),0);
+            int n2 = noticeService.update(notice);
+            if (n1 > 0 && n2 > 0) {
+                map.put("result", "true");
+            } else {
+                map.put("result", "false");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return map;
     }
 }
