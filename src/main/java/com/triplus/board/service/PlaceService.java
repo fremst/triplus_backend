@@ -24,6 +24,10 @@ public class PlaceService {
         return placeMapper.selectAll();
     }
 
+    public ArrayList<PlaceDto> selectAllByMcatNum(int mcatNum) {
+        return placeMapper.selectAllByMcatNum(mcatNum);
+    }
+
     public PlaceDto select(int brdNum) {
         return placeMapper.select(brdNum);
     }

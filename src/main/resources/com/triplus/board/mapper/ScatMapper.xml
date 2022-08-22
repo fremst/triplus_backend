@@ -3,12 +3,18 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.triplus.board.mapper.ScatMapper">
-    <select id="select" parameterType="String" resultType="int">
-        SELECT SCATNUM
+
+    <select id="select" parameterType="hashmap" resultType="com.triplus.board.dto.ScatDto">
+        SELECT *
         FROM SCAT
+        WHERE MCATNUM = #{mcatNum} AND SCATNUM = #{scatNum}
 
+    </select>
+
+    <select id="selectByScatName" parameterType="String" resultType="com.triplus.board.dto.ScatDto">
+        SELECT *
+        FROM SCAT
         WHERE SCATNAME = #{scatName}
-
     </select>
 
 </mapper>

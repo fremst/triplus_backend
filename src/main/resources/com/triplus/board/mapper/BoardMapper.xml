@@ -36,11 +36,11 @@
     <update id="update" parameterType="com.triplus.board.dto.BoardDto">
         update board
         set writerid  = #{writerId},
-            title     = ${title},
-            contents  = ${contents},
-            timg      = ${tImg},
-            hit       = ${hit},
-            published = ${published}
+            title     = #{title},
+            contents  = #{contents},
+            timg      = #{tImg},
+            hit       = #{hit},
+            published = #{published}
         where brdnum = #{brdNum}
     </update>
 
@@ -60,13 +60,5 @@
         select board_seq.nextval
         from dual
     </select>
-    <!--장소 업데이트-->
-    <update id="bPlaceUpdate" parameterType="com.triplus.board.dto.BoardDto">
-        update board
-        set title    = #{title},
-            contents = #{contents},
-            timg     = #{tImg}
-        where brdnum = #{brdNum}
-    </update>
 
 </mapper>

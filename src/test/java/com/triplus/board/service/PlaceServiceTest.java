@@ -28,45 +28,113 @@ public class PlaceServiceTest {
     ScatService scatService;
     Logger logger = LoggerFactory.getLogger(getClass());
 
-//    @Test
-//    public void insert() {
-//        PlaceDto placeDto = new PlaceDto(1, 2, 1, 1, "서울", "종로구", "010", 1, 1, "aa");
-//        int n = placeService.insert(placeDto);
-//        assertEquals(n, 1);
-//
-//    }
+    @Test
+    public void insert() {
+
+        int brdNum = 130;
+        int mcatNum = 1;
+        int scatNum = 1;
+        String region = "경기";
+        String addr = "경기도 여주시 산북면 광여로 1432-14";
+        String tel = "031-884-4988";
+        double mapx = 127.4563679907;
+        double mapy = 37.4159692517;
+        String url = "http://hanapension.modoo.at";
+
+        int n = placeService.insert(
+                new PlaceDto(
+                        brdNum,
+                        mcatNum,
+                        scatNum,
+                        region,
+                        addr,
+                        tel,
+                        mapx,
+                        mapy,
+                        url)
+        );
+
+        logger.info("n: " + n);
+        assertEquals(n, 1);
+
+    }
 
     @Test
     public void select() {
-        PlaceDto placeDto = placeService.select(1);
-        logger.info("placeDto:" + placeDto);
+
+        int brdNum = 130;
+        PlaceDto placeDto = placeService.select(brdNum);
+        logger.info("placeDto: " + placeDto);
         assertNotNull(placeDto);
+
     }
 
     @Test
     public void selectAll() {
+
         ArrayList<PlaceDto> list = placeService.selectAll();
-        logger.info("list" + list);
+        logger.info("list: " + list);
         assertNotNull(list);
+
     }
 
     @Test
-    public void delete() {
-        int n1 = placeService.delete(1);
-        assertEquals(n1, 1);
+    public void selectAllByMcatName() {
+
+        String mcatName = "명소";
+
+        ArrayList<PlaceDto> list = placeService.selectAllByMcatNum(mcatService.selectByMcatName(mcatName).getMcatNum());
+        logger.info("list: " + list);
+        assertNotNull(list);
+
     }
 
     @Test
     public void update() {
-        //int n2 = boardService.bPlaceUpdate(new BoardDto(1, null, "asd", "asdd", "asddad", null, 0, true));
-        int n3 = placeService.update(new PlaceDto(1, 1, 1, "aa", "aa", "123", 0, 0, "aaa"));
+
+        int brdNum = 130;
+        int mcatNum = 1;
+        int scatNum = 1;
+        String region = "경기";
+        String addr = "경기도 여주시 산북면 광여로 1432-14";
+        String tel = "031-884-4988";
+        double mapx = 127.4563679907;
+        double mapy = 37.4159692517;
+        String url = "http://hanapension.modoo.at";
+
+        int n = placeService.update(
+                new PlaceDto(
+                        brdNum,
+                        mcatNum,
+                        scatNum,
+                        region,
+                        addr,
+                        tel,
+                        mapx,
+                        mapy,
+                        url)
+                    );
+
+        logger.info("n: " + n);
+        assertEquals(n, 1);
     }
 
     @Test
-    public void select1() {
-        //int n = mcatService.select("숙소");
-        int n5 = scatService.select("자연관광지");
-        assertEquals(n5, 1);
+    public void delete() {
+
+        int n = placeService.delete(130);
+        logger.info("n: " + n);
+        assertEquals(n, 1);
+
     }
+
+
+//
+//    @Test
+//    public void select1() {
+//        //int n = mcatService.select("숙소");
+//        int n5 = scatService.select("자연관광지");
+//        assertEquals(n5, 1);
+//    }
 
 }

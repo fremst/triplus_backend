@@ -9,14 +9,16 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class PlaceDto {
+public class PlaceDto extends BoardDto{
+
     private int brdNum;
     private int mcatNum;
     private int scatNum;
     private String region;
     private String addr;
     private String tel;
-    private int mapx;
-    private int mapy;
+    private double mapx;
+    private double mapy;
     private String url;
+
 }

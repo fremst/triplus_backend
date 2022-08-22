@@ -3,19 +3,22 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.triplus.board.mapper.PlaceMapper">
+
     <select id="select" parameterType="int" resultType="com.triplus.board.dto.PlaceDto">
         SELECT *
-        FROM PLACE
-                 INNER JOIN BOARD
-                            ON PLACE.BRDNUM = BOARD.BRDNUM
-        WHERE PLACE.BRDNUM = #{brdNum}
-
+        FROM PLACE INNER JOIN BOARD USING(BRDNUM)
+        WHERE BRDNUM = #{brdNum}
     </select>
+
     <select id="selectAll" resultType="com.triplus.board.dto.PlaceDto">
         SELECT *
-        FROM PLACE
-                 INNER JOIN BOARD
-                            ON PLACE.BRDNUM = BOARD.BRDNUM
+        FROM PLACE INNER JOIN BOARD USING(BRDNUM)
+    </select>
+
+    <select id="selectAllByMcatNum" parameterType="int" resultType="com.triplus.board.dto.PlaceDto">
+        SELECT *
+        FROM PLACE INNER JOIN BOARD USING(BRDNUM)
+        WHERE MCATNUM = #{mcatNum}
     </select>
 
     <insert id="insert" parameterType="com.triplus.board.dto.PlaceDto">
