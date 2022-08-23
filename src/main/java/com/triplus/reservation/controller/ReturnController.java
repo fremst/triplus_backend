@@ -142,6 +142,9 @@ public class ReturnController {
                     if ("0000".equals(resultMap.get("resultCode")) && secureSignature.equals(resultMap.get("authSignature"))) {    //결제보안 강화 2016-05-18
                         /*****************************************************************************
                          * 여기에 가맹점 내부 DB에 결제 결과를 반영하는 관련 프로그램 코드를 구현한다.*/
+
+                        // 모집 정원 초과 예외 처리 추가
+
                         paymentService.insert(
                                 new PaymentDto(
                                         resultMap.get("tid"),
@@ -160,7 +163,7 @@ public class ReturnController {
                             throw new Exception("예약상태 변경 실패");
                         }
 
-                        return "redirect:http://localhost:8081/section/packages/reservation/complete/" + resultMap.get("MOID");
+                        return "redirect:http://localhost:8081/section/packages/reservation-complete/" + resultMap.get("MOID");
 
                         /*[중요!] 승인내용에 이상이 없음을 확인한 뒤 가맹점 DB에 해당건이 정상처리 되었음을 반영함
                         처리중 에러 발생시 망취소를 한다.

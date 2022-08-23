@@ -7,8 +7,10 @@ import org.apache.ibatis.annotations.Mapper;
 public interface PaymentMapper {
     int insert(PaymentDto paymentDto);
 
-//    PaymentDto select(String tid);
-//
+    PaymentDto select(String tid);
+
+    PaymentDto selectByOid(String oid);
+
 //    int update(PaymentDto paymentDto);
 //
 //    int delete(String tid);

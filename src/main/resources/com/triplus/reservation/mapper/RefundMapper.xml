@@ -3,8 +3,10 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.triplus.reservation.mapper.RefundMapper">
+
     <insert id="insert" parameterType="com.triplus.reservation.dto.RefundDto">
-        insert into REFUND (RTID, TID, MSG, REFUNDDATE, REFUNDTIME)
-        values (#{cTid}, #{tid}, #{msg}, #{cancelDate}, #{cancelTime})
+        insert into REFUND (RTID, TID, MSG, REFUNDDATE)
+        values (#{cTid}, #{tid}, #{msg}, #{cancelDate})
     </insert>
+
 </mapper>
