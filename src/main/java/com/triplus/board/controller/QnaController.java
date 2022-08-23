@@ -5,12 +5,17 @@ import com.triplus.board.dto.BoardDto;
 import com.triplus.board.dto.QnaDto;
 import com.triplus.board.service.BoardService;
 import com.triplus.board.service.QnaService;
+import com.triplus.reservation.utils.VerifyUtils;
+import com.triplus.user.controller.CreateJWT;
+import com.triplus.user.dto.UserDto;
+import com.triplus.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 @CrossOrigin("*")
 @RestController
@@ -24,6 +29,8 @@ public class QnaController {
 
     // properties
     @Autowired
+    private UserService userService;
+    @Autowired
     private BoardService boardService;
     @Autowired
     private QnaService qnaService;
@@ -33,11 +40,29 @@ public class QnaController {
         return qnaService.getPageList();
     }
 
+    @GetMapping(value = "/api/service/qna/detail/reply", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ArrayList<QnaDto> getReplyList(int num) {
+        return qnaService.getAnswerList(num);
+    }
+
     @GetMapping(value = "/api/service/qna/detail", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public QnaDto getDetail(int num) {
+    public QnaDto getDetail(int num, String id, String token) {
         QnaDto qnaDto = qnaService.select(num);
-        if (!qnaDto.isPublished())
-            qnaDto.setContents("");
+        if (!qnaDto.isPublished()) {
+
+            // 유저 토큰이 있는 경우 (로그인을 한 경우)
+            if (token != null) {
+                // 유효성 검사
+                UserDto user = VerifyUtils.checkToken(userService, id, token);
+                if (user != null && user.getId().equals(qnaDto.getWriterId()))
+                {
+                    qnaDto.setPublished(true);
+                }
+            }
+            // 유효성 검사에 실패한 경우 컨텐츠를 삭제한 뒤 전송
+            if (!qnaDto.isPublished())
+                qnaDto.setContents("");
+        }
         return qnaDto;
     }
     @GetMapping(value = "/api/service/qna/detail/password", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -61,12 +86,25 @@ public class QnaController {
 
     @PostMapping(value = "/api/service/qna/write", produces = {MediaType.APPLICATION_JSON_VALUE})
     public HashMap<String, Object> postWrite(
-            String writerId, int answerNum,
-            String title, String category,
+            String writerId, String token,
+            int answerNum, String title, String category,
             String tempEmail, String tempPwd, String contents, boolean isSecret) {
+
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("result", false);
         map.put("reason", "unknown");
+
+        // 유저 토큰이 있는 경우 (로그인을 한 경우)
+        if (token != null) {
+            UserDto user = VerifyUtils.checkToken(userService, writerId, token);
+            if (user == null)
+            {
+                map.put("reason", "로그인 정보가 유효하지 않습니다.");
+                return map;
+            }
+            tempEmail = user.getEmail();
+            tempPwd = user.getPwd();
+        }
 
         try {
             // 보드 시퀀스의 가장 최신값을 얻을 방법이 없다
@@ -102,12 +140,24 @@ public class QnaController {
 
     @PostMapping(value = "/api/service/qna/update", produces = {MediaType.APPLICATION_JSON_VALUE})
     public HashMap<String, Object> postUpdate(
-            int brdNum, String writerId, int answerNum,
-            String title, String category,
+            int brdNum, String writerId, String token,
+            int answerNum, String title, String category,
             String tempEmail, String tempPwd, String contents, boolean isSecret) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("result", false);
         map.put("reason", "unknown");
+
+        // 유저 토큰이 있는 경우 (로그인을 한 경우)
+        if (token != null) {
+            UserDto user = VerifyUtils.checkToken(userService, writerId, token);
+            if (user == null)
+            {
+                map.put("reason", "로그인 정보가 유효하지 않습니다.");
+                return map;
+            }
+            tempEmail = user.getEmail();
+            tempPwd = user.getPwd();
+        }
 
         try {
             // 게시글 DB 입력
@@ -169,4 +219,6 @@ public class QnaController {
         }
         return map;
     }
+
+
 }

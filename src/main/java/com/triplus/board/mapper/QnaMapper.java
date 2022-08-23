@@ -13,6 +13,7 @@ public interface QnaMapper
     public QnaDto selectPwd(QnaDto dto);
     public ArrayList<QnaDto> selectAll();
     public ArrayList<QnaDto> getPageList();
+    public ArrayList<QnaDto> getAnswerList(int brdNum);
     public int insert(QnaDto boardDto);
     public int delete(QnaDto boardDto);
     public int update(QnaDto boardDto);

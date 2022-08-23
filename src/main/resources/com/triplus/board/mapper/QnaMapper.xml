@@ -27,7 +27,16 @@
 		select qna.brdnum, writerId, title, wDate, hit, published
 		from qna inner join board
 			on qna.brdnum = board.brdnum
+			where qna.answernum = 0
 			order by qna.brdnum desc
+	</select>
+
+	<select id="getAnswerList" parameterType="int" resultType="com.triplus.board.dto.QnaDto">
+		select *
+		from qna inner join board
+			on qna.brdnum = board.brdnum
+		where qna.answernum = #{brdNum}
+		order by qna.brdnum desc
 	</select>
 
 	<insert id="insert" parameterType="com.triplus.board.dto.QnaDto">
