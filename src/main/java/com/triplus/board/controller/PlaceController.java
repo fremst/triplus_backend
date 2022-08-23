@@ -1,14 +1,15 @@
 package com.triplus.board.controller;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.triplus.board.dto.BoardDto;
 import com.triplus.board.dto.PlaceDto;
+import com.triplus.board.dto.PlaceRequestData;
 import com.triplus.board.service.BoardService;
 import com.triplus.board.service.McatService;
 import com.triplus.board.service.PlaceService;
 import com.triplus.board.service.ScatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -62,16 +63,18 @@ public class PlaceController {
     }
 
     private ArrayList<HashMap<String, Object>> getData(String mcatName) {
+
         ArrayList<PlaceDto> placeDtos = placeService.selectAllByMcatNum(mcatService.selectByMcatName(mcatName).getMcatNum());
         ArrayList<HashMap<String, Object>> data = new ArrayList<>();
 
-        for(PlaceDto placeDto:placeDtos){
+        for (PlaceDto placeDto : placeDtos) {
 
             HashMap<String, Object> map = new HashMap<>();
             map.put("brdNum", placeDto.getBrdNum());
             map.put("title", placeDto.getTitle());
             map.put("region", placeDto.getRegion());
             map.put("addr", placeDto.getAddr());
+            map.put("tel", placeDto.getTel());
             map.put("firstimage", placeDto.getTImg());
 
             HashMap<String, Integer> scatMap = new HashMap<>();
@@ -118,10 +121,10 @@ public class PlaceController {
 
     @PostMapping(value = {"/attraction/", "/restaurant/", "/accommodation/"}, produces = {MediaType.APPLICATION_JSON_VALUE})
 //    @Transactional
-    public HashMap<String, String> insert(PlaceDto placeDto, String mcatName, String scatName, String overview, String firstimage, String homepage) {
+    public HashMap<String, String> insert(PlaceRequestData placeRequestData) {
 
-        int mcatNum = mcatService.selectByMcatName(mcatName).getMcatNum();
-        int scatNum = scatService.selectByScatName(scatName).getScatNum();
+        int mcatNum = mcatService.selectByMcatName(placeRequestData.getMcatName()).getMcatNum();
+        int scatNum = scatService.selectByScatName(placeRequestData.getScatName()).getScatNum();
 
         int brdNum = boardService.getNextBrdNum();
 
@@ -129,9 +132,9 @@ public class PlaceController {
                 new BoardDto(
                         brdNum,
                         "admin",
-                        placeDto.getTitle(),
-                        overview,
-                        firstimage,
+                        placeRequestData.getTitle(),
+                        placeRequestData.getOverview(),
+                        placeRequestData.getFirstimage(),
                         null,
                         0,
                         true
@@ -143,12 +146,12 @@ public class PlaceController {
                         brdNum,
                         mcatNum,
                         scatNum,
-                        placeDto.getRegion(),
-                        placeDto.getAddr(),
-                        placeDto.getTel(),
-                        placeDto.getMapx(),
-                        placeDto.getMapy(),
-                        homepage // url
+                        placeRequestData.getRegion(),
+                        placeRequestData.getAddr(),
+                        placeRequestData.getTel(),
+                        placeRequestData.getMapx(),
+                        placeRequestData.getMapy(),
+                        placeRequestData.getHomepage() // url
                 )
         );
 
@@ -163,15 +166,15 @@ public class PlaceController {
     }
 
     @PutMapping(value = {"/attraction/{brdNum}", "/restaurant/{brdNum}", "/accommodation/{brdNum}"}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public HashMap<String, String> update(@PathVariable("brdNum") int brdNum, PlaceDto placeDto, String mcatName, String scatName, String overview, String firstimage, String homepage) {
+    public HashMap<String, String> update(@PathVariable("brdNum") int brdNum, @RequestBody PlaceRequestData placeRequestData) {
 
         int boardResult = boardService.update(
                 new BoardDto(
                         brdNum,
                         "admin",
-                        placeDto.getTitle(),
-                        overview,
-                        firstimage,
+                        placeRequestData.getTitle(),
+                        placeRequestData.getOverview(),
+                        placeRequestData.getFirstimage(),
                         null,
                         boardService.select(brdNum).getHit(),
                         true
@@ -181,14 +184,14 @@ public class PlaceController {
         int placeResult = placeService.update(
                 new PlaceDto(
                         brdNum,
-                        mcatService.selectByMcatName(mcatName).getMcatNum(),
-                        scatService.selectByScatName(scatName).getScatNum(),
-                        placeDto.getRegion(),
-                        placeDto.getAddr(),
-                        placeDto.getTel(),
-                        placeDto.getMapx(),
-                        placeDto.getMapy(),
-                        homepage
+                        mcatService.selectByMcatName(placeRequestData.getMcatName()).getMcatNum(),
+                        scatService.selectByScatName(placeRequestData.getScatName()).getScatNum(),
+                        placeRequestData.getRegion(),
+                        placeRequestData.getAddr(),
+                        placeRequestData.getTel(),
+                        placeRequestData.getMapx(),
+                        placeRequestData.getMapy(),
+                        placeRequestData.getHomepage()
                 )
         );
 
