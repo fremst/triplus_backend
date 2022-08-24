@@ -19,21 +19,30 @@ import static org.junit.Assert.assertNotNull;
 public class PlaceServiceTest {
 
     @Autowired
-    PlaceService placeService;
-    @Autowired
     BoardService boardService;
+
+    @Autowired
+    PlaceService placeService;
+
     @Autowired
     McatService mcatService;
+
     @Autowired
     ScatService scatService;
+
     Logger logger = LoggerFactory.getLogger(getClass());
 
     @Test
-    public void insert() {
+    public void insert() throws Exception {
 
-        int brdNum = 130;
-        int mcatNum = 1;
-        int scatNum = 1;
+        String title = "test_title";
+        String contents = "test_overview";
+        String tImg = "test_firstimage";
+        boolean published = true;
+
+        String mcatName = "숙소";
+        String scatName = "펜션/민박";
+
         String region = "경기";
         String addr = "경기도 여주시 산북면 광여로 1432-14";
         String tel = "031-884-4988";
@@ -43,15 +52,23 @@ public class PlaceServiceTest {
 
         int n = placeService.insert(
                 new PlaceDto(
-                        brdNum,
-                        mcatNum,
-                        scatNum,
+                        0,
+                        null,
+                        title,
+                        contents,
+                        tImg,
+                        null,
+                        0,
+                        published,
+                        mcatService.selectByMcatName(mcatName).getMcatNum(),
+                        scatService.selectByScatName(scatName).getScatNum(),
                         region,
                         addr,
                         tel,
                         mapx,
                         mapy,
-                        url)
+                        url
+                )
         );
 
         logger.info("n: " + n);
@@ -90,51 +107,59 @@ public class PlaceServiceTest {
     }
 
     @Test
-    public void update() {
+    public void update() throws Exception {
 
-        int brdNum = 130;
-        int mcatNum = 1;
-        int scatNum = 1;
-        String region = "경기";
-        String addr = "경기도 여주시 산북면 광여로 1432-14";
-        String tel = "031-884-4988";
-        double mapx = 127.4563679907;
-        double mapy = 37.4159692517;
-        String url = "http://hanapension.modoo.at";
+        int brdNum = 174;
+
+        String title = "1test_title";
+        String contents = "1test_overview";
+        String tImg = "1test_firstimage";
+        boolean published = false;
+
+        String mcatName = "숙소";
+        String scatName = "펜션/민박";
+
+        String region = "1경기";
+        String addr = "1경기도 여주시 산북면 광여로 1432-14";
+        String tel = "1031-884-4988";
+        double mapx = 9127.4563679907;
+        double mapy = 937.4159692517;
+        String url = "1http://hanapension.modoo.at";
 
         int n = placeService.update(
                 new PlaceDto(
                         brdNum,
-                        mcatNum,
-                        scatNum,
+                        null,
+                        title,
+                        contents,
+                        tImg,
+                        null,
+                        boardService.select(brdNum).getHit(),
+                        published,
+                        mcatService.selectByMcatName(mcatName).getMcatNum(),
+                        scatService.selectByScatName(scatName).getScatNum(),
                         region,
                         addr,
                         tel,
                         mapx,
                         mapy,
-                        url)
-                    );
+                        url
+                )
+        );
 
         logger.info("n: " + n);
         assertEquals(n, 1);
     }
 
     @Test
-    public void delete() {
+    public void delete() throws Exception {
 
-        int n = placeService.delete(130);
+        int brdNum = 212;
+
+        int n = placeService.delete(brdNum);
         logger.info("n: " + n);
         assertEquals(n, 1);
 
     }
-
-
-//
-//    @Test
-//    public void select1() {
-//        //int n = mcatService.select("숙소");
-//        int n5 = scatService.select("자연관광지");
-//        assertEquals(n5, 1);
-//    }
 
 }

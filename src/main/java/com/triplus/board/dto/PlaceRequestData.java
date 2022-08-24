@@ -1,14 +1,14 @@
 package com.triplus.board.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
-@ToString
-@AllArgsConstructor
-@NoArgsConstructor
+import java.sql.Date;
+
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 public class PlaceRequestData extends PlaceDto {
 
     String overview;

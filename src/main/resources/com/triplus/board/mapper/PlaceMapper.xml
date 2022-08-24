@@ -6,43 +6,46 @@
 
     <select id="select" parameterType="int" resultType="com.triplus.board.dto.PlaceDto">
         SELECT *
-        FROM PLACE INNER JOIN BOARD USING(BRDNUM)
+        FROM PLACE
+                 INNER JOIN BOARD USING (BRDNUM)
         WHERE BRDNUM = #{brdNum}
     </select>
 
     <select id="selectAll" resultType="com.triplus.board.dto.PlaceDto">
         SELECT *
-        FROM PLACE INNER JOIN BOARD USING(BRDNUM)
+        FROM PLACE
+                 INNER JOIN BOARD USING (BRDNUM)
     </select>
 
     <select id="selectAllByMcatNum" parameterType="int" resultType="com.triplus.board.dto.PlaceDto">
         SELECT *
-        FROM PLACE INNER JOIN BOARD USING(BRDNUM)
+        FROM PLACE
+                 INNER JOIN BOARD USING (BRDNUM)
         WHERE MCATNUM = #{mcatNum}
     </select>
 
     <insert id="insert" parameterType="com.triplus.board.dto.PlaceDto">
-        insert into PLACE (BRDNUM, MCATNUM, SCATNUM, REGION, ADDR, TEL, MAPX, MAPY, URL)
+        INSERT INTO PLACE (BRDNUM, MCATNUM, SCATNUM, REGION, ADDR, TEL, MAPX, MAPY, URL)
         VALUES (#{brdNum}, #{mcatNum}, #{scatNum}, #{region}, #{addr}, #{tel}, #{mapx}, #{mapy}, #{url})
     </insert>
 
     <delete id="delete" parameterType="int">
-        delete
-        from place
-        where brdnum = #{brdNum}
+        DELETE
+        FROM PLACE
+        WHERE BRDNUM = #{brdNum}
     </delete>
 
     <update id="update" parameterType="com.triplus.board.dto.PlaceDto">
-        update place
-        set mcatnum = #{mcatNum},
-            scatnum =#{scatNum},
-            region= #{region},
-            addr= #{addr},
-            tel=#{tel},
-            mapx=#{mapx},
-            mapy=#{mapy},
-            url=#{url}
-        where brdnum = #{brdNum}
+        UPDATE PLACE
+        SET MCATNUM = #{mcatNum},
+            SCATNUM = #{scatNum},
+            REGION  = #{region},
+            ADDR    = #{addr},
+            TEL     = #{tel},
+            MAPX    = #{mapx},
+            MAPY    = #{mapy},
+            URL     = #{url}
+        WHERE BRDNUM = #{brdNum}
     </update>
 
 </mapper>

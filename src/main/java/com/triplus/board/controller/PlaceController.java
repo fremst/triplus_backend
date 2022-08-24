@@ -1,7 +1,5 @@
 package com.triplus.board.controller;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.triplus.board.dto.BoardDto;
 import com.triplus.board.dto.PlaceDto;
 import com.triplus.board.dto.PlaceRequestData;
 import com.triplus.board.service.BoardService;
@@ -21,6 +19,9 @@ import java.util.HashMap;
 public class PlaceController {
 
     @Autowired
+    BoardService boardService;
+
+    @Autowired
     PlaceService placeService;
 
     @Autowired
@@ -29,11 +30,8 @@ public class PlaceController {
     @Autowired
     ScatService scatService;
 
-    @Autowired
-    BoardService boardService;
 
     @GetMapping(value = "/attraction", produces = {MediaType.APPLICATION_JSON_VALUE})
-    //@Transactional
     public ArrayList<HashMap<String, Object>> selectAllAttraction() {
 
         String mcatName = "명소";
@@ -43,7 +41,6 @@ public class PlaceController {
     }
 
     @GetMapping(value = "/restaurant", produces = {MediaType.APPLICATION_JSON_VALUE})
-    //@Transactional
     public ArrayList<HashMap<String, Object>> selectAllRestaurant() {
 
         String mcatName = "맛집";
@@ -53,7 +50,6 @@ public class PlaceController {
     }
 
     @GetMapping(value = "/accommodation", produces = {MediaType.APPLICATION_JSON_VALUE})
-    //@Transactional
     public ArrayList<HashMap<String, Object>> selectAllAccommodation() {
 
         String mcatName = "숙소";
@@ -87,10 +83,10 @@ public class PlaceController {
         }
 
         return data;
+
     }
 
     @GetMapping(value = {"/attraction/{brdNum}", "/restaurant/{brdNum}", "/accommodation/{brdNum}"}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    //@Transactional
     public HashMap<String, Object> select(@PathVariable("brdNum") int brdNum) {
 
         PlaceDto placeDto = placeService.select(brdNum);
@@ -120,47 +116,52 @@ public class PlaceController {
     }
 
     @PostMapping(value = {"/attraction/", "/restaurant/", "/accommodation/"}, produces = {MediaType.APPLICATION_JSON_VALUE})
-//    @Transactional
     public HashMap<String, String> insert(PlaceRequestData placeRequestData) {
 
-        int mcatNum = mcatService.selectByMcatName(placeRequestData.getMcatName()).getMcatNum();
-        int scatNum = scatService.selectByScatName(placeRequestData.getScatName()).getScatNum();
-
-        int brdNum = boardService.getNextBrdNum();
-
-        int boardResult = boardService.fixedInsert(
-                new BoardDto(
-                        brdNum,
-                        "admin",
-                        placeRequestData.getTitle(),
-                        placeRequestData.getOverview(),
-                        placeRequestData.getFirstimage(),
-                        null,
-                        0,
-                        true
-                )
-        );
-
-        int placeResult = placeService.insert(
-                new PlaceDto(
-                        brdNum,
-                        mcatNum,
-                        scatNum,
-                        placeRequestData.getRegion(),
-                        placeRequestData.getAddr(),
-                        placeRequestData.getTel(),
-                        placeRequestData.getMapx(),
-                        placeRequestData.getMapy(),
-                        placeRequestData.getHomepage() // url
-                )
-        );
-
+        int serviceResult = 0;
         HashMap<String, String> result = new HashMap<>();
-        if (boardResult > 0 && placeResult > 0) {
-            result.put("result", "success");
-        } else {
-            result.put("result", "fail");
+
+        try {
+
+            serviceResult = placeService.insert(
+                    new PlaceDto(
+                            0,
+                            null,
+                            placeRequestData.getTitle(),
+                            placeRequestData.getOverview(),
+                            placeRequestData.getFirstimage(),
+                            placeRequestData.getWDate(),
+                            0,
+                            placeRequestData.isPublished(),
+                            mcatService.selectByMcatName(placeRequestData.getMcatName()).getMcatNum(),
+                            scatService.selectByScatName(placeRequestData.getScatName()).getScatNum(),
+                            placeRequestData.getRegion(),
+                            placeRequestData.getAddr(),
+                            placeRequestData.getTel(),
+                            placeRequestData.getMapx(),
+                            placeRequestData.getMapy(),
+                            placeRequestData.getHomepage()
+                    )
+            );
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+        } finally {
+
+            if (serviceResult > 0) {
+
+                result.put("result", "success");
+
+            } else {
+
+                result.put("result", "fail");
+
+            }
+
         }
+
         return result;
 
     }
@@ -168,39 +169,46 @@ public class PlaceController {
     @PutMapping(value = {"/attraction/{brdNum}", "/restaurant/{brdNum}", "/accommodation/{brdNum}"}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public HashMap<String, String> update(@PathVariable("brdNum") int brdNum, @RequestBody PlaceRequestData placeRequestData) {
 
-        int boardResult = boardService.update(
-                new BoardDto(
-                        brdNum,
-                        "admin",
-                        placeRequestData.getTitle(),
-                        placeRequestData.getOverview(),
-                        placeRequestData.getFirstimage(),
-                        null,
-                        boardService.select(brdNum).getHit(),
-                        true
-                )
-        );
-
-        int placeResult = placeService.update(
-                new PlaceDto(
-                        brdNum,
-                        mcatService.selectByMcatName(placeRequestData.getMcatName()).getMcatNum(),
-                        scatService.selectByScatName(placeRequestData.getScatName()).getScatNum(),
-                        placeRequestData.getRegion(),
-                        placeRequestData.getAddr(),
-                        placeRequestData.getTel(),
-                        placeRequestData.getMapx(),
-                        placeRequestData.getMapy(),
-                        placeRequestData.getHomepage()
-                )
-        );
-
+        int serviceResult = 0;
         HashMap<String, String> result = new HashMap<>();
-        if (boardResult > 0 && placeResult > 0) {
-            result.put("result", "success");
-        } else {
-            result.put("result", "fail");
+
+        try {
+
+            serviceResult = placeService.update(
+                    new PlaceDto(
+                            brdNum,
+                            null,
+                            placeRequestData.getTitle(),
+                            placeRequestData.getOverview(),
+                            placeRequestData.getFirstimage(),
+                            null,
+                            boardService.select(brdNum).getHit(),
+                            placeRequestData.isPublished(),
+                            mcatService.selectByMcatName(placeRequestData.getMcatName()).getMcatNum(),
+                            scatService.selectByScatName(placeRequestData.getScatName()).getScatNum(),
+                            placeRequestData.getRegion(),
+                            placeRequestData.getAddr(),
+                            placeRequestData.getTel(),
+                            placeRequestData.getMapx(),
+                            placeRequestData.getMapy(),
+                            placeRequestData.getHomepage()
+                    )
+            );
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+        } finally {
+
+            if (serviceResult > 0) {
+                result.put("result", "success");
+            } else {
+                result.put("result", "fail");
+            }
+
         }
+
         return result;
 
     }
@@ -208,15 +216,30 @@ public class PlaceController {
     @DeleteMapping(value = {"/attraction/{brdNum}", "/restaurant/{brdNum}", "/accommodation/{brdNum}"}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public HashMap<String, String> delete(@PathVariable("brdNum") int brdNum) {
 
-        int placeResult = placeService.delete(brdNum);
-        int boardeResult = boardService.delete(brdNum);
-
+        int serviceResult = 0;
         HashMap<String, String> result = new HashMap<>();
-        if (placeResult > 0 && boardeResult > 0) {
-            result.put("result", "success");
-        } else {
-            result.put("result", "fail");
+
+        try {
+            serviceResult = placeService.delete(brdNum);
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+        } finally {
+
+            if (serviceResult > 0) {
+
+                result.put("result", "success");
+
+            } else {
+
+                result.put("result", "fail");
+
+            }
+
         }
+
         return result;
 
     }
