@@ -27,11 +27,11 @@ public class IdentifyController {
         String auth = request.getHeader("token");
 
         CreateJWT jwt = new CreateJWT();
-        try{
+        try {
             Map<String, Object> check = jwt.verifyJWT(auth);
             System.out.println(check);
             //{sub=user, data=kj, exp=1660843425}
-        }catch (Exception e){ //오류-> 만료기간 끝
+        } catch (Exception e) { //오류-> 만료기간 끝
             e.printStackTrace();
             System.out.println("만료?? 오류-> 실패 응답");
         }
@@ -71,7 +71,6 @@ public class IdentifyController {
         return map2;
     }
 
-
     //가입한 이름으로 아이디 보여주기 ShowIDView.vue
     @RequestMapping(value = "/member/showId", produces = {MediaType.APPLICATION_JSON_VALUE})
     public HashMap<String, Object> identify(String name) {
@@ -85,4 +84,32 @@ public class IdentifyController {
         }
         return map;
     }
+
+    //마이페이지 비밀번호 확인
+    @RequestMapping(value = "/member/identifypwd", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public HashMap<String, String> identifyPwd(String id) {
+        String realPwd = userService.selectPwd(id);
+        System.out.println(realPwd);
+        HashMap<String, String> map = new HashMap<String, String>();
+
+        if (realPwd != null) {
+            map.put("result", "success");
+            map.put("pwd", realPwd);
+        } else {
+            map.put("result", "fail");
+        }
+
+        return map;
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
