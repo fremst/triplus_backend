@@ -1,6 +1,10 @@
 package com.triplus.board.mapper;
 
+import com.triplus.board.dto.McatDto;
+
 public interface McatMapper {
-    int select(String mcatName);
+    McatDto select(int mcatNum);
+
+    McatDto selectByMcatName(String mcatName);
 
 }

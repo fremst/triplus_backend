@@ -13,6 +13,8 @@ public interface PlaceMapper {
 
     ArrayList<PlaceDto> selectAll();
 
+    ArrayList<PlaceDto> selectAllByMcatNum(int mcatNum);
+
     public PlaceDto select(int brdNum);
 
     public int update(PlaceDto placeDto);
