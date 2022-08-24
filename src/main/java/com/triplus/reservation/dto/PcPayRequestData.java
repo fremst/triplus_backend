@@ -22,12 +22,12 @@ public class PcPayRequestData {
     private String signature;
     private String mKey;
 
-    private String goodname;
+    private String goodName;
     private String bookerName;
     private String bookerTel;
     private String bookerEmail;
 
-    public PcPayRequestData(String gopaymethod, int price, String goodname, String bookerName, String bookerTel, String bookerEmail) {
+    public PcPayRequestData(String gopaymethod, int price, String goodName, String bookerName, String bookerTel, String bookerEmail) {
         this.gopaymethod = gopaymethod;
         this.mid = "INIpayTest";
         this.price = price;
@@ -36,7 +36,7 @@ public class PcPayRequestData {
 
         this.signature = HashUtils.getSignature(this.oid, this.price, this.timestamp);
         this.mKey = HashUtils.getMkey(mid);
-        this.goodname = goodname;
+        this.goodName = goodName;
         this.bookerName = bookerName;
         this.bookerTel = bookerTel;
         this.bookerEmail = bookerEmail;

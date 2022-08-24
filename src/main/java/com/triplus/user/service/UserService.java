@@ -22,23 +22,34 @@ public class UserService {
     }
 
 
-    public UserDto identify(HashMap<String, String> map){
+    public UserDto identify(HashMap<String, String> map) {
         return userMapper.identify(map);
     }
 
-    public UserDto identifyId(String id){
+    public UserDto identifyId(String id) {
         return userMapper.identifyId(id);
     }
 
-    public int changePwd(HashMap<String, String> map){
+    public int changePwd(HashMap<String, String> map) {
         return userMapper.changePwd(map);
 
     }
 
 
-    public UserDto showId(String name){
+    public UserDto showId(String name) {
         return userMapper.showId(name);
     }
 
+    public String selectPwd(String id) {
+        return userMapper.selectPwd(id);
+    }
+
+    public UserDto find(String id) {
+        return userMapper.find(id);
+    }
+
+    public int update(UserDto dto) {
+        return userMapper.update(dto);
+    }
 
 }

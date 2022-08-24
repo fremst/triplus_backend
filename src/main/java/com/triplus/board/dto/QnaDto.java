@@ -12,7 +12,6 @@ import java.sql.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@ToString
 public class QnaDto extends BoardDto
 {
     private long answerNum; // --글의 답글
@@ -29,5 +28,14 @@ public class QnaDto extends BoardDto
         this.category = category;
         this.tempEmail = tempEmail;
         this.tempPwd = tempPwd;
+    }
+
+    public String toString()
+    {
+        return super.toString() + "" +
+                "answerNum=" + this.answerNum +
+                " / category=" + this.category +
+                " / tempEmail=" + this.tempEmail +
+                " / tempPwd=" + this.tempPwd;
     }
 }

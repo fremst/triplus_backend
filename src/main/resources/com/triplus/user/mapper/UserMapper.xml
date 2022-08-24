@@ -17,19 +17,49 @@
 
 
     <select id="identify" parameterType="hashmap" resultType="com.triplus.user.dto.UserDto">
-        select * from "USER" where name = #{name, jdbcType=VARCHAR} and email = #{email, jdbcType=VARCHAR}
+        select *
+        from "USER"
+        where name = #{name, jdbcType=VARCHAR}
+          and email = #{email, jdbcType=VARCHAR}
     </select>
 
     <select id="identifyId" resultType="com.triplus.user.dto.UserDto">
-        select * from "USER" where id = #{id, jdbcType=VARCHAR}
+        select *
+        from "USER"
+        where id = #{id, jdbcType=VARCHAR}
     </select>
 
     <select id="showId" parameterType="String" resultType="com.triplus.user.dto.UserDto">
-        select * from "USER" where name = #{name , jdbcType=VARCHAR}
+        select *
+        from "USER"
+        where name = #{name , jdbcType=VARCHAR}
     </select>
 
     <update id="changePwd" parameterType="hashmap">
-        update "USER" set pwd = #{pwd, jdbcType=VARCHAR} where id=#{id, jdbcType=VARCHAR}
+        update "USER"
+        set pwd = #{pwd, jdbcType=VARCHAR}
+        where id = #{id, jdbcType=VARCHAR}
     </update>
 
+    <!-- 비밀번호 확인용 -->
+    <select id="selectPwd" parameterType="String" resultType="String">
+        select pwd
+        from "USER"
+        where id = #{id, jdbcType=VARCHAR}
+    </select>
+
+    <select id="find" parameterType="String" resultType="com.triplus.user.dto.UserDto">
+        select *
+        from "USER"
+        where id = #{id}
+    </select>
+
+    <update id="update" parameterType="com.triplus.user.dto.UserDto">
+        update "USER"
+        set name  = #{name},
+            tel   = #{tel},
+            addr  = #{addr},
+            email = #{email}
+        where id = #{id}
+    </update>
 </mapper>

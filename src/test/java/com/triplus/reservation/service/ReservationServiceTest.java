@@ -9,9 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.sql.Date;
-import java.util.HashMap;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -31,7 +28,6 @@ public class ReservationServiceTest {
                         100,
                         "test",
                         "예약자",
-                        new Date(2000, 1, 1),
                         "010-8765-4321",
                         "booker@triplus.com",
                         0,

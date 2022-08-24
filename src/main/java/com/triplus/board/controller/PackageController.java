@@ -4,7 +4,6 @@ import com.triplus.board.dto.PackageWithBoardDto;
 import com.triplus.board.dto.PkgImgDto;
 import com.triplus.board.service.PackageService;
 import com.triplus.board.util.DateUtil;
-import com.triplus.reservation.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +19,6 @@ public class PackageController {
 
     @Autowired
     PackageService packageService;
-
-    @Autowired
-    ReservationService reservationService;
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ArrayList<HashMap<String, Object>> getPackageList() {

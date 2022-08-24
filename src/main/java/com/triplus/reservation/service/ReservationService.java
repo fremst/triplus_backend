@@ -14,15 +14,22 @@ public class ReservationService {
     private ReservationMapper reservationMapper;
 
     public int insert(ReservationDto reservationDto) {
+
         return reservationMapper.insert(reservationDto);
+
     }
 
     public ReservationDto select(String oid) {
+
         return reservationMapper.select(oid);
+
     }
 
+    /** @param map oid, resSta 입력 */
     public int updateResSta(HashMap<String, String> map) {
+
         return reservationMapper.updateResSta(map);
+
     }
 
 }
