@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
-import java.util.Map;
 
 @CrossOrigin("*")
 @RestController
@@ -23,6 +22,7 @@ public class IdentifyController {
     @RequestMapping(value = "/member/identify", produces = {MediaType.APPLICATION_JSON_VALUE})
     public HashMap<String, Object> identify(String name, String email, HttpServletRequest request) {
 
+        /*
         //jwt token test
         String auth = request.getHeader("token");
 
@@ -35,7 +35,7 @@ public class IdentifyController {
             e.printStackTrace();
             System.out.println("만료?? 오류-> 실패 응답");
         }
-
+    */
 
         //이름, 이메일 회원인지 확인
         HashMap<String, String> map = new HashMap<String, String>();
