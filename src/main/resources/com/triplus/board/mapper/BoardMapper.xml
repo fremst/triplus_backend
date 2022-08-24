@@ -36,11 +36,11 @@
     <update id="update" parameterType="com.triplus.board.dto.BoardDto">
         update board
         set writerid  = #{writerId},
-            title     = ${title},
-            contents  = ${contents},
-            timg      = ${tImg},
-            hit       = ${hit},
-            published = ${published}
+            title     = #{title},
+            contents  = #{contents},
+            timg      = #{tImg},
+            hit       = #{hit},
+            published = #{published}
         where brdnum = #{brdNum}
     </update>
 
