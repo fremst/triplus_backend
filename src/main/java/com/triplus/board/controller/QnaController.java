@@ -5,8 +5,7 @@ import com.triplus.board.dto.BoardDto;
 import com.triplus.board.dto.QnaDto;
 import com.triplus.board.service.BoardService;
 import com.triplus.board.service.QnaService;
-import com.triplus.reservation.utils.VerifyUtils;
-import com.triplus.user.controller.CreateJWT;
+import com.triplus.user.utils.VerifyUtils;
 import com.triplus.user.dto.UserDto;
 import com.triplus.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 @CrossOrigin("*")
 @RestController
@@ -35,19 +33,19 @@ public class QnaController {
     @Autowired
     private QnaService qnaService;
 
-    @GetMapping(value = "/api/service/qna/list", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "/api/service/qna", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ArrayList<QnaDto> getList() {
         return qnaService.getPageList();
     }
 
-    @GetMapping(value = "/api/service/qna/detail/reply", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ArrayList<QnaDto> getReplyList(int num) {
-        return qnaService.getAnswerList(num);
+    @GetMapping(value = "/api/service/qna/{brdNum}/reply", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ArrayList<QnaDto> getReplyList(@PathVariable int brdNum) {
+        return qnaService.getAnswerList(brdNum);
     }
 
-    @GetMapping(value = "/api/service/qna/detail", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public QnaDto getDetail(int num, String id, String token) {
-        QnaDto qnaDto = qnaService.select(num);
+    @GetMapping(value = "/api/service/qna/{brdNum}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public QnaDto getDetail(@PathVariable int brdNum, String id, String token) {
+        QnaDto qnaDto = qnaService.select(brdNum);
         if (!qnaDto.isPublished()) {
 
             // 유저 토큰이 있는 경우 (로그인을 한 경우)
@@ -65,13 +63,13 @@ public class QnaController {
         }
         return qnaDto;
     }
-    @GetMapping(value = "/api/service/qna/detail/password", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public HashMap<String, Object> getDetailWithPwd(int num, String pwd) {
+    @GetMapping(value = "/api/service/qna/{brdNum}/password", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public HashMap<String, Object> getDetailWithPwd(@PathVariable int brdNum, String pwd) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("result", false);
         map.put("contents", "");
         QnaDto qnaDto = new QnaDto();
-        qnaDto.setBrdNum(num);
+        qnaDto.setBrdNum(brdNum);
         qnaDto.setTempPwd(pwd);
         try {
             qnaDto = qnaService.selectPwd(qnaDto);
@@ -84,7 +82,7 @@ public class QnaController {
         return map;
     }
 
-    @PostMapping(value = "/api/service/qna/write", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/api/service/qna", produces = {MediaType.APPLICATION_JSON_VALUE})
     public HashMap<String, Object> postWrite(
             String writerId, String token,
             int answerNum, String title, String category,
@@ -138,48 +136,54 @@ public class QnaController {
         return map;
     }
 
-    @PostMapping(value = "/api/service/qna/update", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping(value = "/api/service/qna/{num}/{token}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public HashMap<String, Object> postUpdate(
-            int brdNum, String writerId, String token,
-            int answerNum, String title, String category,
-            String tempEmail, String tempPwd, String contents, boolean isSecret) {
+            @PathVariable int num,
+            @PathVariable String token,
+            @RequestBody QnaDto dto) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("result", false);
         map.put("reason", "unknown");
 
+        System.out.println(dto.getWriterId());
+        System.out.println(dto.toString());
+
         // 유저 토큰이 있는 경우 (로그인을 한 경우)
         if (token != null) {
-            UserDto user = VerifyUtils.checkToken(userService, writerId, token);
+            UserDto user = VerifyUtils.checkToken(userService, dto.getWriterId(), token);
             if (user == null)
             {
                 map.put("reason", "로그인 정보가 유효하지 않습니다.");
                 return map;
             }
-            tempEmail = user.getEmail();
-            tempPwd = user.getPwd();
+            dto.setTempEmail(user.getEmail());
+            dto.setTempPwd(user.getPwd());
         }
+        UserDto user = userService.identifyId(dto.getWriterId());
+        dto.setTempEmail(user.getEmail());
+        dto.setTempPwd(user.getPwd());
+
+        BoardDto board = boardService.select(dto.getBrdNum());
+        dto.setTImg("sample.png");
+        dto.setWDate(board.getWDate());
 
         try {
+
             // 게시글 DB 입력
-            BoardDto board = new BoardDto(brdNum,
-                    writerId, title, contents, "", null, 0, !isSecret);
-            int result1 = boardService.update(board);
+            int result1 = boardService.update(dto);
             if (result1 <= 0) {
                 map.put("reason", "Board Service Error");
                 return map;
             }
 
             // 문의글 DB 입력
-            QnaDto qna = new QnaDto(board, answerNum, category,
-                    tempEmail, tempPwd);
-            qna.setBrdNum(brdNum);
-            int result2 = qnaService.update(qna);
+            int result2 = qnaService.update(dto);
             if (result2 <= 0) {
                 map.put("reason", "QnA Service Error");
                 return map;
             }
             map.put("result", result1 > 0 && result2 > 0);
-            map.put("brdNum", brdNum);
+            map.put("brdNum", dto.getBrdNum());
         } catch (Exception e) {
             e.printStackTrace();
             map.put("reason", "DB 오류");
@@ -187,9 +191,8 @@ public class QnaController {
         return map;
     }
 
-
-    @PostMapping(value = "/api/service/qna/delete", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public HashMap<String, Object> postDelete(int brdNum, String pwd) {
+    @DeleteMapping(value = "/api/service/qna/{brdNum}/{pwd}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public HashMap<String, Object> postDelete(@PathVariable int brdNum, @PathVariable String pwd) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("result", false);
         map.put("reason", "unknown");
