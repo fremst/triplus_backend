@@ -15,4 +15,16 @@ public class PaymentService {
         return paymentMapper.insert(paymentDto);
         
     }
+
+    public PaymentDto select(String tid){
+
+        return paymentMapper.select(tid);
+
+    }
+
+    public PaymentDto selectByOid(String oid) {
+        
+        return paymentMapper.selectByOid(oid);
+
+    }
 }

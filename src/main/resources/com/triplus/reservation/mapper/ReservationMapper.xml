@@ -5,8 +5,8 @@
 <mapper namespace="com.triplus.reservation.mapper.ReservationMapper">
 
     <insert id="insert" parameterType="com.triplus.reservation.dto.ReservationDto">
-        INSERT INTO RESERVATION (OID, BRDNUM, ID, BOOKERNAME, BOOKERBDATE, BOOKEREMAIL, BOOKERTEL, CPNNUM, RESSTA)
-        VALUES (#{oid}, #{brdNum}, #{id}, #{bookerName}, #{bookerBDate}, #{bookerEmail}, #{bookerTel}, #{cpnNum},
+        INSERT INTO RESERVATION (OID, BRDNUM, ID, BOOKERNAME, BOOKEREMAIL, BOOKERTEL, CPNNUM, RESSTA)
+        VALUES (#{oid}, #{brdNum}, #{id}, #{bookerName}, #{bookerEmail}, #{bookerTel}, #{cpnNum},
                 #{resSta})
     </insert>
 

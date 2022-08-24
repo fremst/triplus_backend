@@ -10,12 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 
 @RequestMapping("/api/section/packages")
 @CrossOrigin("*")
 @RestController
-public class CompleteController {
+public class PayCompleteController {
 
     @Autowired
     PackageService packageService;
@@ -26,7 +27,7 @@ public class CompleteController {
     @Autowired
     ReservationService reservationService;
 
-    @GetMapping(value = "/reservation/complete/{oid}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "/reservation-complete/{oid}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public HashMap<String, Object> getReservationDetail(
             @PathVariable("oid") String oid
     ) {
@@ -36,14 +37,15 @@ public class CompleteController {
         PackageDto packageDto = packageService.select(reservationDto.getBrdNum());
         HashMap<String, Object> map = new HashMap<>();
 
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd (E)");
+
         map.put("title", boardDto.getTitle());
         map.put("bookerName", reservationDto.getBookerName());
         map.put("bookerTel", reservationDto.getBookerTel());
-        map.put("sDate", packageDto.getSDate());
-        map.put("eDate", packageDto.getEDate());
+        map.put("sDate", simpleDateFormat.format(packageDto.getSDate()));
+        map.put("eDate", simpleDateFormat.format(packageDto.getEDate()));
 
         return map;
 
     }
-
 }

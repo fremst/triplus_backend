@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;
 
-import java.sql.Date;
-
 @ToString
 @AllArgsConstructor
 @Data
