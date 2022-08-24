@@ -63,18 +63,13 @@ public class BoardService {
 
     }
 
-    public int bPlaceUpdate(BoardDto boardDto) {
-
-        return boardMapper.bPlaceUpdate(boardDto);
-
-    }
-
     // 조회수 업데이트
     public int updateHit(int brdNum) {
 
         return boardMapper.updateHit(brdNum);
 
     }
+
     // 공지사항 업데이트용
     public int updateNotice(BoardDto boardDto) {
 

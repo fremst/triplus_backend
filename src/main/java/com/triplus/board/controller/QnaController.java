@@ -18,12 +18,6 @@ import java.util.HashMap;
 @CrossOrigin("*")
 @RestController
 public class QnaController {
-    // static
-    private static ObjectMapper objectMapper;
-
-    static {
-        objectMapper = new ObjectMapper();
-    }
 
     // properties
     @Autowired
@@ -52,8 +46,7 @@ public class QnaController {
             if (token != null) {
                 // 유효성 검사
                 UserDto user = VerifyUtils.checkToken(userService, id, token);
-                if (user != null && user.getId().equals(qnaDto.getWriterId()))
-                {
+                if (user != null && user.getId().equals(qnaDto.getWriterId())) {
                     qnaDto.setPublished(true);
                 }
             }
@@ -63,9 +56,10 @@ public class QnaController {
         }
         return qnaDto;
     }
+
     @GetMapping(value = "/api/service/qna/{brdNum}/password", produces = {MediaType.APPLICATION_JSON_VALUE})
     public HashMap<String, Object> getDetailWithPwd(@PathVariable int brdNum, String pwd) {
-        HashMap<String, Object> map = new HashMap<String, Object>();
+        HashMap<String, Object> map = new HashMap<>();
         map.put("result", false);
         map.put("contents", "");
         QnaDto qnaDto = new QnaDto();
@@ -77,26 +71,30 @@ public class QnaController {
                 map.put("result", true);
                 map.put("article", qnaDto);
             }
-        } catch (Exception e)
-        { }
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+        }
+
         return map;
+
     }
 
     @PostMapping(value = "/api/service/qna", produces = {MediaType.APPLICATION_JSON_VALUE})
     public HashMap<String, Object> postWrite(
             String writerId, String token,
             int answerNum, String title, String category,
-            String tempEmail, String tempPwd, String contents, boolean isSecret) {
+            String tempEmail, String tempPwd, String contents, boolean published) {
 
-        HashMap<String, Object> map = new HashMap<String, Object>();
+        HashMap<String, Object> map = new HashMap<>();
         map.put("result", false);
         map.put("reason", "unknown");
 
         // 유저 토큰이 있는 경우 (로그인을 한 경우)
         if (token != null) {
             UserDto user = VerifyUtils.checkToken(userService, writerId, token);
-            if (user == null)
-            {
+            if (user == null) {
                 map.put("reason", "로그인 정보가 유효하지 않습니다.");
                 return map;
             }
@@ -111,7 +109,7 @@ public class QnaController {
 
             // 게시글 DB 입력
             BoardDto board = new BoardDto(brdNum,
-                    writerId, title, contents, "", null, 0, !isSecret);
+                    writerId, title, contents, "", null, 0, published);
             int result1 = boardService.fixedInsert(board);
             if (result1 <= 0) {
                 map.put("reason", "Board Service Error");
@@ -141,7 +139,7 @@ public class QnaController {
             @PathVariable int num,
             @PathVariable String token,
             @RequestBody QnaDto dto) {
-        HashMap<String, Object> map = new HashMap<String, Object>();
+        HashMap<String, Object> map = new HashMap<>();
         map.put("result", false);
         map.put("reason", "unknown");
 
@@ -151,8 +149,7 @@ public class QnaController {
         // 유저 토큰이 있는 경우 (로그인을 한 경우)
         if (token != null) {
             UserDto user = VerifyUtils.checkToken(userService, dto.getWriterId(), token);
-            if (user == null)
-            {
+            if (user == null) {
                 map.put("reason", "로그인 정보가 유효하지 않습니다.");
                 return map;
             }
@@ -193,7 +190,7 @@ public class QnaController {
 
     @DeleteMapping(value = "/api/service/qna/{brdNum}/{pwd}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public HashMap<String, Object> postDelete(@PathVariable int brdNum, @PathVariable String pwd) {
-        HashMap<String, Object> map = new HashMap<String, Object>();
+        HashMap<String, Object> map = new HashMap<>();
         map.put("result", false);
         map.put("reason", "unknown");
 

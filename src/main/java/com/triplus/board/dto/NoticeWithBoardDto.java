@@ -9,7 +9,6 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @Data
-
 // 수정용 DTO (Notice)
 public class NoticeWithBoardDto {
 
@@ -20,10 +19,13 @@ public class NoticeWithBoardDto {
     public String getTitle() {
         return title;
     }
+
     public String getContents() {
         return contents;
     }
+
     public String getCategory() {
         return category;
     }
+
 }
