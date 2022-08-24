@@ -72,7 +72,13 @@ public class BoardService {
     // 조회수 업데이트
     public int updateHit(int brdNum) {
 
-        return boardMapper.cntUpdate(brdNum);
+        return boardMapper.updateHit(brdNum);
+
+    }
+    // 공지사항 업데이트용
+    public int updateNotice(BoardDto boardDto) {
+
+        return boardMapper.updateNotice(boardDto);
 
     }
 

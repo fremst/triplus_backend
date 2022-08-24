@@ -26,8 +26,11 @@ public interface BoardMapper {
     public int getNextBrdNum();
 
     //조회수 업데이트
-    public int cntUpdate(int brdNum);
+    public int updateHit(int brdNum);
 
     public int bPlaceUpdate(BoardDto boardDto);
+
+    //공지사항 업데이트용
+    public int updateNotice(BoardDto boardDto);
 
 }

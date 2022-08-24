@@ -34,7 +34,7 @@
 
     <update id="update" parameterType="com.triplus.board.dto.NoticeDto">
 		update notice
-			set noticenum = #{noticeNum}, category = #{category}
+			set category = #{category,jdbcType=VARCHAR}
 			where brdNum = #{brdNum}
 	</update>
 </mapper>
