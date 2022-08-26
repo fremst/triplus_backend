@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.triplus.board.mapper.MagazineMapper">
+
+    <select id="selectAll" resultType="com.triplus.board.dto.MagazineDto">
+        select *
+        from magazine
+                 inner join board
+                            on magazine.brdnum = board.brdnum
+        order by board.brdnum desc
+    </select>
+
+    <select id="select" parameterType="int" resultType="com.triplus.board.dto.MagazineDto">
+        select *
+        from magazine
+                 inner join board
+                            on magazine.brdnum = board.brdnum
+        where magazine.brdnum = #{brdNum}
+    </select>
+
+    <select id="getPageList" resultType="com.triplus.board.dto.MagazineDto">
+        select magazine.brdnum, writerId, title, wDate, hit, published
+        from magazine
+                 inner join board
+                            on magazine.brdnum = board.brdnum
+        order by magazine.brdnum desc
+    </select>
+
+    <insert id="insert" parameterType="com.triplus.board.dto.MagazineDto">
+        insert into magazine
+        values (#{brdNum}, #{category})
+    </insert>
+
+    <delete id="delete" parameterType="int">
+        delete
+        from magazine
+        where brdnum = #{brdNum}
+    </delete>
+
+    <update id="update" parameterType="com.triplus.board.dto.MagazineDto">
+        update magazine
+        set category = #{category,jdbcType=VARCHAR}
+        where brdNum = #{brdNum}
+    </update>
+
+</mapper>
