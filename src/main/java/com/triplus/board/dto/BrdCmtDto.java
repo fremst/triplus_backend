@@ -9,13 +9,18 @@ import lombok.ToString;
 @AllArgsConstructor
 @Data
 @ToString
-public class MagazineDto extends BoardDto {
-    private String category;
+public class BrdCmtDto extends BoardDto{
+    private int brdCmtNum;
+    private String id;
+    private String contents;
 
-    public MagazineDto(BoardDto board, String category){
+    public BrdCmtDto(BoardDto board, int brdCmtNum, String id, String contents){
         super(board.getBrdNum(), board.getWriterId(),
                 board.getTitle(), board.getContents(), board.getTImg(),
                 board.getWDate(), board.getHit(), board.isPublished());
-        this.category= category;
+
+        this.brdCmtNum = brdCmtNum;
+        this.id = id;
+        this.contents = contents;
     }
 }

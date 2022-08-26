@@ -20,14 +20,6 @@
         where magazine.brdnum = #{brdNum}
     </select>
 
-    <select id="getPageList" resultType="com.triplus.board.dto.MagazineDto">
-        select magazine.brdnum, writerId, title, wDate, hit, published
-        from magazine
-                 inner join board
-                            on magazine.brdnum = board.brdnum
-        order by magazine.brdnum desc
-    </select>
-
     <insert id="insert" parameterType="com.triplus.board.dto.MagazineDto">
         insert into magazine
         values (#{brdNum}, #{category})

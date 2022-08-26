@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.triplus.board.mapper.BoardCmtMapper">
+
+    <select id="selectAll" resultType="com.triplus.board.dto.BrdCmtDto">
+        select *
+        from brdcmt
+        inner join board
+        on brdcmt.brdnum = board.brdnum
+        order by brdcmtnum desc
+    </select>
+
+    <select id="select" parameterType="int" resultType="com.triplus.board.dto.BrdCmtDto">
+        select *
+        from brdcmt
+                 inner join board
+                            on brdcmt.brdnum = board.brdnum
+        where brdcmt.brdnum = #{brdNum}
+        order by brdcmtnum desc
+    </select>
+
+    <insert id="insert" parameterType="com.triplus.board.dto.BrdCmtDto">
+        insert into brdcmt
+        values (brdcmt_seq.nextval, #{brdNum}, #{id} , #{contents})
+    </insert>
+
+    <delete id="delete" parameterType="int">
+        delete
+        from brdcmt
+        where brdcmtnum = #{brdcmtnum}
+    </delete>
+
+</mapper>
