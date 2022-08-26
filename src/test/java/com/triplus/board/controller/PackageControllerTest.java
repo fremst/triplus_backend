@@ -1,6 +1,6 @@
 package com.triplus.board.controller;
 
-import com.triplus.board.dto.PackageWithBoardDto;
+import com.triplus.board.dto.PackageDto;
 import com.triplus.board.service.PackageService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,19 +34,19 @@ public class PackageControllerTest {
     @Test
     public void selectAll() {
 
-        ArrayList<PackageWithBoardDto> packageWithBoardList = packageService.selectAllWithBoard();
+        ArrayList<PackageDto> packageDtos = packageService.selectAll();
         ArrayList<HashMap<String, Object>> list = new ArrayList<>();
 
-        for (PackageWithBoardDto dto : packageWithBoardList) {
+        for (PackageDto packageDto : packageDtos) {
 
             HashMap<String, Object> map = new HashMap<>();
 
-            map.put("brdNum", dto.getBrdNum());
-            map.put("title", dto.getTitle());
-            map.put("adultPrice", dto.getAdultPrice());
-            map.put("childPrice", dto.getChildPrice());
-            map.put("tImg", dto.getTImg());
-            map.put("region", dto.getRegion());
+            map.put("brdNum", packageDto.getBrdNum());
+            map.put("title", packageDto.getTitle());
+            map.put("adultPrice", packageDto.getAdultPrice());
+            map.put("childPrice", packageDto.getChildPrice());
+            map.put("tImg", packageDto.getTImg());
+            map.put("region", packageDto.getRegion());
 
             list.add(map);
 

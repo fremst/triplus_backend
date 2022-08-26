@@ -1,8 +1,6 @@
 package com.triplus.board.service;
 
 import com.triplus.board.dto.PackageDto;
-import com.triplus.board.dto.PackageWithBoardDto;
-import com.triplus.board.dto.PkgImgDto;
 import com.triplus.board.mapper.PackageMapper;
 import com.triplus.board.mapper.PkgComMapper;
 import com.triplus.board.mapper.PkgImgMapper;
@@ -28,6 +26,12 @@ public class PackageService {
     @Autowired
     private ReservationMapper reservationMapper;
 
+    public int insert(PackageDto packageDto) {
+
+        return 0;
+
+    }
+
     public PackageDto select(int brdNum) {
 
         return packageMapper.select(brdNum);
@@ -40,25 +44,7 @@ public class PackageService {
 
     }
 
-    public PackageWithBoardDto selectWithBoard(int brdNum) {
-
-        return packageMapper.selectWithBoard(brdNum);
-
-    }
-
-    public ArrayList<PackageWithBoardDto> selectAllWithBoard() {
-
-        return packageMapper.selectAllWithBoard();
-
-    }
-
-    public ArrayList<PkgImgDto> selectByBrdNum(int brdNum) {
-
-        return pkgImgMapper.selectByBrdNum(brdNum);
-
-    }
-
-    public int getRecrtTotCnt(HashMap<String, Object> cond) {
+    public int getRcrtTotCnt(HashMap<String, Object> cond) {
 
         return reservationMapper.getRcrtCnt(cond) + pkgComMapper.getRcrtCnt(cond);
 
