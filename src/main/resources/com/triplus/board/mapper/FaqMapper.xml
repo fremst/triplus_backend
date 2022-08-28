@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.triplus.board.mapper.FaqMapper">
+    <select id="selectAll" resultType="com.triplus.board.dto.FaqDto">
+        SELECT *
+        FROM FAQ
+    </select>
+
+    <select id="select" resultType="com.triplus.board.dto.FaqDto">
+        select *
+        from faq
+        where faqnum = #{faqNum}
+    </select>
+
+    <insert id="insert" parameterType="com.triplus.board.dto.FaqDto">
+        insert into faq (faqnum, id, category, faqtitle, faqcontent)
+        values (#{faqNum}, #{id}, #{category}, #{faqTitle}, #{faqContent})
+    </insert>
+
+    <delete id="delete" parameterType="int">
+        delete
+        from faq
+        where faqnum = ${faqNum}
+    </delete>
+
+    <update id="update" parameterType="com.triplus.board.dto.FaqDto">
+        update faq
+        set category   = #{category},
+            faqtitle   = #{faqTitle},
+            faqcontent = #{faqContent}
+        where faqnum = #{faqNum}
+    </update>
+
+
+</mapper>
