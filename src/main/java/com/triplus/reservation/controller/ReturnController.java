@@ -114,7 +114,7 @@ public class ReturnController {
                     //############################################################
                     //5.API 통신결과 처리(***가맹점 개발수정***)
                     //############################################################
-                    out.println("## 승인 API 결과 ##");
+//                    out.println("## 승인 API 결과 ##");
 
                     String test = authResultString.replace(",", "&").replace(":", "=").replace("\"", "").replace(" ", "").replace("\n", "").replace("}", "").replace("{", "");
 
@@ -125,8 +125,8 @@ public class ReturnController {
                     resultMap = ParseUtil.parseStringToMap(test); //문자열을 MAP형식으로 파싱
 
                     System.out.println("resultMap == " + resultMap);
-                    out.println("<pre>");
-                    out.println("<table width='565' border='0' cellspacing='0' cellpadding='0'>");
+//                    out.println("<pre>");
+//                    out.println("<table width='565' border='0' cellspacing='0' cellpadding='0'>");
 
                     /*************************  결제보안 강화 2016-05-18 START ****************************/
                     Map<String, String> secureMap = new HashMap<>();
