@@ -53,7 +53,7 @@ public class NoticeController {
         try {
 
             int brdNum = boardService.getNextBrdNum();
-            BoardDto board = new BoardDto(brdNum, writerId, title, contents, "", null, 0, true);
+            BoardDto board = new BoardDto(brdNum, writerId, title, contents, null, null, 0, true);
             int result1 = boardService.fixedInsert(board);
             if (result1 <= 0) {
                 map.put("reason", "Board Service Error");
@@ -109,7 +109,7 @@ public class NoticeController {
         System.out.println(noticeWithBoardDto.getTitle() + noticeWithBoardDto.getCategory() + noticeWithBoardDto.getContents() + brdNum);
         try {
 
-            BoardDto board = new BoardDto(brdNum, null, noticeWithBoardDto.getTitle(), noticeWithBoardDto.getContents(), "", null, 0, true);
+            BoardDto board = new BoardDto(brdNum, null, noticeWithBoardDto.getTitle(), noticeWithBoardDto.getContents(), null, null, 0, true);
             int n1 = boardService.updateNotice(board);
             NoticeDto notice = new NoticeDto(board, noticeWithBoardDto.getCategory(), 0);
             int n2 = noticeService.update(notice);

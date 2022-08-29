@@ -13,14 +13,14 @@ public class MagazineWithBoardDto {
 
     private String title;
     private String contents;
-    private String tImg;
+    private byte[] tImg;
     private String category;
 
     public String getCategory() {
         return category;
     }
 
-    public String gettImg() { return tImg; }
+    public byte[] gettImg() { return tImg; }
 
     public String getContents() {
         return contents;
@@ -29,4 +29,5 @@ public class MagazineWithBoardDto {
     public String getTitle() {
         return title;
     }
+
 }

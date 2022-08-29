@@ -12,7 +12,7 @@ import java.sql.Date;
 public class PlaceRequestData extends PlaceDto {
 
     String overview;
-    String firstimage;
+    byte[] firstimage;
     String homepage;
     String mcatName;
     String scatName;

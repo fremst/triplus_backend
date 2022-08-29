@@ -109,7 +109,7 @@ public class QnaController {
 
             // 게시글 DB 입력
             BoardDto board = new BoardDto(brdNum,
-                    writerId, title, contents, "", null, 0, published);
+                    writerId, title, contents, null, null, 0, published);
             int result1 = boardService.fixedInsert(board);
             if (result1 <= 0) {
                 map.put("reason", "Board Service Error");
@@ -161,7 +161,7 @@ public class QnaController {
         dto.setTempPwd(user.getPwd());
 
         BoardDto board = boardService.select(dto.getBrdNum());
-        dto.setTImg("sample.png");
+        dto.setTImg(null);
         dto.setWDate(board.getWDate());
 
         try {

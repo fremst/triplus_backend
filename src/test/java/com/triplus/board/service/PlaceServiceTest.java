@@ -37,7 +37,7 @@ public class PlaceServiceTest {
 
         String title = "test_title";
         String contents = "test_overview";
-        String tImg = "test_firstimage";
+        byte[] tImg = null;
         boolean published = true;
 
         String mcatName = "숙소";
@@ -113,7 +113,7 @@ public class PlaceServiceTest {
 
         String title = "1test_title";
         String contents = "1test_overview";
-        String tImg = "1test_firstimage";
+        byte[] tImg = null;
         boolean published = false;
 
         String mcatName = "숙소";

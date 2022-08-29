@@ -25,7 +25,7 @@ public class PackageDto extends BoardDto {
     private boolean canceled;
     private boolean notified;
 
-    public PackageDto(int brdNum, String writerId, String title, String contents, String tImg, Date wDate, int hit, boolean published,
+    public PackageDto(int brdNum, String writerId, String title, String contents, byte[] tImg, Date wDate, int hit, boolean published,
                       Date sDate, Date eDate, String mtgPlace, String region, int rcrtCnt, String trans,
                       int adultPrice, int childPrice, boolean canceled, boolean notified) {
 

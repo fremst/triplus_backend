@@ -55,7 +55,7 @@ public class PackageService {
                         "admin",
                         packageDto.getTitle(),
                         packageDto.getContents(),
-                        "temp", //packageDto.getTImg()
+                        null, //packageDto.getTImg()
                         null,
                         0,
                         packageDto.isPublished()
