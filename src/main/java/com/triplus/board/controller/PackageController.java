@@ -1,16 +1,20 @@
 package com.triplus.board.controller;
 
-import com.triplus.board.dto.PackageWithBoardDto;
+import com.triplus.board.dto.PackageDto;
 import com.triplus.board.dto.PkgImgDto;
+import com.triplus.board.mapper.PkgImgMapper;
 import com.triplus.board.service.PackageService;
 import com.triplus.board.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @RequestMapping("/api/section/packages")
 @CrossOrigin("*")
@@ -20,33 +24,36 @@ public class PackageController {
     @Autowired
     PackageService packageService;
 
+    @Autowired
+    PkgImgMapper pkgImgMapper;
+
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ArrayList<HashMap<String, Object>> getPackageList() {
 
-        ArrayList<PackageWithBoardDto> packageWithBoardList = packageService.selectAllWithBoard();
-        ArrayList<HashMap<String, Object>> list = new ArrayList<>();
+        ArrayList<PackageDto> packageDtos = packageService.selectAll();
+        ArrayList<HashMap<String, Object>> data = new ArrayList<>();
 
-        for (PackageWithBoardDto dto : packageWithBoardList) {
+        for (PackageDto packageDto : packageDtos) {
 
             HashMap<String, Object> map = new HashMap<>();
 
-            map.put("brdNum", dto.getBrdNum());
-            map.put("title", dto.getTitle());
-            map.put("adultPrice", dto.getAdultPrice());
-            map.put("childPrice", dto.getChildPrice());
-            map.put("tImg", dto.getTImg());
-            map.put("region", dto.getRegion());
+            map.put("brdNum", packageDto.getBrdNum());
+            map.put("title", packageDto.getTitle());
+            map.put("adultPrice", packageDto.getAdultPrice());
+            map.put("childPrice", packageDto.getChildPrice());
+            map.put("tImg", packageDto.getTImg());
+            map.put("region", packageDto.getRegion());
 
-            int vacancy = getVacancy(dto, dto.getBrdNum());
-            int rcrtCnt = dto.getRcrtCnt();
-            String rcrtSta = getRecrtSta(dto.getSDate().toLocalDate(), vacancy, rcrtCnt);
+            int vacancy = getVacancy(packageDto, packageDto.getBrdNum());
+            int rcrtCnt = packageDto.getRcrtCnt();
+            String rcrtSta = getRecrtSta(packageDto.getSDate().toLocalDate(), vacancy, rcrtCnt);
             map.put("rcrtSta", rcrtSta);
 
-            list.add(map);
+            data.add(map);
 
         }
 
-        return list;
+        return data;
 
     }
 
@@ -57,20 +64,20 @@ public class PackageController {
 
         HashMap<String, Object> data = new HashMap<>();
 
-        PackageWithBoardDto packageWithBoardDto = packageService.selectWithBoard(brdNum);
-        data.put("dto", packageWithBoardDto);
+        PackageDto packageDto = packageService.select(brdNum);
+        data.put("dto", packageDto);
 
         HashMap<String, Object> map = new HashMap<>();
 
-        map.put("period", new DateUtil().getPeriod(packageWithBoardDto.getSDate().toLocalDate(), packageWithBoardDto.getEDate().toLocalDate()));
-        map.put("vacancy", getVacancy(packageWithBoardDto, packageWithBoardDto.getBrdNum()));
+        map.put("period", new DateUtil().getPeriod(packageDto.getSDate().toLocalDate(), packageDto.getEDate().toLocalDate()));
+        map.put("vacancy", getVacancy(packageDto, packageDto.getBrdNum()));
 
-        ArrayList<PkgImgDto> pkgImgList = packageService.selectByBrdNum(brdNum);
-        ArrayList<String> pkgImgOnlyList = new ArrayList<>();
-        for (PkgImgDto pkgImgDto : pkgImgList) {
-            pkgImgOnlyList.add(pkgImgDto.getPkgImg());
+        ArrayList<PkgImgDto> pkgImgDtos = pkgImgMapper.selectByBrdNum(brdNum);
+        ArrayList<byte[]> pkgImgs = new ArrayList<>();
+        for (PkgImgDto pkgImgDto : pkgImgDtos) {
+            pkgImgs.add(pkgImgDto.getPkgImg());
         }
-        map.put("pkgImgs", pkgImgOnlyList);
+        map.put("pkgImgs", pkgImgs);
 
         data.put("map", map);
 
@@ -78,13 +85,51 @@ public class PackageController {
 
     }
 
-    private int getVacancy(PackageWithBoardDto packageWithBoardDto, int brdNum) {
+    @PostMapping(value = "/", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public HashMap<String, String> insert(MultipartHttpServletRequest request, PackageDto packageDto) {
+
+        HashMap<String, String> result = new HashMap<>();
+
+        MultipartFile tImgFile = request.getFile("tImgFile");
+        List<MultipartFile> pkgImgFiles = request.getFiles("pkgImgFiles");
+
+        try {
+
+            ArrayList<PkgImgDto> pkgImgDtos = new ArrayList<>();
+
+            for(MultipartFile pkgImgFile:pkgImgFiles){
+                PkgImgDto pkgImgDto = new PkgImgDto(
+                        0,
+                        0,
+                        pkgImgFile.getBytes()
+                );
+
+                pkgImgDtos.add(pkgImgDto);
+
+            }
+
+            packageService.insert(packageDto, pkgImgDtos);
+
+            result.put("result", "success");
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            result.put("result", "fail");
+
+        }
+
+        return result;
+
+    }
+
+    private int getVacancy(PackageDto packageDto, int brdNum) {
 
         HashMap<String, Object> cond = new HashMap<>();
-        cond.put("resSta", "'예약', '승인'");
+        cond.put("resSta", "'대기', '확정'");
         cond.put("brdNum", brdNum);
 
-        return packageWithBoardDto.getRcrtCnt() - packageService.getRecrtTotCnt(cond);
+        return packageDto.getRcrtCnt() - packageService.getRcrtTotCnt(cond);
 
     }
 

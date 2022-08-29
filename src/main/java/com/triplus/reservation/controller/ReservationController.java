@@ -1,6 +1,6 @@
 package com.triplus.reservation.controller;
 
-import com.triplus.board.dto.PackageWithBoardDto;
+import com.triplus.board.dto.PackageDto;
 import com.triplus.board.dto.PkgComDto;
 import com.triplus.board.service.PackageService;
 import com.triplus.board.service.PkgComService;
@@ -42,16 +42,16 @@ public class ReservationController {
         HashMap<String, Object> data = new HashMap<>();
 
         ReservationDto reservationDto = reservationService.select(oid);
-        PackageWithBoardDto packageWithBoardDto = packageService.selectWithBoard(reservationDto.getBrdNum());
+        PackageDto packageDto = packageService.select(reservationDto.getBrdNum());
         ArrayList<PkgComDto> pkgComDtos = pkgComService.selectAllByOid(oid);
         PaymentDto paymentDto = paymentService.selectByOid(oid);
 
-        data.put("title", packageWithBoardDto.getTitle());
-        data.put("period", new DateUtil().getPeriod(packageWithBoardDto.getSDate().toLocalDate(), packageWithBoardDto.getEDate().toLocalDate()));
+        data.put("title", packageDto.getTitle());
+        data.put("period", new DateUtil().getPeriod(packageDto.getSDate().toLocalDate(), packageDto.getEDate().toLocalDate()));
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd (E)");
-        data.put("sDate", simpleDateFormat.format(packageWithBoardDto.getSDate()));
-        data.put("eDate", simpleDateFormat.format(packageWithBoardDto.getEDate()));
+        data.put("sDate", simpleDateFormat.format(packageDto.getSDate()));
+        data.put("eDate", simpleDateFormat.format(packageDto.getEDate()));
 
         data.put("tid", paymentDto.getTid());
 

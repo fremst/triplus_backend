@@ -1,8 +1,6 @@
 package com.triplus.board.service;
 
 import com.triplus.board.dto.PackageDto;
-import com.triplus.board.dto.PackageWithBoardDto;
-import com.triplus.board.dto.PkgImgDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -52,46 +50,19 @@ public class PackageServiceTest {
     }
 
     @Test
-    public void selectWithBoard() {
+    public void getRcrtStaTotCnt() {
 
-        PackageWithBoardDto packageWithBoardDto = packageService.selectWithBoard(102);
-        logger.info("packageWithBoardDto: " + packageWithBoardDto);
-        assertNotNull(packageWithBoardDto);
-
-    }
-
-    @Test
-    public void selectAllWithBoard() {
-
-        ArrayList<PackageWithBoardDto> list = packageService.selectAllWithBoard();
-        logger.info("list: " + list);
-        assertNotNull(list);
-
-    }
-
-    @Test
-    public void selectByBrdNum() {
-
-        int brdNum = 103;
-
-        ArrayList<PkgImgDto> pkgImgDtos = packageService.selectByBrdNum(brdNum);
-        logger.info("pkgImgDtos: " + pkgImgDtos);
-        assertNotNull(pkgImgDtos);
-
-    }
-
-    @Test
-    public void getRecrtStaTotCnt() {
+        int expected = 9;
 
         HashMap<String, Object> map = new HashMap<>();
 
-        map.put("resSta", "'예약', '승인'");
+        map.put("resSta", "'대기', '확정'");
         map.put("brdNum", 100);
 
-        int resStaTotCnt = packageService.getRecrtTotCnt(map);
+        int resStaTotCnt = packageService.getRcrtTotCnt(map);
         logger.info("resStaTotCnt: " + resStaTotCnt);
 
-        assertEquals(9, resStaTotCnt);
+        assertEquals(expected, resStaTotCnt);
     }
 
 }
