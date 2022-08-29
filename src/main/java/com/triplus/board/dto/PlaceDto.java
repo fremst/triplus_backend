@@ -20,7 +20,7 @@ public class PlaceDto extends BoardDto {
     private double mapy;
     private String url;
 
-    public PlaceDto(int brdNum, String writerId, String title, String contents, String tImg, Date wDate, int hit, boolean published,
+    public PlaceDto(int brdNum, String writerId, String title, String contents, byte[] tImg, Date wDate, int hit, boolean published,
                     int mcatNum, int scatNum, String region, String addr, String tel, double mapx, double mapy, String url) {
 
         super(brdNum, writerId, title, contents, tImg, wDate, hit, published);

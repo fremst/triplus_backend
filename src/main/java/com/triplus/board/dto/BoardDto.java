@@ -18,7 +18,7 @@ public class BoardDto {
     private String writerId;
     private String title;
     private String contents;
-    private String tImg;
+    private byte[] tImg;
     private Date wDate;
     private int hit;
     private boolean published;
