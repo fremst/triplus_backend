@@ -5,7 +5,8 @@
 <mapper namespace="com.triplus.user.mapper.UserMapper">
     <insert id="insert" parameterType="com.triplus.user.dto.UserDto">
         insert into "USER"
-        values (#{id}, #{pwd}, #{auth}, #{name}, #{tel}, #{gender}, #{addr}, #{email}, #{bDate}, sysdate, #{active})
+        values (#{id}, #{pwd}, #{auth}, #{name}, #{tel}, #{gender}, #{addr}, #{email}, #{bDate, jdbcType=DATE },
+                sysdate, #{active})
     </insert>
 
     <select id="login" parameterType="hashmap" resultType="com.triplus.user.dto.UserDto">
