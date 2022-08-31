@@ -73,11 +73,8 @@ public class PackageController {
         map.put("vacancy", getVacancy(packageDto, packageDto.getBrdNum()));
 
         ArrayList<PkgImgDto> pkgImgDtos = pkgImgMapper.selectByBrdNum(brdNum);
-        ArrayList<byte[]> pkgImgs = new ArrayList<>();
-        for (PkgImgDto pkgImgDto : pkgImgDtos) {
-            pkgImgs.add(pkgImgDto.getPkgImg());
-        }
-        map.put("pkgImgs", pkgImgs);
+
+        map.put("pkgImgDtos", pkgImgDtos);
 
         data.put("map", map);
 
@@ -86,9 +83,58 @@ public class PackageController {
     }
 
     @PostMapping(value = "/", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public HashMap<String, String> insert(MultipartHttpServletRequest request, PackageDto packageDto) {
+    public HashMap<String, Object> insert(MultipartHttpServletRequest request, PackageDto packageDto) {
 
-        HashMap<String, String> result = new HashMap<>();
+        HashMap<String, Object> result = new HashMap<>();
+
+        MultipartFile tImgFile = request.getFile("tImgFile");
+        List<MultipartFile> pkgImgFiles = request.getFiles("pkgImgFiles");
+
+        try {
+
+            ArrayList<PkgImgDto> pkgImgDtos = new ArrayList<>();
+
+            for(MultipartFile pkgImgFile:pkgImgFiles){
+
+                PkgImgDto pkgImgDto = new PkgImgDto(
+                        0,
+                        0,
+                        pkgImgFile.getBytes(),
+                        pkgImgFile.getOriginalFilename(),
+                        pkgImgFile.getSize()
+                );
+
+                pkgImgDtos.add(pkgImgDto);
+
+            }
+
+            assert tImgFile != null;
+            packageDto.setTImg(tImgFile.getBytes());
+
+            packageService.insert(packageDto, pkgImgDtos);
+
+            result.put("brdNum", packageDto.getBrdNum());
+            result.put("result", "success");
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            result.put("result", "fail");
+
+        }
+
+        return result;
+
+    }
+
+    @PostMapping(value = "/{brdNum}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public HashMap<String, Object> update(
+            @PathVariable("brdNum") int brdNum,
+            MultipartHttpServletRequest request,
+            PackageDto packageDto
+            ) {
+
+        HashMap<String, Object> result = new HashMap<>();
 
         MultipartFile tImgFile = request.getFile("tImgFile");
         List<MultipartFile> pkgImgFiles = request.getFiles("pkgImgFiles");
@@ -101,15 +147,21 @@ public class PackageController {
                 PkgImgDto pkgImgDto = new PkgImgDto(
                         0,
                         0,
-                        pkgImgFile.getBytes()
+                        pkgImgFile.getBytes(),
+                        pkgImgFile.getOriginalFilename(),
+                        pkgImgFile.getSize()
                 );
 
                 pkgImgDtos.add(pkgImgDto);
 
             }
 
-            packageService.insert(packageDto, pkgImgDtos);
+            assert tImgFile != null;
+            packageDto.setTImg(tImgFile.getBytes());
 
+            packageService.update(packageDto, pkgImgDtos);
+
+            result.put("brdNum", packageDto.getBrdNum());
             result.put("result", "success");
 
         } catch (Exception e) {

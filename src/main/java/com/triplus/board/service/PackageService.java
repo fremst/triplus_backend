@@ -40,22 +40,13 @@ public class PackageService {
         packageDto.setBrdNum(brdNum);
         packageDto.setPublished(true);
 
-        System.out.println(packageDto.getBrdNum());
-        System.out.println(packageDto.getWriterId());
-        System.out.println(packageDto.getTitle());
-        System.out.println(packageDto.getContents());
-//        packageDto.getTImg()
-        System.out.println(packageDto.getWDate());
-        System.out.println(packageDto.getHit());
-        System.out.println(packageDto.isPublished());
-
         int boardResult = boardMapper.fixedInsert(
                 new BoardDto(
                         packageDto.getBrdNum(),
                         "admin",
                         packageDto.getTitle(),
                         packageDto.getContents(),
-                        null, //packageDto.getTImg()
+                        packageDto.getTImg(),
                         null,
                         0,
                         packageDto.isPublished()
@@ -76,8 +67,8 @@ public class PackageService {
         if (packageResult > 0 && pkgImgResult > 0){
             return 1;
         } else {
-            System.out.println("packageResult" + packageResult);
-            System.out.println("pkgImgResult" + pkgImgResult);
+            System.out.println("packageResult: " + packageResult);
+            System.out.println("pkgImgResult: " + pkgImgResult);
             throw new Exception("DB 오류");
         }
 
@@ -86,6 +77,54 @@ public class PackageService {
     public PackageDto select(int brdNum) {
 
         return packageMapper.select(brdNum);
+
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public int update(PackageDto packageDto, ArrayList<PkgImgDto> pkgImgDtos) throws Exception {
+
+        packageDto.setPublished(true);
+
+        int boardResult = boardMapper.update(
+                new BoardDto(
+                        packageDto.getBrdNum(),
+                        "admin",
+                        packageDto.getTitle(),
+                        packageDto.getContents(),
+                        packageDto.getTImg(),
+                        null,
+                        0,
+                        packageDto.isPublished()
+                )
+        );
+
+        int packageResult = packageMapper.update(packageDto);
+        int pkgImgDelResult = pkgImgMapper.deleteByBrdNum(packageDto.getBrdNum());
+        int pkgImgResult = 0;
+
+        if(packageResult > 0 && pkgImgDelResult > 0){
+
+            for(PkgImgDto pkgImgDto:pkgImgDtos){
+                pkgImgDto.setBrdNum(packageDto.getBrdNum());
+                pkgImgResult = pkgImgMapper.insert(pkgImgDto);
+                if(pkgImgResult < 0){
+                    break;
+                }
+            }
+
+        }
+
+        if (packageResult > 0 && pkgImgDelResult > 0 && pkgImgResult > 0){
+            return 1;
+
+        } else {
+
+            System.out.println("packageResult: " + packageResult);
+            System.out.println("pkgImgDelResult: " + pkgImgDelResult);
+            System.out.println("pkgImgResult: " + pkgImgResult);
+            throw new Exception("DB 오류");
+
+        }
 
     }
 

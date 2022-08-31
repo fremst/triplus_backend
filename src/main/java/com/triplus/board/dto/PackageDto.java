@@ -12,9 +12,7 @@ import java.sql.Date;
 @ToString(callSuper = true)
 public class PackageDto extends BoardDto {
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd (aaa)", timezone = "Asia/Seoul")
     private Date sDate;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd (aaa)", timezone = "Asia/Seoul")
     private Date eDate;
     private String mtgPlace;
     private String region;

@@ -12,5 +12,7 @@ public class PkgImgDto {
     private int pkgImgNum;
     private int brdNum;
     private byte[] pkgImg;
+    private String pkgImgName;
+    private long pkgImgSize;
 
 }
