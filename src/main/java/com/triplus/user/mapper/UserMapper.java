@@ -28,4 +28,6 @@ public interface UserMapper {
 
     int update(UserDto dto);
 
+    String findId(String id);
+
 }

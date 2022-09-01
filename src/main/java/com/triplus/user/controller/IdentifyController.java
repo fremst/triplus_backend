@@ -6,6 +6,7 @@ import com.triplus.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -102,6 +103,25 @@ public class IdentifyController {
 
         return map;
     }
+
+    // 검색 아이디 조회(일행초대)
+    @GetMapping(value = "/api/member/plan/invite/findid", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public HashMap<String, String> searchId(String inviteId) {
+        String searchId = userService.findId(inviteId);
+        HashMap<String, String> result = new HashMap<String, String>();
+        if (searchId != null) {
+            result.put("result", "success");
+            result.put("searchId", searchId);
+        } else {
+            result.put("result", "fail");
+        }
+
+
+        return result;
+
+
+    }
+
 
 }
 
