@@ -10,11 +10,12 @@ public class CompanionService {
     @Autowired
     CompanionMapper companionMapper;
 
-    public int addCompanion(CompanionDto dto) {
-        return companionMapper.addCompanion(dto);
+    public int insert(CompanionDto companionDto) {
+        return companionMapper.insert(companionDto);
     }
 
-    public CompanionDto find(String id) {
-        return companionMapper.find(id);
+    public CompanionDto select(CompanionDto companionDto) {
+        return companionMapper.select(companionDto);
     }
+
 }

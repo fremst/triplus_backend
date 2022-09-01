@@ -20,7 +20,7 @@ public class CompanionController {
     @PostMapping(value = "/api/member/plan/companion", produces = {MediaType.APPLICATION_JSON_VALUE})
     public HashMap<String, Object> addCompanion(CompanionDto dto) {
         HashMap<String, Object> result = new HashMap<String, Object>();
-        int n = companionService.addCompanion(dto);
+        int n = companionService.insert(dto);
         if (n > 0) {
             result.put("result", "success");
         } else {
@@ -30,11 +30,10 @@ public class CompanionController {
     }
 
     @GetMapping(value = "/api/member/plan/companion/identify", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public HashMap<String, Object> identifyCompanion(String id) {
+    public HashMap<String, Object> identifyCompanion(CompanionDto dto) {
         HashMap<String, Object> result = new HashMap<String, Object>();
-        CompanionDto dto = companionService.find(id);
-
-        if (dto != null) { //존재하면
+        CompanionDto resultDto = companionService.select(dto);
+        if (resultDto != null) { //존재하면
             result.put("result", "success");
         } else {
             result.put("result", "fail");

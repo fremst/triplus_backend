@@ -8,13 +8,13 @@ public interface CompanionMapper {
 
     int insert(CompanionDto companionDto);
 
-//    CompanionDto select(int skdNum, String id);
+    // 파라미터도 dto사용함
+    CompanionDto select(CompanionDto companionDto);
+
 //
 //    ArrayList<CompanionDto> selectBySkdNum(int skdNum);
 //
 //    int delete(int skdNum, String id);
 
-    int addCompanion(CompanionDto dto);
 
-    CompanionDto find(String id);
 }

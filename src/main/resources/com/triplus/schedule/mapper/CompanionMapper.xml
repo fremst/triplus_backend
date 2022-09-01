@@ -9,32 +9,23 @@
         VALUES (#{skdNum}, #{id})
     </insert>
 
-<!--    <select id="select" parameterType="int" resultType="com.triplus.schedule.dto.CompanionDto">-->
-<!--        SELECT *-->
-<!--        FROM COMPANION-->
-<!--        WHERE SKDNUM = #{skdNum} AND ID = #{id}-->
-<!--    </select>-->
-
-<!--    <select id="selectBySkdNum" parameterType="int" resultType="com.triplus.schedule.dto.CompanionDto">-->
-<!--        SELECT *-->
-<!--        FROM COMPANION-->
-<!--        WHERE SKDNUM = #{skdNum}-->
-<!--    </select>-->
-
-<!--    <delete id="delete" parameterType="com.triplus.schedule.dto.CompanionDto">-->
-<!--        DELETE FROM COMPANION-->
-<!--        WHERE SKDNUM = #{skdNum} AND ID = #{id}-->
-<!--    </delete>-->
-
-    <insert id="addCompanion" parameterType="com.triplus.schedule.dto.CompanionDto">
-        insert into companion
-        values (#{skdNum}, #{id})
-    </insert>
-
-    <select id="find" parameterType="String" resultType="com.triplus.schedule.dto.CompanionDto">
-        select *
-        from companion
-        where id = #{id}
+    <select id="select" parameterType="com.triplus.schedule.dto.CompanionDto"
+            resultType="com.triplus.schedule.dto.CompanionDto">
+        SELECT *
+        FROM COMPANION
+        WHERE SKDNUM = #{skdNum}
+          AND ID = #{id}
     </select>
+
+    <!--    <select id="selectBySkdNum" parameterType="int" resultType="com.triplus.schedule.dto.CompanionDto">-->
+    <!--        SELECT *-->
+    <!--        FROM COMPANION-->
+    <!--        WHERE SKDNUM = #{skdNum}-->
+    <!--    </select>-->
+
+    <!--    <delete id="delete" parameterType="com.triplus.schedule.dto.CompanionDto">-->
+    <!--        DELETE FROM COMPANION-->
+    <!--        WHERE SKDNUM = #{skdNum} AND ID = #{id}-->
+    <!--    </delete>-->
 
 </mapper>
