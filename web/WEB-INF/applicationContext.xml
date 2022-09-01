@@ -80,5 +80,4 @@
         </property>
         <property name="fileEncoding" value="UTF-8"/>
     </bean>
-
 </beans>

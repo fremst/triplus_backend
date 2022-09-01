@@ -4,6 +4,7 @@ import com.triplus.reservation.dto.ReservationDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.HashMap;
+import java.util.List;
 
 @Mapper
 public interface ReservationMapper {
@@ -20,4 +21,10 @@ public interface ReservationMapper {
 
     int getRcrtCnt(HashMap<String, Object> map);
 
+
+    //내 예약보기
+    List<HashMap<String, Object>> selectWant(String id);
+
+    //내 예약수 ->헤더
+    int myreservationCnt(String id);
 }
