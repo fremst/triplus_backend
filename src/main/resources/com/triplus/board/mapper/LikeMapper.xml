@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.triplus.board.mapper.LikeMapper">
+    <insert id="insertLike" parameterType="com.triplus.board.dto.LikeDto">
+        insert into like
+        values (#{brdNum}, #{id} , 0 , like_seq.nextval)
+    </insert>
+
+    <delete id="cancleLike" parameterType="com.triplus.board.dto.LikeDto">
+        delete from like
+        where likenum = #{likenum} and id = #{id}
+    </delete>
+
+    <select id="countLike" parameterType="int" resultType="int">
+        select NVL(count(likenum),0)
+        from like
+        where brdnum= #{brdnum};
+    </select>
+
+</mapper>

@@ -92,7 +92,7 @@ public class NoticeController {
     }
 
     @GetMapping(value = "/api/service/notices/{brdNum}/update", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public NoticeDto prevDetail(@PathVariable("brdNum") int brdNum, Model model) {
+    public NoticeDto prevDetail(@PathVariable("brdNum") int brdNum) {
 
         NoticeDto notice = noticeService.select(brdNum);
 

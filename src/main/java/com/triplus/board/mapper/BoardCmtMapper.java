@@ -13,5 +13,6 @@ public interface BoardCmtMapper
     public ArrayList<BrdCmtDto> select(int brdNum);
     public int insert(BrdCmtDto brdcmtDto);
     public int delete(int brdCmtNum);
+    public int deleteAll(int brdNum);
 
 }
