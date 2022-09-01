@@ -5,9 +5,14 @@
 <mapper namespace="com.triplus.board.mapper.PkgImgMapper">
 
     <insert id="insert" parameterType="com.triplus.board.dto.PkgImgDto">
-        INSERT INTO PKGIMG(PKGIMGNUM, BRDNUM, PKGIMG)
-        VALUES (PKGIMG_SEQ.NEXTVAL, #{brdNum}, #{pkgImg})
+        INSERT INTO PKGIMG(PKGIMGNUM, BRDNUM, PKGIMG, PKGIMGNAME, PKGIMGSIZE)
+        VALUES (PKGIMG_SEQ.NEXTVAL, #{brdNum}, #{pkgImg}, #{pkgImgName}, #{pkgImgSize})
     </insert>
+
+    <delete id="deleteByBrdNum" parameterType="int">
+        DELETE FROM PKGIMG
+        WHERE BRDNUM = #{brdNum}
+    </delete>
 
     <select id="selectByBrdNum" parameterType="int" resultType="com.triplus.board.dto.PkgImgDto">
         SELECT *

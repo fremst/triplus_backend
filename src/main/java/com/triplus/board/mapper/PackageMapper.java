@@ -12,6 +12,8 @@ public interface PackageMapper {
 
     PackageDto select(int brdNum);
 
+    int update(PackageDto packageDto);
+
     ArrayList<PackageDto> selectAll();
 
 }

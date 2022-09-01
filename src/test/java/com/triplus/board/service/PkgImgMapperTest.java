@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("file:web/WEB-INF/applicationContext.xml")
@@ -22,16 +22,6 @@ public class PkgImgMapperTest {
 
     @Autowired
     private PkgImgMapper pkgImgMapper;
-
-//
-//    @Test
-//    public void select() {
-//
-//        PkgImgDto pkgImgDto = pkgImgMapper.select(1);
-//        logger.info("pkgImgDto: " + pkgImgDto);
-//        assertNotNull(pkgImgDto);
-//
-//    }
 
     @Test
     public void selectByBrdNum() {
@@ -43,34 +33,15 @@ public class PkgImgMapperTest {
         assertNotNull(pkgImgDtos);
 
     }
-//
-//    @Test
-//    public void update() {
-//
-//        int pkgImgNum = 22;
-//        int brdNum = 100;
-//
-//        int n = pkgImgMapper.update(
-//                new PkgImgDto(
-//                        22,
-//                        22,
-//                        "테스트_이미지_URL_수정"
-//                )
-//        );
-//
-//        logger.info("n: " + n);
-//        assertEquals(1, n);
-//
-//    }
-//
-//    @Test
-//    public void delete() {
-//
-//        int n = pkgImgMapper.delete(23);
-//
-//        logger.info("n: " + n);
-//        assertEquals(1, n);
-//
-//    }
+
+    @Test
+    public void deleteByBrdNum() {
+
+        int n = pkgImgMapper.deleteByBrdNum(288);
+
+        logger.info("n: " + n);
+        assertTrue(n > 1);
+
+    }
 
 }

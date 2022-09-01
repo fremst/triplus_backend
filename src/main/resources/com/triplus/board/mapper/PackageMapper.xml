@@ -16,6 +16,19 @@
         WHERE BRDNUM = #{brdNum}
     </select>
 
+    <update id="update" parameterType="com.triplus.board.dto.PackageDto">
+        UPDATE PACKAGE
+        SET SDATE = #{sDate},
+            EDATE = #{eDate},
+            MTGPLACE = #{mtgPlace},
+            REGION = #{region},
+            RCRTCNT = #{rcrtCnt},
+            TRANS = #{trans},
+            ADULTPRICE = #{adultPrice},
+            CHILDPRICE = #{childPrice}
+        WHERE BRDNUM = #{brdNum}
+    </update>
+
     <select id="selectAll" resultType="com.triplus.board.dto.PackageDto">
         SELECT *
         FROM BOARD

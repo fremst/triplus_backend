@@ -10,6 +10,8 @@ public interface PkgImgMapper {
 
     int insert(PkgImgDto pkgImgDto);
 
-    ArrayList<PkgImgDto> selectByBrdNum(int BrdNum);
+    int deleteByBrdNum(int brdNum);
+
+    ArrayList<PkgImgDto> selectByBrdNum(int brdNum);
 
 }
