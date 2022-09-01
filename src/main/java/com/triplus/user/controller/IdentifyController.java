@@ -59,12 +59,13 @@ public class IdentifyController {
     public HashMap<String, Object> identifyId(String id) {
 
         UserDto dto = userService.identifyId(id);
-
+        System.out.println(dto);
         //응답
         HashMap<String, Object> map2 = new HashMap<String, Object>();
 
         if (dto != null) { //가입한 아이디 존재o
             map2.put("result", "success");
+            map2.put("dto", dto);
         } else {
             map2.put("result", "fail");
         }
