@@ -33,4 +33,12 @@
         where brdcmtnum = #{brdcmtnum}
     </delete>
 
+    <delete id="deleteAll" parameterType="int">
+        delete
+        from brdcmt
+        where brdnum = #{brdnum}
+    </delete>
+
+
+
 </mapper>

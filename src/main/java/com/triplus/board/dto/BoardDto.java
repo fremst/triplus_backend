@@ -26,7 +26,7 @@ public class BoardDto {
     private boolean published;
 
 
-    
+
     public BoardDto(int brdNum, Object writerId, Object title, Object contents, Object tImg, Object wDate, Object hit, Object published) {
     }
 
@@ -45,4 +45,11 @@ public class BoardDto {
     public String getWriterId() { return writerId; }
 
     public boolean isPublished() { return published; }
+
+    public void setTImg(byte[] tImg) {
+        this.tImg = tImg;
+    }
+    public void setBrdNum(int brdNum) {
+        this.brdNum = brdNum;
+    }
 }
