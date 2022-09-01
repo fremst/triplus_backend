@@ -30,6 +30,12 @@ public class PlaceController {
     @Autowired
     ScatService scatService;
 
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ArrayList<PlaceDto> selectAll() {
+
+        return placeService.selectAll();
+
+    }
 
     @GetMapping(value = "/attraction", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ArrayList<HashMap<String, Object>> selectAllAttraction() {
@@ -115,34 +121,33 @@ public class PlaceController {
 
     }
 
-    @PostMapping(value = {"/attraction/", "/restaurant/", "/accommodation/"}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public HashMap<String, String> insert(PlaceRequestData placeRequestData) {
+    @PostMapping(value = {"/attraction/", "/restaurant/", "/accommodation/", "/myplaces/"}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public HashMap<String, Object> insert(PlaceRequestData placeRequestData) {
 
         int serviceResult = 0;
-        HashMap<String, String> result = new HashMap<>();
+        HashMap<String, Object> result = new HashMap<>();
+        PlaceDto placeDto = new PlaceDto(
+                0,
+                null,
+                placeRequestData.getTitle(),
+                placeRequestData.getOverview(),
+                placeRequestData.getFirstimage(),
+                placeRequestData.getWDate(),
+                0,
+                placeRequestData.isPublished(),
+                mcatService.selectByMcatName(placeRequestData.getMcatName()).getMcatNum(),
+                scatService.selectByScatName(placeRequestData.getScatName()).getScatNum(),
+                placeRequestData.getRegion(),
+                placeRequestData.getAddr(),
+                placeRequestData.getTel(),
+                placeRequestData.getMapx(),
+                placeRequestData.getMapy(),
+                placeRequestData.getHomepage()
+            );
 
         try {
 
-            serviceResult = placeService.insert(
-                    new PlaceDto(
-                            0,
-                            null,
-                            placeRequestData.getTitle(),
-                            placeRequestData.getOverview(),
-                            placeRequestData.getFirstimage(),
-                            placeRequestData.getWDate(),
-                            0,
-                            placeRequestData.isPublished(),
-                            mcatService.selectByMcatName(placeRequestData.getMcatName()).getMcatNum(),
-                            scatService.selectByScatName(placeRequestData.getScatName()).getScatNum(),
-                            placeRequestData.getRegion(),
-                            placeRequestData.getAddr(),
-                            placeRequestData.getTel(),
-                            placeRequestData.getMapx(),
-                            placeRequestData.getMapy(),
-                            placeRequestData.getHomepage()
-                    )
-            );
+            serviceResult = placeService.insert(placeDto);
 
         } catch (Exception e) {
 
@@ -152,6 +157,7 @@ public class PlaceController {
 
             if (serviceResult > 0) {
 
+                result.put("brdNum", placeDto.getBrdNum());
                 result.put("result", "success");
 
             } else {

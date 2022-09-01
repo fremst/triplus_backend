@@ -26,7 +26,7 @@
 
     <insert id="insert" parameterType="com.triplus.board.dto.PlaceDto">
         INSERT INTO PLACE (BRDNUM, MCATNUM, SCATNUM, REGION, ADDR, TEL, MAPX, MAPY, URL)
-        VALUES (#{brdNum}, #{mcatNum}, #{scatNum}, #{region}, #{addr}, #{tel}, #{mapx}, #{mapy}, #{url})
+        VALUES (#{brdNum}, #{mcatNum}, #{scatNum}, #{region}, #{addr}, #{tel, jdbcType=VARCHAR}, #{mapx}, #{mapy}, #{url, jdbcType=VARCHAR})
     </insert>
 
     <delete id="delete" parameterType="int">

@@ -12,8 +12,10 @@ import java.sql.Date;
 @AllArgsConstructor
 @Data
 public class ScheduleDto {
+
     private int skdNum;
     private Date sDate;
     private Date eDate;
     private String destination;
+
 }

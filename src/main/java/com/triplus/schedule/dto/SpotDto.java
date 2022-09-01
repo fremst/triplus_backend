@@ -7,9 +7,12 @@ import lombok.*;
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class CompanionDto {
+public class SpotDto {
 
+    private int spotNum;
     private int skdNum;
-    private String id;
+    private int day;
+    private String memo;
+    private int brdNum;
 
 }

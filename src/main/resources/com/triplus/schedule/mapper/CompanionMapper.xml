@@ -3,6 +3,29 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.triplus.schedule.mapper.CompanionMapper">
+
+    <insert id="insert" parameterType="com.triplus.schedule.dto.CompanionDto">
+        INSERT INTO COMPANION(SKDNUM, ID)
+        VALUES (#{skdNum}, #{id})
+    </insert>
+
+<!--    <select id="select" parameterType="int" resultType="com.triplus.schedule.dto.CompanionDto">-->
+<!--        SELECT *-->
+<!--        FROM COMPANION-->
+<!--        WHERE SKDNUM = #{skdNum} AND ID = #{id}-->
+<!--    </select>-->
+
+<!--    <select id="selectBySkdNum" parameterType="int" resultType="com.triplus.schedule.dto.CompanionDto">-->
+<!--        SELECT *-->
+<!--        FROM COMPANION-->
+<!--        WHERE SKDNUM = #{skdNum}-->
+<!--    </select>-->
+
+<!--    <delete id="delete" parameterType="com.triplus.schedule.dto.CompanionDto">-->
+<!--        DELETE FROM COMPANION-->
+<!--        WHERE SKDNUM = #{skdNum} AND ID = #{id}-->
+<!--    </delete>-->
+
     <insert id="addCompanion" parameterType="com.triplus.schedule.dto.CompanionDto">
         insert into companion
         values (#{skdNum}, #{id})
@@ -13,4 +36,5 @@
         from companion
         where id = #{id}
     </select>
+
 </mapper>

@@ -3,15 +3,51 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.triplus.schedule.mapper.ScheduleMapper">
-    <select id="selectMySkd" resultType="com.triplus.schedule.dto.ScheduleDto" parameterType="String">
-        select *
-        from SCHEDULE
-        where SKDNUM in (select SKDNUM from COMPANION where id = #{id})
-    </select>
 
-    <select id="skdCnt" parameterType="String" resultType="int">
-        select count(*)
-        from SCHEDULE
-        where SKDNUM in (select SKDNUM from COMPANION where id = #{id})
-    </select>
+  <select id="getNextSkdNum" parameterType="int" resultType="int">
+      SELECT SCHEDULE_SEQ.NEXTVAL
+      FROM DUAL
+  </select>
+
+  <insert id="fixedInsert" parameterType="com.triplus.schedule.dto.ScheduleDto">
+      INSERT INTO SCHEDULE(SKDNUM, SDATE, EDATE, DESTINATION)
+      VALUES (#{skdNum}, #{sDate}, #{eDate}, #{destination})
+  </insert>
+
+  <!--    <insert id="insert" parameterType="com.triplus.schedule.dto.ScheduleDto">-->
+  <!--        INSERT INTO SCHEDULE(SKDNUM, SDATE, EDATE, DESTINATION)-->
+  <!--        VALUES (#{skdNum}, #{sDate}, #{eDate}, #{destination})-->
+  <!--    </insert>-->
+
+  <!--    <select id="select" parameterType="int" resultType="com.triplus.schedule.dto.ScheduleDto">-->
+  <!--        SELECT *-->
+  <!--        FROM SCHEDULE-->
+  <!--        WHERE SKDNUM = #{skdNum}-->
+  <!--    </select>-->
+
+  <!--    <update id="update" parameterType="com.triplus.schedule.dto.ScheduleDto">-->
+  <!--        UPDATE SCHEDULE-->
+  <!--        SET SDATE = #{sDate},-->
+  <!--            EDATE = #{eDate},-->
+  <!--            DESTINATION = #{destination}-->
+  <!--        WHERE SKDNUM = #{skdNum}-->
+  <!--    </update>-->
+
+  <!--    <delete id="delete" parameterType="com.triplus.schedule.dto.ScheduleDto">-->
+  <!--        DELETE FROM SCHEDULE-->
+  <!--        WHERE SKDNUM = #{skdNum}-->
+  <!--    </delete>-->
+
+  <select id="selectMySkd" resultType="com.triplus.schedule.dto.ScheduleDto" parameterType="String">
+      select *
+      from SCHEDULE
+      where SKDNUM in (select SKDNUM from COMPANION where id = #{id})
+  </select>
+
+  <select id="skdCnt" parameterType="String" resultType="int">
+      select count(*)
+      from SCHEDULE
+      where SKDNUM in (select SKDNUM from COMPANION where id = #{id})
+  </select>
+
 </mapper>
