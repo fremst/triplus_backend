@@ -71,7 +71,6 @@
         </property>
     </bean>
 
-
     <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
         <property name="locations">
             <list>
@@ -79,7 +78,6 @@
                 <value>classpath:/properties/MailSender.properties</value>
             </list>
         </property>
-
         <property name="fileEncoding" value="UTF-8"/>
     </bean>
 </beans>
