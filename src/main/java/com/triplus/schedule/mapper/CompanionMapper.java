@@ -14,4 +14,7 @@ public interface CompanionMapper {
 //
 //    int delete(int skdNum, String id);
 
+    int addCompanion(CompanionDto dto);
+
+    CompanionDto find(String id);
 }

@@ -10,17 +10,20 @@ import lombok.ToString;
 @Data
 @ToString
 public class MagazineWithBoardDto {
-
+    private String writerId;
     private String title;
     private String contents;
     private byte[] tImg;
     private String category;
 
+    public String getWriterId() { return writerId; }
+
     public String getCategory() {
         return category;
     }
 
-    public byte[] gettImg() { return tImg; }
+    public byte[] getTImg() {
+        return tImg; }
 
     public String getContents() {
         return contents;
@@ -30,4 +33,19 @@ public class MagazineWithBoardDto {
         return title;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setContents(String contents) {
+        this.contents = contents;
+    }
+
+    public void setTImg(byte[] tImg) {
+        this.tImg = tImg;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
 }

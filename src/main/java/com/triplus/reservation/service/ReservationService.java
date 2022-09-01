@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 
 @Service
 public class ReservationService {
@@ -25,11 +26,23 @@ public class ReservationService {
 
     }
 
-    /** @param map oid, resSta 입력 */
+    /**
+     * @param map oid, resSta 입력
+     */
     public int updateResSta(HashMap<String, String> map) {
 
         return reservationMapper.updateResSta(map);
 
+    }
+
+
+    // 내 예약보기
+    public List<HashMap<String, Object>> selectWant(String id) {
+        return reservationMapper.selectWant(id);
+    }
+
+    public int myreservationCnt(String id) {
+        return reservationMapper.myreservationCnt(id);
     }
 
 }

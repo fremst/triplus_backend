@@ -32,5 +32,10 @@ public class BrdCmtService {
         return boardCmtMapper.delete(brdCmtNum);
     }
 
+    public int deleteAll(int brdNum) {
+
+        return boardCmtMapper.delete(brdNum);
+    }
+
 
 }

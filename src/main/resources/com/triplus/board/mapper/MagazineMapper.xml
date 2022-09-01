@@ -22,7 +22,7 @@
 
     <insert id="insert" parameterType="com.triplus.board.dto.MagazineDto">
         insert into magazine
-        values (#{brdNum}, #{category})
+        values (#{brdNum}, #{category,jdbcType=VARCHAR})
     </insert>
 
     <delete id="delete" parameterType="int">

@@ -8,10 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class ScheduleService {
 
     @Autowired
+
     private ScheduleMapper scheduleMapper;
 
     @Autowired
@@ -39,4 +42,16 @@ public class ScheduleService {
 
     }
 
+    public List<ScheduleDto> selectMySkd(String id) {
+    
+        return scheduleMapper.selectMySkd(id);
+        
+    }
+
+    public int skdCnt(String id) {
+    
+        return scheduleMapper.skdCnt(id);
+        
+    }
+    
 }

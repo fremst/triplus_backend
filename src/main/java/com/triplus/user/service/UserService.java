@@ -52,4 +52,8 @@ public class UserService {
         return userMapper.update(dto);
     }
 
+    public String findId(String id) {
+        return userMapper.findId(id);
+    }
+
 }

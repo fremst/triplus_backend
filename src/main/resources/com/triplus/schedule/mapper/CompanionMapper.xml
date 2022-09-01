@@ -26,4 +26,15 @@
 <!--        WHERE SKDNUM = #{skdNum} AND ID = #{id}-->
 <!--    </delete>-->
 
+    <insert id="addCompanion" parameterType="com.triplus.schedule.dto.CompanionDto">
+        insert into companion
+        values (#{skdNum}, #{id})
+    </insert>
+
+    <select id="find" parameterType="String" resultType="com.triplus.schedule.dto.CompanionDto">
+        select *
+        from companion
+        where id = #{id}
+    </select>
+
 </mapper>
