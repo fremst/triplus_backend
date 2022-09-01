@@ -15,14 +15,14 @@ public class ExpenseController {
     @Autowired
     private ExpenseService expenseService;
 
-    @GetMapping(value = "/api/member/plan/expense/{skdNum}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "/api/member/plan/{skdNum}/expense", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ExpenseDto getExpense(@PathVariable int skdNum)
     {
         return expenseService.select(skdNum);
     }
 
-    @PutMapping(value = "/api/service/plan/expense/{skdNum}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public HashMap<String, Object> postUpdate(
+    @PutMapping(value = "/api/member/plan/{skdNum}/expense", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public HashMap<String, Object> putUpdate(
             @PathVariable int skdNum,
             @RequestBody ExpenseDto dto) {
         HashMap<String, Object> map = new HashMap<>();
