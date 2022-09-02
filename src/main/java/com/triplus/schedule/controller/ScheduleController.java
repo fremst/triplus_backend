@@ -5,9 +5,11 @@ import com.triplus.schedule.dto.SpotDto;
 import com.triplus.schedule.service.ScheduleService;
 import com.triplus.schedule.service.SpotService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -23,7 +25,17 @@ public class ScheduleController {
     SpotService spotService;
 
     @PostMapping(value = "/", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public HashMap<String, Object> insert(ScheduleDto scheduleDto, String id) {
+    public HashMap<String, Object> insert(
+            String id,
+            @RequestParam("sDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date sDate,
+            @RequestParam("eDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date eDate,
+            String destination
+    ) {
+
+        ScheduleDto scheduleDto = new ScheduleDto();
+        scheduleDto.setSDate(new java.sql.Date(sDate.getTime()));
+        scheduleDto.setEDate(new java.sql.Date(eDate.getTime()));
+        scheduleDto.setDestination(destination);
 
         HashMap<String, Object> result = new HashMap<>();
 
