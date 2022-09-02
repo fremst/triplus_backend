@@ -124,6 +124,13 @@ public class PlaceController {
     @PostMapping(value = {"/attraction/", "/restaurant/", "/accommodation/", "/myplaces/"}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public HashMap<String, Object> insert(PlaceRequestData placeRequestData) {
 
+        int mcatNum = mcatService.selectByMcatName(placeRequestData.getMcatName()).getMcatNum();
+
+        HashMap<String, Object> scatMap = new HashMap<>();
+        scatMap.put("scatName", placeRequestData.getScatName());
+        scatMap.put("mcatNum", mcatNum);
+        int scatNum = scatService.getScatNum(scatMap);
+
         int serviceResult = 0;
         HashMap<String, Object> result = new HashMap<>();
         PlaceDto placeDto = new PlaceDto(
@@ -135,8 +142,8 @@ public class PlaceController {
                 placeRequestData.getWDate(),
                 0,
                 placeRequestData.isPublished(),
-                mcatService.selectByMcatName(placeRequestData.getMcatName()).getMcatNum(),
-                scatService.selectByScatName(placeRequestData.getScatName()).getScatNum(),
+                mcatNum,
+                scatNum,
                 placeRequestData.getRegion(),
                 placeRequestData.getAddr(),
                 placeRequestData.getTel(),
@@ -175,6 +182,13 @@ public class PlaceController {
     @PutMapping(value = {"/attraction/{brdNum}", "/restaurant/{brdNum}", "/accommodation/{brdNum}"}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public HashMap<String, String> update(@PathVariable("brdNum") int brdNum, @RequestBody PlaceRequestData placeRequestData) {
 
+        int mcatNum = mcatService.selectByMcatName(placeRequestData.getMcatName()).getMcatNum();
+
+        HashMap<String, Object> scatMap = new HashMap<>();
+        scatMap.put("scatName", placeRequestData.getScatName());
+        scatMap.put("mcatNum", mcatNum);
+        int scatNum = scatService.getScatNum(scatMap);
+
         int serviceResult = 0;
         HashMap<String, String> result = new HashMap<>();
 
@@ -190,8 +204,8 @@ public class PlaceController {
                             null,
                             boardService.select(brdNum).getHit(),
                             placeRequestData.isPublished(),
-                            mcatService.selectByMcatName(placeRequestData.getMcatName()).getMcatNum(),
-                            scatService.selectByScatName(placeRequestData.getScatName()).getScatNum(),
+                            mcatNum,
+                            scatNum,
                             placeRequestData.getRegion(),
                             placeRequestData.getAddr(),
                             placeRequestData.getTel(),

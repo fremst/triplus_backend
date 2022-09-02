@@ -10,6 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -50,6 +51,13 @@ public class PlaceServiceTest {
         double mapy = 37.4159692517;
         String url = "http://hanapension.modoo.at";
 
+        int mcatNum = mcatService.selectByMcatName(mcatName).getMcatNum();
+
+        HashMap<String, Object> scatMap = new HashMap<>();
+        scatMap.put("mcatNum", mcatNum);
+        scatMap.put("scatName", scatName);
+        int scatNum = scatService.getScatNum(scatMap);
+
         int n = placeService.insert(
                 new PlaceDto(
                         0,
@@ -60,8 +68,8 @@ public class PlaceServiceTest {
                         null,
                         0,
                         published,
-                        mcatService.selectByMcatName(mcatName).getMcatNum(),
-                        scatService.selectByScatName(scatName).getScatNum(),
+                        mcatNum,
+                        scatNum,
                         region,
                         addr,
                         tel,
@@ -126,6 +134,13 @@ public class PlaceServiceTest {
         double mapy = 937.4159692517;
         String url = "1http://hanapension.modoo.at";
 
+        int mcatNum = mcatService.selectByMcatName(mcatName).getMcatNum();
+
+        HashMap<String, Object> scatMap = new HashMap<>();
+        scatMap.put("mcatNum", mcatNum);
+        scatMap.put("scatName", scatName);
+        int scatNum = scatService.getScatNum(scatMap);
+
         int n = placeService.update(
                 new PlaceDto(
                         brdNum,
@@ -136,8 +151,8 @@ public class PlaceServiceTest {
                         null,
                         boardService.select(brdNum).getHit(),
                         published,
-                        mcatService.selectByMcatName(mcatName).getMcatNum(),
-                        scatService.selectByScatName(scatName).getScatNum(),
+                        mcatNum,
+                        scatNum,
                         region,
                         addr,
                         tel,

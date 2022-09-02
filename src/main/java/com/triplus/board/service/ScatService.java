@@ -16,8 +16,8 @@ public class ScatService {
         return scatMapper.select(map);
     }
 
-    public ScatDto selectByScatName(String scatName) {
-        return scatMapper.selectByScatName(scatName);
+    public int getScatNum(HashMap<String,Object> map) {
+        return scatMapper.getScatNum(map);
     }
 
 

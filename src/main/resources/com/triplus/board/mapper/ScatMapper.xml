@@ -11,10 +11,10 @@
 
     </select>
 
-    <select id="selectByScatName" parameterType="String" resultType="com.triplus.board.dto.ScatDto">
-        SELECT *
+    <select id="getScatNum" parameterType="hashmap" resultType="int">
+        SELECT SCATNUM
         FROM SCAT
-        WHERE SCATNAME = #{scatName}
+        WHERE MCATNUM = #{mcatNum} AND SCATNAME = #{scatName}
     </select>
 
 </mapper>
