@@ -1,5 +1,6 @@
 package com.triplus.schedule.controller;
 
+import com.triplus.board.util.DateUtil;
 import com.triplus.schedule.dto.ScheduleDto;
 import com.triplus.schedule.dto.SpotDto;
 import com.triplus.schedule.service.ScheduleService;
@@ -54,6 +55,10 @@ public class ScheduleController {
             if (scheduleResult > 0) {
 
                 result.put("skdNum", scheduleDto.getSkdNum());
+
+                System.out.println(scheduleDto);
+
+                result.put("days", new DateUtil().getDaysBetween(scheduleDto.getSDate().toLocalDate(), scheduleDto.getEDate().toLocalDate())+1);
                 result.put("result", "success");
 
             } else {
