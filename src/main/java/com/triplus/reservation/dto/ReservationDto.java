@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;
 
+import java.sql.Date;
+
 @ToString
 @AllArgsConstructor
 @Data
@@ -15,6 +17,8 @@ public class ReservationDto {
     private String bookerName;
     private String bookerEmail;
     private String bookerTel;
-    private int cpnNum;
+    private Integer cpnNum;
     private String resSta;
+    private Date bookDate;
+
 }

@@ -31,7 +31,8 @@ public class ReservationServiceTest {
                         "010-8765-4321",
                         "booker@triplus.com",
                         0,
-                        "예약"
+                        "예약",
+                        null
                 ));
 
         logger.info("n: " + n);

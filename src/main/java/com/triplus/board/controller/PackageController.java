@@ -5,6 +5,7 @@ import com.triplus.board.dto.PkgImgDto;
 import com.triplus.board.mapper.PkgImgMapper;
 import com.triplus.board.service.PackageService;
 import com.triplus.board.util.DateUtil;
+import com.triplus.reservation.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,9 @@ public class PackageController {
 
     @Autowired
     PkgImgMapper pkgImgMapper;
+
+    @Autowired
+    ReservationService reservationService;
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ArrayList<HashMap<String, Object>> getPackageList() {
@@ -50,6 +54,55 @@ public class PackageController {
             map.put("rcrtSta", rcrtSta);
 
             data.add(map);
+
+        }
+
+        return data;
+
+    }
+
+    @GetMapping(value = "/cond/{rcrtSta}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ArrayList<HashMap<String, Object>> getPackageListForAdmin(
+            @PathVariable("rcrtSta") String rcrtSta
+    ) {
+
+        switch (rcrtSta) {
+            case "proceeding":
+                rcrtSta = "모집중";
+                break;
+            case "ending":
+                rcrtSta = "마감임박";
+                break;
+            case "completed":
+                rcrtSta = "모집완료";
+                break;
+        }
+
+        ArrayList<PackageDto> packageDtos = packageService.selectAllForAdmin();
+        ArrayList<HashMap<String, Object>> data = new ArrayList<>();
+
+        for (PackageDto packageDto : packageDtos) {
+
+            int vacancy = getVacancy(packageDto, packageDto.getBrdNum());
+            int rcrtCnt = packageDto.getRcrtCnt();
+
+            if(rcrtSta.equals(getRecrtSta(packageDto.getSDate().toLocalDate(), vacancy, rcrtCnt))){
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("brdNum", packageDto.getBrdNum());
+                map.put("title", packageDto.getTitle());
+                map.put("sDate", packageDto.getSDate());
+                map.put("eDate", packageDto.getEDate());
+                map.put("adultPrice", packageDto.getAdultPrice());
+                map.put("childPrice", packageDto.getChildPrice());
+                map.put("region", packageDto.getRegion());
+                map.put("rcrtCnt", packageDto.getRcrtCnt());
+                map.put("vacancy", vacancy);
+
+                map.put("resList",reservationService.selectByBrdNum(packageDto.getBrdNum()));
+
+                data.add(map);
+
+            }
 
         }
 

@@ -16,4 +16,6 @@ public interface PackageMapper {
 
     ArrayList<PackageDto> selectAll();
 
+    ArrayList<PackageDto> selectAllForAdmin();
+
 }

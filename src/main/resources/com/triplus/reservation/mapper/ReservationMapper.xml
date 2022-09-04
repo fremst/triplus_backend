@@ -5,15 +5,31 @@
 <mapper namespace="com.triplus.reservation.mapper.ReservationMapper">
 
     <insert id="insert" parameterType="com.triplus.reservation.dto.ReservationDto">
-        INSERT INTO RESERVATION (OID, BRDNUM, ID, BOOKERNAME, BOOKEREMAIL, BOOKERTEL, CPNNUM, RESSTA)
-        VALUES (#{oid}, #{brdNum}, #{id}, #{bookerName}, #{bookerEmail}, #{bookerTel}, #{cpnNum},
+        <choose>
+            <when test="cpnNum != null and cpnNum > 0">
+                INSERT INTO RESERVATION (OID, BRDNUM, ID, BOOKERNAME, BOOKEREMAIL, BOOKERTEL, CPNNUM, RESSTA)
+                VALUES (#{oid}, #{brdNum}, #{id}, #{bookerName}, #{bookerEmail}, #{bookerTel}, #{cpnNum},
                 #{resSta})
+            </when>
+            <otherwise>
+                INSERT INTO RESERVATION (OID, BRDNUM, ID, BOOKERNAME, BOOKEREMAIL, BOOKERTEL, CPNNUM, RESSTA)
+                VALUES (#{oid}, #{brdNum}, #{id}, #{bookerName}, #{bookerEmail}, #{bookerTel}, null,
+                #{resSta})
+            </otherwise>
+        </choose>
+
     </insert>
 
     <select id="select" parameterType="string" resultType="com.triplus.reservation.dto.ReservationDto">
         SELECT *
         FROM RESERVATION
         where OID = #{oid}
+    </select>
+
+    <select id="selectByBrdNum" parameterType="int" resultType="com.triplus.reservation.dto.ReservationDto">
+        SELECT *
+        FROM RESERVATION
+        where BRDNUM = #{brdNum}
     </select>
 
     <update id="updateResSta" parameterType="hashmap">

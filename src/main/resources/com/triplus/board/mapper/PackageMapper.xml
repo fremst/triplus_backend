@@ -35,4 +35,10 @@
                  JOIN PACKAGE USING (BRDNUM)
     </select>
 
+    <select id="selectAllForAdmin" resultType="com.triplus.board.dto.PackageDto">
+        SELECT TITLE, BRDNUM, SDATE, EDATE, REGION, RCRTCNT, ADULTPRICE, CHILDPRICE, CANCELED, NOTIFIED
+        FROM BOARD
+                 JOIN PACKAGE USING (BRDNUM)
+    </select>
+
 </mapper>

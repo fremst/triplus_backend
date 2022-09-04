@@ -3,6 +3,7 @@ package com.triplus.reservation.mapper;
 import com.triplus.reservation.dto.ReservationDto;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -11,6 +12,8 @@ public interface ReservationMapper {
     int insert(ReservationDto reservationDto);
 
     ReservationDto select(String oid);
+
+    ArrayList<ReservationDto> selectByBrdNum(int brdNum);
 
 //    int update(ReservationDto reservationDto);
 
