@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.triplus.chat.mapper.QnaChatMapper">
+	<select id="selectByID"  parameterType="string" resultType="com.triplus.chat.dto.QnaChatDto">
+		select * from qnachat where id = #{id}
+			order by chatnum asc
+	</select>
+	<select id="selectByToken"  parameterType="string" resultType="com.triplus.chat.dto.QnaChatDto">
+		select * from qnachat where token = #{token}
+		order by chatnum asc
+	</select>
+
+	<select id="countByID" resultType="com.triplus.chat.dto.ChatAdminListData">
+		select max(chatnum) as chatMax, id, count(id) as chatCnt
+			from qnachat
+			where id != 'guest' and MANAGERCHAT = 0
+			group by id
+			order by chatMax desc
+	</select>
+	<select id="countByToken" resultType="com.triplus.chat.dto.ChatAdminListData">
+		select max(chatnum) as chatMax, token, count(token) as chatCnt
+			from qnachat
+			where id = 'guest' and MANAGERCHAT = 0
+			group by token
+			order by chatMax desc
+	</select>
+
+	<insert id="insert" parameterType="com.triplus.chat.dto.QnaChatDto">
+		insert into qnachat values(qnachat_seq.nextval, #{id}, #{token}, #{content}, sysdate, #{managerChat})
+	</insert>
+</mapper>
