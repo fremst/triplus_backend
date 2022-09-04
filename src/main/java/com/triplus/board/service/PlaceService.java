@@ -27,7 +27,7 @@ public class PlaceService {
         int boardResult = boardMapper.fixedInsert(
                 new BoardDto(
                         placeDto.getBrdNum(),
-                        "admin",
+                        placeDto.getWriterId(),
                         placeDto.getTitle(),
                         placeDto.getContents(),
                         placeDto.getTImg(),
@@ -69,6 +69,10 @@ public class PlaceService {
         return placeMapper.selectAll();
     }
 
+    public ArrayList<PlaceDto> selectAllById(String id) {
+        return placeMapper.selectAllById(id);
+    }
+
     public ArrayList<PlaceDto> selectAllByMcatNum(int mcatNum) {
         return placeMapper.selectAllByMcatNum(mcatNum);
     }
@@ -83,7 +87,7 @@ public class PlaceService {
         int boardResult = boardMapper.update(
                 new BoardDto(
                         placeDto.getBrdNum(),
-                        "admin",
+                        placeDto.getWriterId(),
                         placeDto.getTitle(),
                         placeDto.getContents(),
                         placeDto.getTImg(),

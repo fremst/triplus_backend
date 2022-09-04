@@ -7,15 +7,17 @@ import java.util.ArrayList;
 
 @Mapper
 public interface PlaceMapper {
-    public int insert(PlaceDto placeDto);
+    int insert(PlaceDto placeDto);
 
-    public int delete(int brdNum);
+    int delete(int brdNum);
 
     ArrayList<PlaceDto> selectAll();
 
+    ArrayList<PlaceDto> selectAllById(String id);
+
     ArrayList<PlaceDto> selectAllByMcatNum(int mcatNum);
 
-    public PlaceDto select(int brdNum);
+    PlaceDto select(int brdNum);
 
-    public int update(PlaceDto placeDto);
+    int update(PlaceDto placeDto);
 }

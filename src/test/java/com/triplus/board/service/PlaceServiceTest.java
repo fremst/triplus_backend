@@ -61,7 +61,7 @@ public class PlaceServiceTest {
         int n = placeService.insert(
                 new PlaceDto(
                         0,
-                        null,
+                        "admin",
                         title,
                         contents,
                         tImg,
@@ -98,6 +98,17 @@ public class PlaceServiceTest {
     public void selectAll() {
 
         ArrayList<PlaceDto> list = placeService.selectAll();
+        logger.info("list: " + list);
+        assertNotNull(list);
+
+    }
+
+    @Test
+    public void selectAllById() {
+
+        String id = "kj";
+
+        ArrayList<PlaceDto> list = placeService.selectAllById(id);
         logger.info("list: " + list);
         assertNotNull(list);
 
