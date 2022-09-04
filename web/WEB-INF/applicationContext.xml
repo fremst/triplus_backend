@@ -2,8 +2,16 @@
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:websocket="http://www.springframework.org/schema/websocket"
        xmlns="http://www.springframework.org/schema/beans"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+           http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd
+           http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+           http://www.springframework.org/schema/websocket https://www.springframework.org/schema/websocket/spring-websocket.xsd
+           http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
     <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="oracle.jdbc.OracleDriver"/>
         <property name="url"
@@ -31,6 +39,7 @@
                   com.triplus.reservation.mapper,
                   com.triplus.schedule.mapper,
                   com.triplus.user.mapper,
+                  com.triplus.chat.mapper,
                   }"/>
     </bean>
     <context:component-scan base-package="com.triplus.*.service"/>
@@ -80,4 +89,12 @@
         </property>
         <property name="fileEncoding" value="UTF-8"/>
     </bean>
+
+    <!-- 채팅 -->
+    <task:annotation-driven />
+    <bean id="chatHandler" class="com.triplus.chat.handler.ChatHandler" />
+    <websocket:handlers allowed-origins="http://localhost:8081/" allowed-origin-patterns="http://localhost:8081/">
+        <websocket:mapping path="/chat" handler="chatHandler"/>
+        <websocket:sockjs/>
+    </websocket:handlers>
 </beans>
