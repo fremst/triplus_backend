@@ -48,10 +48,10 @@
             SCATNUM = #{scatNum},
             REGION  = #{region},
             ADDR    = #{addr},
-            TEL     = #{tel},
+            TEL     = #{tel, jdbcType=VARCHAR},
             MAPX    = #{mapx},
             MAPY    = #{mapy},
-            URL     = #{url}
+            URL     = #{url, jdbcType=VARCHAR}
         WHERE BRDNUM = #{brdNum}
     </update>
 
