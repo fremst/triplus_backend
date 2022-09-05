@@ -15,7 +15,7 @@ public class UpdateController {
     @Autowired
     UserService userService;
 
-    @GetMapping(value = "/member/mypage/find/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(value = {"/member/mypage/find/{id}", "api/member/mypage/find/{id}"}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public HashMap<String, Object> find(@PathVariable("id") String id) {
         UserDto dto = userService.find(id);
         //응답
