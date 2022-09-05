@@ -16,7 +16,7 @@
 
     <insert id="insert" parameterType="com.triplus.board.dto.FaqDto">
         insert into faq (faqnum, id, category, faqtitle, faqcontent)
-        values (#{faqNum}, #{id}, #{category}, #{faqTitle}, #{faqContent})
+        values (faq_seq.nextval, #{id}, #{category}, #{faqTitle}, #{faqContent})
     </insert>
 
     <delete id="delete" parameterType="int">

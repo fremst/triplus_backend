@@ -31,7 +31,7 @@ public class FaqController {
 
     }
 
-    @PostMapping(value = "/", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = {"/package/", "/payment/", "/reservation/", "/user/"}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public HashMap<String, String> insert(FaqDto faqDto) {
 
         int faqResult = faqService.insert(faqDto);
@@ -49,7 +49,8 @@ public class FaqController {
     @PutMapping(value = "/{faqNum}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public HashMap<String, String> faqUpdate(@PathVariable("faqNum") int faqNum, @RequestBody FaqDto faqDto) {
 
-        System.out.println(faqDto.getFaqNum());
+        System.out.println(faqNum);
+        faqDto.setFaqNum(faqNum);
         int n = faqService.update(faqDto);
         HashMap<String, String> result = new HashMap<>();
         if (n > 0) {
