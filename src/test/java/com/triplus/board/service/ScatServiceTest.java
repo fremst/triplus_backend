@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.HashMap;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("file:web/WEB-INF/applicationContext.xml")
@@ -40,14 +41,18 @@ public class ScatServiceTest {
     }
 
     @Test
-    public void selectByScatName() {
+    public void getScatNum() {
 
-        String scatName = "자연관광지";
+        int mcatNum = 3;
+        String scatName = "기타";
 
-        ScatDto scatDto = scatService.selectByScatName(scatName);
+        HashMap<String, Object> scatMap = new HashMap<>();
+        scatMap.put("mcatNum", mcatNum);
+        scatMap.put("scatName", scatName);
+        int scatNum = scatService.getScatNum(scatMap);
 
-        logger.info("scatDto: " + scatDto);
-        assertNotNull(scatDto);
+        logger.info("scatNum: " + scatNum);
+        assertTrue(scatNum > 1);
 
     }
 

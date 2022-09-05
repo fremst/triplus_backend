@@ -8,6 +8,6 @@ import java.util.HashMap;
 public interface ScatMapper {
     ScatDto select(HashMap<String, Integer> map);
 
-    ScatDto selectByScatName(String scatName);
+    int getScatNum(HashMap<String, Object> map);
 
 }

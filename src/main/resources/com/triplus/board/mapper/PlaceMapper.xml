@@ -17,6 +17,13 @@
                  INNER JOIN BOARD USING (BRDNUM)
     </select>
 
+    <select id="selectAllById" parameterType="string" resultType="com.triplus.board.dto.PlaceDto">
+        SELECT *
+        FROM PLACE
+                 INNER JOIN BOARD USING (BRDNUM)
+        WHERE WRITERID IN ('admin', #{id})
+    </select>
+
     <select id="selectAllByMcatNum" parameterType="int" resultType="com.triplus.board.dto.PlaceDto">
         SELECT *
         FROM PLACE
