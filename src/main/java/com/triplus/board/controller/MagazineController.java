@@ -38,12 +38,7 @@ public class MagazineController {
     @DeleteMapping(value ="/api/admin/magazines/{brdNum}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public String deleteMagazine(@PathVariable("brdNum") int brdNum){
         try{
-
-                brdCmtService.deleteAll(brdNum);
-
                 magazineService.delete(brdNum);
-
-                boardService.delete(brdNum);
 
         }catch (Exception e){
             e.printStackTrace();
