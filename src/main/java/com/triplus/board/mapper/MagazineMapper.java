@@ -11,7 +11,6 @@ public interface MagazineMapper
 {
     public MagazineDto select(int brdNum);
     public ArrayList<MagazineDto>  selectAll();
-    public ArrayList<MagazineDto> getPageList();
     public int insert(MagazineDto boardDto);
     public int delete(int brdNum);
     public int update(MagazineDto boardDto);
