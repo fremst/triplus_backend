@@ -2,6 +2,8 @@ package com.triplus.reservation.controller;
 
 import com.triplus.board.dto.PackageDto;
 import com.triplus.board.dto.PkgComDto;
+import com.triplus.board.dto.PlaceDto;
+import com.triplus.board.dto.PlaceRequestData;
 import com.triplus.board.service.PackageService;
 import com.triplus.board.service.PkgComService;
 import com.triplus.board.util.DateUtil;
@@ -17,7 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-@RequestMapping("/api/myreservations")
+@RequestMapping("/api")
 @CrossOrigin("*")
 @RestController
 public class ReservationController {
@@ -34,7 +36,7 @@ public class ReservationController {
     @Autowired
     PaymentService paymentService;
 
-    @GetMapping(value = "/{oid}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "/myreservations/{oid}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public HashMap<String, Object> getReservation(
             @PathVariable("oid") String oid
     ) {
@@ -60,6 +62,40 @@ public class ReservationController {
         data.put("pkgComDtos", pkgComDtos);
 
         return data;
+
+    }
+
+    @PutMapping(value = {"/reservations/{oid}"}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public HashMap<String, String> update(@PathVariable("oid") String oid, @RequestBody HashMap<String,String> resStaMap) {
+
+        String resSta = resStaMap.get("resSta");
+
+        int serviceResult = 0;
+        HashMap<String, String> result = new HashMap<>();
+
+        try {
+
+            HashMap<String, String> cond = new HashMap<>();
+            cond.put("oid", oid);
+            cond.put("resSta", resSta);
+
+            serviceResult = reservationService.updateResSta(cond);
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+        } finally {
+
+            if (serviceResult > 0) {
+                result.put("result", "success");
+            } else {
+                result.put("result", "fail");
+            }
+
+        }
+
+        return result;
 
     }
 

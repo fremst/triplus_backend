@@ -5,6 +5,7 @@ import com.triplus.reservation.mapper.ReservationMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -23,6 +24,12 @@ public class ReservationService {
     public ReservationDto select(String oid) {
 
         return reservationMapper.select(oid);
+
+    }
+
+    public ArrayList<ReservationDto> selectByBrdNum(int brdNum) {
+
+        return reservationMapper.selectByBrdNum(brdNum);
 
     }
 

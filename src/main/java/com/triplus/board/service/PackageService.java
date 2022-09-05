@@ -134,6 +134,12 @@ public class PackageService {
 
     }
 
+    public ArrayList<PackageDto> selectAllForAdmin() {
+
+        return packageMapper.selectAllForAdmin();
+
+    }
+
     public int getRcrtTotCnt(HashMap<String, Object> cond) {
 
         return reservationMapper.getRcrtCnt(cond) + pkgComMapper.getRcrtCnt(cond);
