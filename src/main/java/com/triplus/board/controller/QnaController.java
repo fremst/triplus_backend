@@ -161,7 +161,7 @@ public class QnaController {
         dto.setTempPwd(user.getPwd());
 
         BoardDto board = boardService.select(dto.getBrdNum());
-        dto.setTImg(null);
+        dto.setTImg(new byte[]{});
         dto.setWDate(board.getWDate());
 
         try {
@@ -202,7 +202,7 @@ public class QnaController {
             // 문의글 DB 지우기
             int result1 = qnaService.delete(dto);
             if (result1 <= 0) {
-                map.put("reason", "비밀번호가 틀렸음");
+                map.put("reason", "비밀번호가 틀렸습니다.");
                 return map;
             }
             int result2 = boardService.delete((int) brdNum);
