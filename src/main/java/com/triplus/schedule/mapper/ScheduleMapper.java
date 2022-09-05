@@ -11,7 +11,7 @@ public interface ScheduleMapper {
 
     int fixedInsert(ScheduleDto scheduleDto);
 
-//    ScheduleDto select(int skdNum);
+    ScheduleDto select(int skdNum);
 //
 //    int update(ScheduleDto scheduleDto);
 //
