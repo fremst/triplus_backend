@@ -42,6 +42,12 @@ public class ScheduleService {
 
     }
 
+    public ScheduleDto select(int skdNum){
+
+        return scheduleMapper.select(skdNum);
+
+    }
+
     public List<ScheduleDto> selectMySkd(String id) {
     
         return scheduleMapper.selectMySkd(id);

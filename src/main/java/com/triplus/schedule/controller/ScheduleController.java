@@ -73,6 +73,33 @@ public class ScheduleController {
 
     }
 
+    @GetMapping(value = "/{skdNum}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public HashMap<String, Object> select(
+            @PathVariable("skdNum") int skdNum
+    ) {
+
+            HashMap<String, Object> result = new HashMap<>();
+
+            ScheduleDto scheduleDto = scheduleService.select(skdNum);
+
+            if (scheduleDto != null) {
+
+                result.put("sDate", scheduleDto.getSDate());
+                result.put("eDate", scheduleDto.getEDate());
+                result.put("days", new DateUtil().getDaysBetween(scheduleDto.getSDate().toLocalDate(), scheduleDto.getEDate().toLocalDate())+1);
+                result.put("destination", scheduleDto.getDestination());
+                result.put("result", "success");
+
+            } else {
+
+                result.put("result", "fail");
+
+            }
+
+        return result;
+
+    }
+
     @PostMapping(value = "/spots/", produces = {MediaType.APPLICATION_JSON_VALUE})
     public HashMap<String, Object> insertSpots(ArrayList<SpotDto> spotDtos) {
 
