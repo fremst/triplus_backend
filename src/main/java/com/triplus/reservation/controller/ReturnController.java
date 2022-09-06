@@ -37,7 +37,7 @@ public class ReturnController {
             Map<String, String> paramMap = new Hashtable<>();
 
             Enumeration elems = request.getParameterNames();
-            System.out.println(elems);
+//            System.out.println(elems);
 
             String temp = "";
 
@@ -46,13 +46,13 @@ public class ReturnController {
                 paramMap.put(temp, request.getParameter(temp));
             }
 
-            System.out.println("paramMap : " + paramMap);
+//            System.out.println("paramMap : " + paramMap);
 
             if ("0000".equals(paramMap.get("resultCode"))) { // 인증이 성공인 경우
 
                 out.println("####인증성공/승인요청####");
                 out.println("<br/>");
-                System.out.println("####인증성공/승인요청####");
+//                System.out.println("####인증성공/승인요청####");
 
                 //#####################
                 // 1.전문 필드 값 설정
@@ -98,7 +98,7 @@ public class ReturnController {
                 authMap.put("format", format);          // default=XML
                 authMap.put("price", price);            // 가격위변조체크기능 (선택사용)
 
-                System.out.println("##승인요청 API 요청##");
+//                System.out.println("##승인요청 API 요청##");
 
                 HttpUtil httpUtil = new HttpUtil();
 
@@ -124,7 +124,7 @@ public class ReturnController {
 
                     resultMap = ParseUtil.parseStringToMap(test); //문자열을 MAP형식으로 파싱
 
-                    System.out.println("resultMap == " + resultMap);
+//                    System.out.println("resultMap == " + resultMap);
 //                    out.println("<pre>");
 //                    out.println("<table width='565' border='0' cellspacing='0' cellpadding='0'>");
 
@@ -158,7 +158,7 @@ public class ReturnController {
                         );
                         HashMap<String, String> map = new HashMap<>();
                         map.put("oid", resultMap.get("MOID"));
-                        map.put("resSta", "예약");
+                        map.put("resSta", "대기");
                         if (reservationService.updateResSta(map) < 1) {
                             throw new Exception("예약상태 변경 실패");
                         }

@@ -38,7 +38,7 @@
         set writerid  = #{writerId},
             title     = #{title},
             contents  = #{contents},
-            timg      = #{tImg},
+            timg      = #{tImg, jdbcType=BLOB},
             hit       = #{hit},
             published = #{published}
         where brdnum = #{brdNum}
