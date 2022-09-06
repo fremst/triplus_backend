@@ -40,9 +40,9 @@ public class UserService {
         return userMapper.showId(name);
     }
 
-    public String selectPwd(String id) {
-        return userMapper.selectPwd(id);
-    }
+//    public String selectPwd(String id) {
+//        return userMapper.selectPwd(id);
+//    }
 
     public UserDto find(String id) {
         return userMapper.find(id);
@@ -56,4 +56,7 @@ public class UserService {
         return userMapper.findId(id);
     }
 
+    public UserDto identifyUser(HashMap<String, String> map) {
+        return userMapper.identifyUser(map);
+    }
 }

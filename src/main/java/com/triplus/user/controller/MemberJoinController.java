@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
 @CrossOrigin("*")
@@ -20,16 +23,32 @@ public class MemberJoinController {
     @PostMapping(value = "/api/memberjoin", produces = {MediaType.APPLICATION_JSON_VALUE})
     public HashMap<String, String> insertMember(UserDto dto) {
         //  UserDto dto = new UserDto(id, pwd, "user", name, tel, gender, addr, email, bDate, null, 'Y');
-        System.out.println(dto);
-        int n = userService.insert(dto);
-        HashMap<String, String> result = new HashMap<String, String>();
-        if (n > 0) {
-            result.put("result", "success");
-        } else {
-            result.put("result", "fail");
+
+        try {
+            System.out.println(dto);
+            String raw = dto.getPwd();
+            MessageDigest md = MessageDigest.getInstance("SHA-512");
+            md.update(raw.getBytes());
+            String hex = String.format("%0128x", new BigInteger(1, md.digest()));
+            System.out.println("hex:" + hex);
+            dto.setPwd(hex);
+
+            int n = userService.insert(dto);
+            System.out.println(n);
+            HashMap<String, String> result = new HashMap<String, String>();
+            if (n > 0) {
+                result.put("result", "success");
+            } else {
+                result.put("result", "fail");
+            }
+            return result;
+
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println(e);
+            return null;
+
         }
 
-        return result;
     }
 
 }

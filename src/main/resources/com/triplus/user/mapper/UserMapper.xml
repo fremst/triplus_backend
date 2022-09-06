@@ -42,12 +42,12 @@
         where id = #{id, jdbcType=VARCHAR}
     </update>
 
-    <!-- 비밀번호 확인용 -->
-    <select id="selectPwd" parameterType="String" resultType="String">
-        select pwd
-        from "USER"
-        where id = #{id, jdbcType=VARCHAR}
-    </select>
+    <!-- 비밀번호 확인용  /// 비밀번호 복호화X 꺼내기 불가 -->
+    <!--    <select id="selectPwd" parameterType="String" resultType="String">-->
+    <!--        select pwd-->
+    <!--        from "USER"-->
+    <!--        where id = #{id, jdbcType=VARCHAR}-->
+    <!--    </select>-->
 
     <select id="find" parameterType="String" resultType="com.triplus.user.dto.UserDto">
         select *
@@ -69,4 +69,12 @@
         from "USER"
         where id = #{id, jdbcType=VARCHAR}
     </select>
+
+    <select id="identifyUser" resultType="com.triplus.user.dto.UserDto" parameterType="hashmap">
+        select *
+        from "USER"
+        where id = #{id}
+          and pwd = #{pwd, jdbcType=VARCHAR }
+    </select>
+
 </mapper>
