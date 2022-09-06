@@ -58,7 +58,7 @@ public class ScheduleController {
 
                 System.out.println(scheduleDto);
 
-                result.put("days", new DateUtil().getDaysBetween(scheduleDto.getSDate().toLocalDate(), scheduleDto.getEDate().toLocalDate())+1);
+                result.put("days", new DateUtil().getDaysBetween(scheduleDto.getSDate().toLocalDate(), scheduleDto.getEDate().toLocalDate()) + 1);
                 result.put("result", "success");
 
             } else {
@@ -78,30 +78,51 @@ public class ScheduleController {
             @PathVariable("skdNum") int skdNum
     ) {
 
-            HashMap<String, Object> result = new HashMap<>();
+        HashMap<String, Object> result = new HashMap<>();
 
-            ScheduleDto scheduleDto = scheduleService.select(skdNum);
+        ScheduleDto scheduleDto = scheduleService.select(skdNum);
 
-            if (scheduleDto != null) {
+        if (scheduleDto != null) {
 
-                result.put("sDate", scheduleDto.getSDate());
-                result.put("eDate", scheduleDto.getEDate());
-                result.put("days", new DateUtil().getDaysBetween(scheduleDto.getSDate().toLocalDate(), scheduleDto.getEDate().toLocalDate())+1);
-                result.put("destination", scheduleDto.getDestination());
-                result.put("result", "success");
+            result.put("sDate", scheduleDto.getSDate());
+            result.put("eDate", scheduleDto.getEDate());
+            result.put("days", new DateUtil().getDaysBetween(scheduleDto.getSDate().toLocalDate(), scheduleDto.getEDate().toLocalDate()) + 1);
+            result.put("destination", scheduleDto.getDestination());
+            result.put("result", "success");
 
-            } else {
+        } else {
 
-                result.put("result", "fail");
+            result.put("result", "fail");
 
-            }
+        }
+
+        return result;
+
+    }
+
+    @PostMapping(value = "/spot/", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public HashMap<String, Object> insert(SpotDto spotDto) {
+
+        HashMap<String, Object> result = new HashMap<>();
+
+        int spotResult = spotService.insert(spotDto);
+
+        if (spotResult > 0) {
+
+            result.put("result", "success");
+
+        } else {
+
+            result.put("result", "fail");
+
+        }
 
         return result;
 
     }
 
     @PostMapping(value = "/spots/", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public HashMap<String, Object> insertSpots(ArrayList<SpotDto> spotDtos) {
+    public HashMap<String, Object> insertAll(ArrayList<SpotDto> spotDtos) {
 
         HashMap<String, Object> result = new HashMap<>();
 
@@ -109,7 +130,7 @@ public class ScheduleController {
 
         try {
 
-            spotResult = spotService.insert(spotDtos);
+            spotResult = spotService.insertAll(spotDtos);
 
         } catch (Exception e) {
 
