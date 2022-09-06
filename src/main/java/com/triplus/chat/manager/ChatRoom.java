@@ -8,7 +8,9 @@ import lombok.Data;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 @Data
 public class ChatRoom
@@ -31,12 +33,14 @@ public class ChatRoom
     public void broadcast(QnaChatDto chat) throws Exception
     {
         qnaChatService.insert(chat);
+        chat.setDate(new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 9));
         PacketData pd = new PacketData("CHAT", objectMapper.writeValueAsString(chat));
         TextMessage tm = new TextMessage(objectMapper.writeValueAsString(pd));
         for (WebSocketSession session : userList)
         {
             System.out.println("broadcast -- " + session.getId());
-            session.sendMessage(tm);
+            if (session.isOpen())
+                session.sendMessage(tm);
         }
     }
 }
