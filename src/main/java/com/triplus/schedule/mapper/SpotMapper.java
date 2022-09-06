@@ -16,7 +16,7 @@ public interface SpotMapper {
 
 //    int update(SpotDto spotDto);
 
-//    int delete(int spotNum);
+    int delete(int spotNum);
 
     int deleteAllBySkdNum(int skdNum);
 

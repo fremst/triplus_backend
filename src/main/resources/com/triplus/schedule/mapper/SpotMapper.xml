@@ -30,10 +30,10 @@
 <!--        WHERE SPOTNUM = #{spotNum}-->
 <!--    </update>-->
 
-<!--    <delete id="delete" parameterType="com.triplus.schedule.dto.SpotDto">-->
-<!--        DELETE FROM SPOT-->
-<!--        WHERE SPOTNUM = #{spotNum}-->
-<!--    </delete>-->
+    <delete id="delete" parameterType="com.triplus.schedule.dto.SpotDto">
+        DELETE FROM SPOT
+        WHERE SPOTNUM = #{spotNum}
+    </delete>
 
     <delete id="deleteAllBySkdNum" parameterType="com.triplus.schedule.dto.SpotDto">
         DELETE FROM SPOT

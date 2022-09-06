@@ -35,4 +35,16 @@ public class SpotService {
 
     }
 
+    public ArrayList<SpotDto> selectBySkdNum(int skdNum){
+
+        return spotMapper.selectBySkdNum(skdNum);
+
+    }
+
+    public int delete(int spotNum){
+
+        return spotMapper.delete(spotNum);
+
+    }
+
 }

@@ -133,4 +133,60 @@ public class ScheduleController {
 
     }
 
+    @GetMapping(value = "/spots/{skdNum}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public HashMap<String, Object> selectSpots(
+            @PathVariable("skdNum") int skdNum
+    ) {
+
+        HashMap<String, Object> result = new HashMap<>();
+
+        ArrayList<SpotDto> spotDtos = spotService.selectBySkdNum(skdNum);
+
+        if(spotDtos != null){
+
+            result.put("data", spotDtos);
+            result.put("result", "success");
+
+        }else{
+
+            result.put("result", "fail");
+
+        }
+
+        return result;
+
+    }
+
+    @DeleteMapping(value = {"/spots/{spotNum}"}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public HashMap<String, String> deleteSpot(@PathVariable("spotNum") int spotNum) {
+
+        int serviceResult = 0;
+        HashMap<String, String> result = new HashMap<>();
+
+        try {
+
+            serviceResult = spotService.delete(spotNum);
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+        } finally {
+
+            if (serviceResult > 0) {
+
+                result.put("result", "success");
+
+            } else {
+
+                result.put("result", "fail");
+
+            }
+
+        }
+
+        return result;
+
+    }
+
 }
