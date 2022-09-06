@@ -32,6 +32,13 @@ public class QnaService {
     { return qnaMapper.getPageList(); }
 
     /**
+     * 답글 유무 처리를 위한 답글 목록 취득
+     * Contents 등 무거운 데이터를 포함하지 않음
+     */
+    public ArrayList<QnaDto> getReplyList()
+    { return qnaMapper.getReplyList(); }
+
+    /**
      * brdNum이 일치하는 글의 답변이 되는 게시글 목록 취득
      * @param brdNum 검색할 게시글 번호
      */

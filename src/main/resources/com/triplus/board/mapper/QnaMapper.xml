@@ -24,10 +24,17 @@
 	</select>
 
 	<select id="getPageList" resultType="com.triplus.board.dto.QnaDto">
-		select qna.brdnum, writerId, title, wDate, hit, published
+		select qna.brdnum, category, writerId, title, wDate, hit, published
 		from qna inner join board
 			on qna.brdnum = board.brdnum
 			where qna.answernum = 0
+			order by qna.brdnum desc
+	</select>
+	<select id="getReplyList" resultType="com.triplus.board.dto.QnaDto">
+		select qna.brdnum, ANSWERNUM, category, writerId, title, wDate, hit, published
+		from qna inner join board
+			on qna.brdnum = board.brdnum
+			where qna.answernum != 0
 			order by qna.brdnum desc
 	</select>
 
