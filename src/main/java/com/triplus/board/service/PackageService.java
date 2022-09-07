@@ -56,16 +56,18 @@ public class PackageService {
         int packageResult = packageMapper.insert(packageDto);
         int pkgImgResult = 0;
 
-        for(PkgImgDto pkgImgDto:pkgImgDtos){
-                pkgImgDto.setBrdNum(brdNum);
-                pkgImgResult = pkgImgMapper.insert(pkgImgDto);
-                if(pkgImgResult < 0){
-                    break;
-                }
+        for (PkgImgDto pkgImgDto : pkgImgDtos) {
+            pkgImgDto.setBrdNum(brdNum);
+            pkgImgResult = pkgImgMapper.insert(pkgImgDto);
+            if (pkgImgResult < 0) {
+                break;
+            }
         }
 
-        if (packageResult > 0 && pkgImgResult > 0){
+        if (packageResult > 0 && pkgImgResult > 0) {
+
             return 1;
+
         } else {
             System.out.println("packageResult: " + packageResult);
             System.out.println("pkgImgResult: " + pkgImgResult);
@@ -102,19 +104,19 @@ public class PackageService {
         int pkgImgDelResult = pkgImgMapper.deleteByBrdNum(packageDto.getBrdNum());
         int pkgImgResult = 0;
 
-        if(packageResult > 0 && pkgImgDelResult > 0){
+        if (packageResult > 0 && pkgImgDelResult > 0) {
 
-            for(PkgImgDto pkgImgDto:pkgImgDtos){
+            for (PkgImgDto pkgImgDto : pkgImgDtos) {
                 pkgImgDto.setBrdNum(packageDto.getBrdNum());
                 pkgImgResult = pkgImgMapper.insert(pkgImgDto);
-                if(pkgImgResult < 0){
+                if (pkgImgResult < 0) {
                     break;
                 }
             }
 
         }
 
-        if (packageResult > 0 && pkgImgDelResult > 0 && pkgImgResult > 0){
+        if (packageResult > 0 && pkgImgDelResult > 0 && pkgImgResult > 0) {
             return 1;
 
         } else {
@@ -137,6 +139,16 @@ public class PackageService {
     public ArrayList<PackageDto> selectAllForAdmin() {
 
         return packageMapper.selectAllForAdmin();
+
+    }
+
+    public int getVacancy(PackageDto packageDto) {
+
+        HashMap<String, Object> cond = new HashMap<>();
+        cond.put("resSta", "'대기', '확정'");
+        cond.put("brdNum", packageDto.getBrdNum());
+
+        return packageDto.getRcrtCnt() - getRcrtTotCnt(cond);
 
     }
 

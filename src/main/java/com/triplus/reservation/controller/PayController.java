@@ -35,12 +35,10 @@ public class PayController {
         reservationDto.setOid(pcPayRequestData.getOid());
         reservationDto.setResSta("결제전");
 
-        reservationService.insert(reservationDto); // DB 대신 FE로 넘겨서 store에 저장하는 것 고려
-        model.addAttribute("pay", pcPayRequestData);
-
-        System.out.println(pcPayRequestData);
-
         try {
+
+            reservationService.insert(reservationDto); // DB 대신 FE로 넘겨서 store에 저장하는 것 고려
+            model.addAttribute("pay", pcPayRequestData);
 
             response.setContentType("text/html; charset=utf-8");
             PrintWriter out = response.getWriter();
@@ -68,7 +66,7 @@ public class PayController {
                     "    <input type=\"hidden\" name=\"version\" value=\"1.0\">\n" +
                     "    <input type=\"hidden\" name=\"currency\" value=\"WON\">\n" +
                     "    <input type=\"hidden\" name=\"returnUrl\" value=\"http://localhost:8082/triplus/api/v1/pay/return\">\n" +
-                    "    <input type=\"hidden\" name=\"closeUrl\" value=\"http://localhost:8082/triplus/api/v1/pay/close/"+reservationDto.getBrdNum()+"\">\n" +
+                    "    <input type=\"hidden\" name=\"closeUrl\" value=\"http://localhost:8082/triplus/api/v1/pay/close/" + reservationDto.getBrdNum() + "\">\n" +
                     "\n" +
                     "    <input type=\"hidden\" name=\"payViewType\" value=\"\">\n" +
                     "    <input type=\"hidden\" name=\"popupUrl\" value=\"http://localhost:8082/triplus/api/v1/pay/popup\">\n" +
@@ -79,8 +77,8 @@ public class PayController {
                     "</body>");
 
             // PKGCOM 테이블에 동행자 정보 추가
-            if(pkgComInfo.getPkgComName() != null){
-                for(int i=0; i<pkgComInfo.getPkgComName().length; i++){
+            if (pkgComInfo.getPkgComName() != null) {
+                for (int i = 0; i < pkgComInfo.getPkgComName().length; i++) {
                     pkgComService.insert(
                             new PkgComDto(
                                     0,
