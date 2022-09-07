@@ -14,24 +14,42 @@ public class SpotService {
     @Autowired
     private SpotMapper spotMapper;
 
+    public int insert(SpotDto spotDto) {
+
+        return spotMapper.insert(spotDto);
+
+    }
+
     @Transactional(rollbackFor = Exception.class)
-    public int insert(ArrayList<SpotDto> spotDtos) throws Exception {
+    public int insertAll(ArrayList<SpotDto> spotDtos) throws Exception {
 
         int spotResult = 0;
 
-        for(SpotDto spotDto:spotDtos){
-                spotResult = spotMapper.insert(spotDto);
-                if(spotResult < 0){
-                    break;
-                }
+        for (SpotDto spotDto : spotDtos) {
+            spotResult = spotMapper.insert(spotDto);
+            if (spotResult < 0) {
+                break;
+            }
         }
 
-        if (spotResult > 0){
+        if (spotResult > 0) {
             return 1;
         } else {
             System.out.println("spotResult: " + spotResult);
             throw new Exception("DB 오류");
         }
+
+    }
+
+    public ArrayList<SpotDto> selectBySkdNum(int skdNum) {
+
+        return spotMapper.selectBySkdNum(skdNum);
+
+    }
+
+    public int delete(int spotNum) {
+
+        return spotMapper.delete(spotNum);
 
     }
 

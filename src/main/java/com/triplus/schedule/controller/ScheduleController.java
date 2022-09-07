@@ -1,5 +1,7 @@
 package com.triplus.schedule.controller;
 
+import com.triplus.board.dto.PlaceDto;
+import com.triplus.board.service.PlaceService;
 import com.triplus.board.util.DateUtil;
 import com.triplus.schedule.dto.ScheduleDto;
 import com.triplus.schedule.dto.SpotDto;
@@ -24,6 +26,9 @@ public class ScheduleController {
 
     @Autowired
     SpotService spotService;
+
+    @Autowired
+    PlaceService placeService;
 
     @PostMapping(value = "/", produces = {MediaType.APPLICATION_JSON_VALUE})
     public HashMap<String, Object> insert(
@@ -58,7 +63,7 @@ public class ScheduleController {
 
                 System.out.println(scheduleDto);
 
-                result.put("days", new DateUtil().getDaysBetween(scheduleDto.getSDate().toLocalDate(), scheduleDto.getEDate().toLocalDate())+1);
+                result.put("days", new DateUtil().getDaysBetween(scheduleDto.getSDate().toLocalDate(), scheduleDto.getEDate().toLocalDate()) + 1);
                 result.put("result", "success");
 
             } else {
@@ -78,30 +83,51 @@ public class ScheduleController {
             @PathVariable("skdNum") int skdNum
     ) {
 
-            HashMap<String, Object> result = new HashMap<>();
+        HashMap<String, Object> result = new HashMap<>();
 
-            ScheduleDto scheduleDto = scheduleService.select(skdNum);
+        ScheduleDto scheduleDto = scheduleService.select(skdNum);
 
-            if (scheduleDto != null) {
+        if (scheduleDto != null) {
 
-                result.put("sDate", scheduleDto.getSDate());
-                result.put("eDate", scheduleDto.getEDate());
-                result.put("days", new DateUtil().getDaysBetween(scheduleDto.getSDate().toLocalDate(), scheduleDto.getEDate().toLocalDate())+1);
-                result.put("destination", scheduleDto.getDestination());
-                result.put("result", "success");
+            result.put("sDate", scheduleDto.getSDate());
+            result.put("eDate", scheduleDto.getEDate());
+            result.put("days", new DateUtil().getDaysBetween(scheduleDto.getSDate().toLocalDate(), scheduleDto.getEDate().toLocalDate()) + 1);
+            result.put("destination", scheduleDto.getDestination());
+            result.put("result", "success");
 
-            } else {
+        } else {
 
-                result.put("result", "fail");
+            result.put("result", "fail");
 
-            }
+        }
+
+        return result;
+
+    }
+
+    @PostMapping(value = "/spot/", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public HashMap<String, Object> insert(SpotDto spotDto) {
+
+        HashMap<String, Object> result = new HashMap<>();
+
+        int spotResult = spotService.insert(spotDto);
+
+        if (spotResult > 0) {
+
+            result.put("result", "success");
+
+        } else {
+
+            result.put("result", "fail");
+
+        }
 
         return result;
 
     }
 
     @PostMapping(value = "/spots/", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public HashMap<String, Object> insertSpots(ArrayList<SpotDto> spotDtos) {
+    public HashMap<String, Object> insertAll(ArrayList<SpotDto> spotDtos) {
 
         HashMap<String, Object> result = new HashMap<>();
 
@@ -109,7 +135,7 @@ public class ScheduleController {
 
         try {
 
-            spotResult = spotService.insert(spotDtos);
+            spotResult = spotService.insertAll(spotDtos);
 
         } catch (Exception e) {
 
@@ -118,6 +144,83 @@ public class ScheduleController {
         } finally {
 
             if (spotResult > 0) {
+
+                result.put("result", "success");
+
+            } else {
+
+                result.put("result", "fail");
+
+            }
+
+        }
+
+        return result;
+
+    }
+
+    @GetMapping(value = "/spots/{skdNum}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public HashMap<String, Object> selectSpots(
+            @PathVariable("skdNum") int skdNum
+    ) {
+
+        HashMap<String, Object> result = new HashMap<>();
+
+        ArrayList<SpotDto> spotDtos = spotService.selectBySkdNum(skdNum);
+
+        if (spotDtos != null) {
+
+            result.put("result", "success");
+
+            ArrayList<HashMap<String, Object>> data = new ArrayList<>();
+
+            for (SpotDto spotDto : spotDtos) {
+
+                HashMap<String, Object> spotMap = new HashMap<>();
+
+                spotMap.put("spotNum", spotDto.getSpotNum());
+                spotMap.put("skdNum", spotDto.getSkdNum());
+                spotMap.put("day", spotDto.getDay());
+                spotMap.put("memo", spotDto.getMemo());
+
+                PlaceDto placeDto = placeService.select(spotDto.getBrdNum());
+                spotMap.put("title", placeDto.getTitle());
+                spotMap.put("mapx", placeDto.getMapx());
+                spotMap.put("mapy", placeDto.getMapy());
+
+                data.add(spotMap);
+
+            }
+
+            result.put("data", data);
+
+        } else {
+
+            result.put("result", "fail");
+
+        }
+
+        return result;
+
+    }
+
+    @DeleteMapping(value = {"/spots/{spotNum}"}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public HashMap<String, String> deleteSpot(@PathVariable("spotNum") int spotNum) {
+
+        int serviceResult = 0;
+        HashMap<String, String> result = new HashMap<>();
+
+        try {
+
+            serviceResult = spotService.delete(spotNum);
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+        } finally {
+
+            if (serviceResult > 0) {
 
                 result.put("result", "success");
 
