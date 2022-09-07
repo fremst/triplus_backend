@@ -110,10 +110,13 @@ public class ScheduleController {
 
         HashMap<String, Object> result = new HashMap<>();
 
-        int spotResult = spotService.insert(spotDto);
+        HashMap<String, Integer> insertResult = spotService.insertAndReturn(spotDto);
+
+        int spotResult = insertResult.get("result");
 
         if (spotResult > 0) {
 
+            result.put("spotNum", insertResult.get("spotNum"));
             result.put("result", "success");
 
         } else {

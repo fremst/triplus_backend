@@ -10,6 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
 
@@ -23,7 +24,7 @@ public class SpotServiceTest {
     private SpotService spotService;
 
     @Test
-    public void insert() throws Exception {
+    public void insertAll() throws Exception {
 
         int skdNum = 1;
 
@@ -49,8 +50,27 @@ public class SpotServiceTest {
 
         int n = spotService.insertAll(spotDtos);
 
+        System.out.println(spotDtos);
+
         logger.info("n: " + n);
         assertEquals(1, n);
+
+    }
+
+    @Test
+    public void insertAndReturn() throws Exception {
+
+        int skdNum = 1;
+
+        int day = 1;
+        String memo = "test";
+        int brdNum = 130;
+        SpotDto spotDto = new SpotDto(0, skdNum, day, memo, brdNum);
+
+        HashMap<String, Integer> result = spotService.insertAndReturn(spotDto);
+
+        logger.info("result: " + result);
+        assertEquals(1, (int) result.get("result"));
 
     }
 

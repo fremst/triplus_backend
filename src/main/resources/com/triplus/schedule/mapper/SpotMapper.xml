@@ -4,16 +4,17 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.triplus.schedule.mapper.SpotMapper">
 
-    <insert id="insert" parameterType="com.triplus.schedule.dto.SpotDto">
+    <insert id="insert" parameterType="com.triplus.schedule.dto.SpotDto" useGeneratedKeys="true" keyProperty="spotNum"
+            keyColumn="SPOTNUM">
         INSERT INTO SPOT(SPOTNUM, SKDNUM, DAY, BRDNUM, MEMO)
         VALUES (SPOT_SEQ.NEXTVAL, #{skdNum}, #{day}, #{brdNum}, #{memo})
     </insert>
 
-<!--    <select id="select" parameterType="int" resultType="com.triplus.schedule.dto.SpotDto">-->
-<!--        SELECT *-->
-<!--        FROM SPOT-->
-<!--        WHERE SPOTNUM = #{spotNum}-->
-<!--    </select>-->
+    <!--    <select id="select" parameterType="int" resultType="com.triplus.schedule.dto.SpotDto">-->
+    <!--        SELECT *-->
+    <!--        FROM SPOT-->
+    <!--        WHERE SPOTNUM = #{spotNum}-->
+    <!--    </select>-->
 
     <select id="selectBySkdNum" parameterType="int" resultType="com.triplus.schedule.dto.SpotDto">
         SELECT *
@@ -21,22 +22,24 @@
         WHERE SKDNUM = #{skdNum}
     </select>
 
-<!--    <update id="update" parameterType="com.triplus.schedule.dto.SpotDto">-->
-<!--        UPDATE SPOT-->
-<!--        SET SKDNUM = #{skdNum},-->
-<!--            DAY = #{day},-->
-<!--            BRDNUM = #{brdNum},-->
-<!--            MEMO = #{memo}-->
-<!--        WHERE SPOTNUM = #{spotNum}-->
-<!--    </update>-->
+    <!--    <update id="update" parameterType="com.triplus.schedule.dto.SpotDto">-->
+    <!--        UPDATE SPOT-->
+    <!--        SET SKDNUM = #{skdNum},-->
+    <!--            DAY = #{day},-->
+    <!--            BRDNUM = #{brdNum},-->
+    <!--            MEMO = #{memo}-->
+    <!--        WHERE SPOTNUM = #{spotNum}-->
+    <!--    </update>-->
 
     <delete id="delete" parameterType="com.triplus.schedule.dto.SpotDto">
-        DELETE FROM SPOT
+        DELETE
+        FROM SPOT
         WHERE SPOTNUM = #{spotNum}
     </delete>
 
     <delete id="deleteAllBySkdNum" parameterType="com.triplus.schedule.dto.SpotDto">
-        DELETE FROM SPOT
+        DELETE
+        FROM SPOT
         WHERE SKDNUM = #{skdNum}
     </delete>
 
