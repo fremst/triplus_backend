@@ -29,7 +29,18 @@ public class QnaController {
 
     @GetMapping(value = "/api/service/qna", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ArrayList<QnaDto> getList() {
-        return qnaService.getPageList();
+        ArrayList<QnaDto> list = qnaService.getPageList();
+        ArrayList<QnaDto> answers = qnaService.getReplyList();
+        for (QnaDto dto : list)
+        {
+            int answerCount = 0;
+            for (QnaDto answer : answers)
+                answerCount += answer.getAnswerNum() == dto.getBrdNum() ? 1 : 0;
+            if (answerCount > 0)
+                dto.setTitle(dto.getTitle() + " [" + answerCount + "]");
+        }
+
+        return list;
     }
 
     @GetMapping(value = "/api/service/qna/{brdNum}/reply", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -47,6 +58,7 @@ public class QnaController {
                 // 유효성 검사
                 UserDto user = VerifyUtils.checkToken(userService, id, token);
                 if (user != null && user.getId().equals(qnaDto.getWriterId())) {
+                    boardService.updateHit(brdNum);
                     qnaDto.setPublished(true);
                 }
             }
@@ -54,6 +66,8 @@ public class QnaController {
             if (!qnaDto.isPublished())
                 qnaDto.setContents("");
         }
+        else
+            boardService.updateHit(brdNum);
         return qnaDto;
     }
 
@@ -68,6 +82,7 @@ public class QnaController {
         try {
             qnaDto = qnaService.selectPwd(qnaDto);
             if (qnaDto != null) {
+                boardService.updateHit(brdNum);
                 map.put("result", true);
                 map.put("article", qnaDto);
             }
