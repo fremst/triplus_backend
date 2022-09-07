@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
 @CrossOrigin("*")
@@ -89,14 +92,29 @@ public class IdentifyController {
 
     //마이페이지 비밀번호 확인
     @RequestMapping(value = "/member/identifypwd", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public HashMap<String, String> identifyPwd(String id) {
-        String realPwd = userService.selectPwd(id);
-        System.out.println(realPwd);
+    public HashMap<String, String> identifyPwd(String id, String pwd) {
+        System.out.println(id + "--------" + pwd);
+        HashMap<String, String> map1 = new HashMap<String, String>();
+        map1.put("id", id);
+        try {
+            String raw = pwd;
+            MessageDigest md = MessageDigest.getInstance("SHA-512");
+            md.update(raw.getBytes());
+            String hex = String.format("%0128x", new BigInteger(1, md.digest()));
+            System.out.println("hex:" + hex);
+
+            map1.put("pwd", hex);
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println(e);
+        }
+
+        UserDto dto = userService.identifyUser(map1);
+        System.out.println(dto);
         HashMap<String, String> map = new HashMap<String, String>();
 
-        if (realPwd != null) {
+        if (dto != null) {
             map.put("result", "success");
-            map.put("pwd", realPwd);
+
         } else {
             map.put("result", "fail");
         }

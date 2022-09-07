@@ -22,12 +22,14 @@ public interface UserMapper {
 
     int changePwd(HashMap<String, String> map);
 
-    String selectPwd(String id);
+//    String selectPwd(String id);
 
     UserDto find(String id);
 
     int update(UserDto dto);
 
     String findId(String id);
+
+    UserDto identifyUser(HashMap<String, String> map);
 
 }

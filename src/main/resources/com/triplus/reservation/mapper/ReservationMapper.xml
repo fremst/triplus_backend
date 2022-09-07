@@ -55,6 +55,7 @@
         where b.brdNum = p.brdNum
           and p.brdNum = r.brdNum
           and r.brdNum IN (select r.brdNum from RESERVATION r where id = #{id})
+          and id = #{id}
     </select>
 
     <select id="myreservationCnt" parameterType="String" resultType="int">
