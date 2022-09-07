@@ -9,6 +9,8 @@ import com.triplus.board.service.ScatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +39,7 @@ public class PlaceController {
 
     }
 
-    @GetMapping(value="/myplaces/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "/myplaces/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ArrayList<PlaceDto> selectAllById(@PathVariable("id") String id) {
 
         return placeService.selectAllById(id);
@@ -129,9 +131,9 @@ public class PlaceController {
     }
 
     @PostMapping(value = {"/attraction/", "/restaurant/", "/accommodation/", "/myplaces/"}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public HashMap<String, Object> insert(PlaceRequestData placeRequestData) {
+    public HashMap<String, Object> insert(MultipartHttpServletRequest request, PlaceRequestData placeRequestData) {
 
-        if(placeRequestData.getWriterId() == null){
+        if (placeRequestData.getWriterId() == null) {
             placeRequestData.setWriterId("admin");
         }
 
@@ -142,7 +144,8 @@ public class PlaceController {
         scatMap.put("mcatNum", mcatNum);
         int scatNum = scatService.getScatNum(scatMap);
 
-        int serviceResult = 0;
+        MultipartFile tImgFile = request.getFile("tImgFile");
+
         HashMap<String, Object> result = new HashMap<>();
         PlaceDto placeDto = new PlaceDto(
                 0,
@@ -161,9 +164,14 @@ public class PlaceController {
                 placeRequestData.getMapx(),
                 placeRequestData.getMapy(),
                 placeRequestData.getHomepage()
-            );
+        );
+
+        int serviceResult = 0;
 
         try {
+
+            assert tImgFile != null;
+            placeRequestData.setFirstimage(tImgFile.getBytes());
 
             serviceResult = placeService.insert(placeDto);
 
@@ -190,10 +198,14 @@ public class PlaceController {
 
     }
 
-    @PutMapping(value = {"/attraction/{brdNum}", "/restaurant/{brdNum}", "/accommodation/{brdNum}"}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public HashMap<String, String> update(@PathVariable("brdNum") int brdNum, @RequestBody PlaceRequestData placeRequestData) {
+    @PostMapping(value = {"/attraction/{brdNum}", "/restaurant/{brdNum}", "/accommodation/{brdNum}"}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public HashMap<String, String> update(
+            @PathVariable("brdNum") int brdNum,
+            MultipartHttpServletRequest request,
+            PlaceRequestData placeRequestData
+    ) {
 
-        if(placeRequestData.getWriterId() == null){
+        if (placeRequestData.getWriterId() == null) {
             placeRequestData.setWriterId("admin");
         }
 
@@ -204,31 +216,36 @@ public class PlaceController {
         scatMap.put("mcatNum", mcatNum);
         int scatNum = scatService.getScatNum(scatMap);
 
+        MultipartFile tImgFile = request.getFile("tImgFile");
+
         int serviceResult = 0;
         HashMap<String, String> result = new HashMap<>();
 
         try {
 
-            serviceResult = placeService.update(
-                    new PlaceDto(
-                            brdNum,
-                            placeRequestData.getWriterId(),
-                            placeRequestData.getTitle(),
-                            placeRequestData.getOverview(),
-                            placeRequestData.getFirstimage(),
-                            null,
-                            boardService.select(brdNum).getHit(),
-                            placeRequestData.isPublished(),
-                            mcatNum,
-                            scatNum,
-                            placeRequestData.getRegion(),
-                            placeRequestData.getAddr(),
-                            placeRequestData.getTel(),
-                            placeRequestData.getMapx(),
-                            placeRequestData.getMapy(),
-                            placeRequestData.getHomepage()
-                    )
+            PlaceDto placeDto = new PlaceDto(
+                    brdNum,
+                    placeRequestData.getWriterId(),
+                    placeRequestData.getTitle(),
+                    placeRequestData.getOverview(),
+                    placeRequestData.getFirstimage(),
+                    null,
+                    boardService.select(brdNum).getHit(),
+                    placeRequestData.isPublished(),
+                    mcatNum,
+                    scatNum,
+                    placeRequestData.getRegion(),
+                    placeRequestData.getAddr(),
+                    placeRequestData.getTel(),
+                    placeRequestData.getMapx(),
+                    placeRequestData.getMapy(),
+                    placeRequestData.getHomepage()
             );
+
+            assert tImgFile != null;
+            placeDto.setTImg(tImgFile.getBytes());
+
+            serviceResult = placeService.update(placeDto);
 
         } catch (Exception e) {
 
@@ -237,9 +254,13 @@ public class PlaceController {
         } finally {
 
             if (serviceResult > 0) {
+
                 result.put("result", "success");
+
             } else {
+
                 result.put("result", "fail");
+
             }
 
         }
