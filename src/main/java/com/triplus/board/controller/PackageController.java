@@ -48,7 +48,7 @@ public class PackageController {
             map.put("tImg", packageDto.getTImg());
             map.put("region", packageDto.getRegion());
 
-            int vacancy = getVacancy(packageDto, packageDto.getBrdNum());
+            int vacancy = packageService.getVacancy(packageDto);
             int rcrtCnt = packageDto.getRcrtCnt();
             String rcrtSta = getRecrtSta(packageDto.getSDate().toLocalDate(), vacancy, rcrtCnt);
             map.put("rcrtSta", rcrtSta);
@@ -83,10 +83,10 @@ public class PackageController {
 
         for (PackageDto packageDto : packageDtos) {
 
-            int vacancy = getVacancy(packageDto, packageDto.getBrdNum());
+            int vacancy = packageService.getVacancy(packageDto);
             int rcrtCnt = packageDto.getRcrtCnt();
 
-            if(rcrtSta.equals(getRecrtSta(packageDto.getSDate().toLocalDate(), vacancy, rcrtCnt))){
+            if (rcrtSta.equals(getRecrtSta(packageDto.getSDate().toLocalDate(), vacancy, rcrtCnt))) {
                 HashMap<String, Object> map = new HashMap<>();
                 map.put("brdNum", packageDto.getBrdNum());
                 map.put("title", packageDto.getTitle());
@@ -98,7 +98,7 @@ public class PackageController {
                 map.put("rcrtCnt", packageDto.getRcrtCnt());
                 map.put("vacancy", vacancy);
 
-                map.put("resList",reservationService.selectByBrdNum(packageDto.getBrdNum()));
+                map.put("resList", reservationService.selectByBrdNum(packageDto.getBrdNum()));
 
                 data.add(map);
 
@@ -123,7 +123,7 @@ public class PackageController {
         HashMap<String, Object> map = new HashMap<>();
 
         map.put("period", new DateUtil().getPeriod(packageDto.getSDate().toLocalDate(), packageDto.getEDate().toLocalDate()));
-        map.put("vacancy", getVacancy(packageDto, packageDto.getBrdNum()));
+        map.put("vacancy", packageService.getVacancy(packageDto));
 
         ArrayList<PkgImgDto> pkgImgDtos = pkgImgMapper.selectByBrdNum(brdNum);
 
@@ -147,7 +147,7 @@ public class PackageController {
 
             ArrayList<PkgImgDto> pkgImgDtos = new ArrayList<>();
 
-            for(MultipartFile pkgImgFile:pkgImgFiles){
+            for (MultipartFile pkgImgFile : pkgImgFiles) {
 
                 PkgImgDto pkgImgDto = new PkgImgDto(
                         0,
@@ -185,7 +185,7 @@ public class PackageController {
             @PathVariable("brdNum") int brdNum,
             MultipartHttpServletRequest request,
             PackageDto packageDto
-            ) {
+    ) {
 
         HashMap<String, Object> result = new HashMap<>();
 
@@ -196,7 +196,7 @@ public class PackageController {
 
             ArrayList<PkgImgDto> pkgImgDtos = new ArrayList<>();
 
-            for(MultipartFile pkgImgFile:pkgImgFiles){
+            for (MultipartFile pkgImgFile : pkgImgFiles) {
                 PkgImgDto pkgImgDto = new PkgImgDto(
                         0,
                         0,
@@ -227,17 +227,7 @@ public class PackageController {
         return result;
 
     }
-
-    private int getVacancy(PackageDto packageDto, int brdNum) {
-
-        HashMap<String, Object> cond = new HashMap<>();
-        cond.put("resSta", "'대기', '확정'");
-        cond.put("brdNum", brdNum);
-
-        return packageDto.getRcrtCnt() - packageService.getRcrtTotCnt(cond);
-
-    }
-
+    
     private String getRecrtSta(LocalDate sDate, int vacancy, int rcrtCnt) {
 
         int remDays = new DateUtil().getDaysBetween(LocalDate.now(), sDate);
