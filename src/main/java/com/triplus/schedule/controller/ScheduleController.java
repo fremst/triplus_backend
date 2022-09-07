@@ -1,5 +1,7 @@
 package com.triplus.schedule.controller;
 
+import com.triplus.board.dto.PlaceDto;
+import com.triplus.board.service.PlaceService;
 import com.triplus.board.util.DateUtil;
 import com.triplus.schedule.dto.ScheduleDto;
 import com.triplus.schedule.dto.SpotDto;
@@ -24,6 +26,9 @@ public class ScheduleController {
 
     @Autowired
     SpotService spotService;
+
+    @Autowired
+    PlaceService placeService;
 
     @PostMapping(value = "/", produces = {MediaType.APPLICATION_JSON_VALUE})
     public HashMap<String, Object> insert(
@@ -163,12 +168,33 @@ public class ScheduleController {
 
         ArrayList<SpotDto> spotDtos = spotService.selectBySkdNum(skdNum);
 
-        if(spotDtos != null){
+        if (spotDtos != null) {
 
-            result.put("data", spotDtos);
             result.put("result", "success");
 
-        }else{
+            ArrayList<HashMap<String, Object>> data = new ArrayList<>();
+
+            for (SpotDto spotDto : spotDtos) {
+
+                HashMap<String, Object> spotMap = new HashMap<>();
+
+                spotMap.put("spotNum", spotDto.getSpotNum());
+                spotMap.put("skdNum", spotDto.getSkdNum());
+                spotMap.put("day", spotDto.getDay());
+                spotMap.put("memo", spotDto.getMemo());
+
+                PlaceDto placeDto = placeService.select(spotDto.getBrdNum());
+                spotMap.put("title", placeDto.getTitle());
+                spotMap.put("mapx", placeDto.getMapx());
+                spotMap.put("mapy", placeDto.getMapy());
+
+                data.add(spotMap);
+
+            }
+
+            result.put("data", data);
+
+        } else {
 
             result.put("result", "fail");
 
