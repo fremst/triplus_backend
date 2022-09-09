@@ -26,7 +26,7 @@ public class SpotService {
         HashMap<String, Integer> result = new HashMap<>();
 
         result.put("result", spotMapper.insert(spotDto));
-        result.put("spotNum", spotDto.getBrdNum());
+        result.put("spotNum", spotDto.getSpotNum());
 
         return result;
 
