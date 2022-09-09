@@ -44,7 +44,7 @@ public class PlaceService {
         } else {
             System.out.println("boardResult: " + boardResult);
             System.out.println("placeResult: " + placeResult);
-            throw new Exception("dB 오류");
+            throw new Exception("DB 오류");
         }
 
     }
@@ -60,7 +60,7 @@ public class PlaceService {
         } else {
             System.out.println("placeResult: " + placeResult);
             System.out.println("boardResult: " + boardResult);
-            throw new Exception("dB 오류");
+            throw new Exception("DB 오류");
         }
 
     }
@@ -104,7 +104,7 @@ public class PlaceService {
         } else {
             System.out.println("boardResult: " + boardResult);
             System.out.println("placeResult: " + placeResult);
-            throw new Exception("dB 오류");
+            throw new Exception("DB 오류");
         }
 
     }

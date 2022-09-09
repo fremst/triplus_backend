@@ -170,8 +170,9 @@ public class PlaceController {
 
         try {
 
-            assert tImgFile != null;
-            placeRequestData.setFirstimage(tImgFile.getBytes());
+            if (tImgFile != null) {
+                placeDto.setTImg(tImgFile.getBytes());
+            }
 
             serviceResult = placeService.insert(placeDto);
 
@@ -242,8 +243,9 @@ public class PlaceController {
                     placeRequestData.getHomepage()
             );
 
-            assert tImgFile != null;
-            placeDto.setTImg(tImgFile.getBytes());
+            if (tImgFile != null) {
+                placeDto.setTImg(tImgFile.getBytes());
+            }
 
             serviceResult = placeService.update(placeDto);
 
