@@ -105,6 +105,38 @@ public class ScheduleController {
 
     }
 
+    @DeleteMapping(value = {"/{skdNum}"}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public HashMap<String, String> deleteSchedule(@PathVariable("skdNum") int skdNum) {
+
+        int serviceResult = 0;
+        HashMap<String, String> result = new HashMap<>();
+
+        try {
+
+            serviceResult = scheduleService.delete(skdNum);
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+        } finally {
+
+            if (serviceResult > 0) {
+
+                result.put("result", "success");
+
+            } else {
+
+                result.put("result", "fail");
+
+            }
+
+        }
+
+        return result;
+
+    }
+
     @PostMapping(value = "/spot/", produces = {MediaType.APPLICATION_JSON_VALUE})
     public HashMap<String, Object> insert(SpotDto spotDto) {
 

@@ -15,7 +15,7 @@ public interface ScheduleMapper {
 //
 //    int update(ScheduleDto scheduleDto);
 //
-//    int delete(int skdNum);
+    int delete(int skdNum);
 
     List<ScheduleDto> selectMySkd(String id);
 

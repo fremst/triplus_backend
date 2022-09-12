@@ -18,6 +18,4 @@ public interface SpotMapper {
 
     int delete(int spotNum);
 
-    int deleteAllBySkdNum(int skdNum);
-
 }
