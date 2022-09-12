@@ -18,7 +18,12 @@ public class ExpenseController {
     @GetMapping(value = "/api/member/plan/{skdNum}/expense", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ExpenseDto getExpense(@PathVariable int skdNum)
     {
-        return expenseService.select(skdNum);
+        ExpenseDto dto = expenseService.select(skdNum);
+        if (dto == null) {
+            dto = new ExpenseDto(skdNum, "[]");
+            expenseService.insert(dto);
+        }
+        return dto;
     }
 
     @PutMapping(value = "/api/member/plan/{skdNum}/expense", produces = {MediaType.APPLICATION_JSON_VALUE})
