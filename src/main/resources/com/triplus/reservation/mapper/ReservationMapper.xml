@@ -32,11 +32,23 @@
         where BRDNUM = #{brdNum}
     </select>
 
+    <select id="selectByBrdNumAndId" parameterType="hashmap" resultType="com.triplus.reservation.dto.ReservationDto">
+        SELECT *
+        FROM RESERVATION
+        WHERE BRDNUM = #{brdNum} AND ID = #{id};
+    </select>
+
     <update id="updateResSta" parameterType="hashmap">
         UPDATE RESERVATION
         SET RESSTA = #{resSta}
         where OID = #{oid}
     </update>
+
+    <select id="getCountByResSta" parameterType="string" resultType="int">
+        SELECT COUNT(*)
+        FROM RESERVATION
+        WHERE RESSTA = #{resSta}
+    </select>
 
     <select id="getRcrtCnt" parameterType="hashmap" resultType="int">
         SELECT COUNT(*)
@@ -44,7 +56,6 @@
         WHERE BRDNUM = #{brdNum}
           AND RESSTA IN (${resSta})
     </select>
-
 
     <!-- 내 예약 보기  -->
     <select id="selectWant" resultType="hashmap">

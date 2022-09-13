@@ -2,8 +2,6 @@ package com.triplus.reservation.controller;
 
 import com.triplus.board.dto.PackageDto;
 import com.triplus.board.dto.PkgComDto;
-import com.triplus.board.dto.PlaceDto;
-import com.triplus.board.dto.PlaceRequestData;
 import com.triplus.board.service.PackageService;
 import com.triplus.board.service.PkgComService;
 import com.triplus.board.util.DateUtil;
@@ -65,8 +63,22 @@ public class ReservationController {
 
     }
 
+    @GetMapping(value = "/reservation/status/{resSta}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public HashMap<String, Object> getCountByResSta(
+            @PathVariable("resSta") String resSta
+    ) {
+
+        HashMap<String, Object> data = new HashMap<>();
+
+        int n = reservationService.getCountByResSta(resSta);
+        data.put("n", n);
+
+        return data;
+
+    }
+
     @PutMapping(value = {"/reservations/{oid}"}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public HashMap<String, String> update(@PathVariable("oid") String oid, @RequestBody HashMap<String,String> resStaMap) {
+    public HashMap<String, String> update(@PathVariable("oid") String oid, @RequestBody HashMap<String, String> resStaMap) {
 
         String resSta = resStaMap.get("resSta");
 
