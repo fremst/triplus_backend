@@ -271,7 +271,7 @@ public class PlaceController {
 
     }
 
-    @DeleteMapping(value = {"/attraction/{brdNum}", "/restaurant/{brdNum}", "/accommodation/{brdNum}"}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @DeleteMapping(value = {"/attraction/{brdNum}", "/restaurant/{brdNum}", "/accommodation/{brdNum}", "/myplaces/{brdNum}"}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public HashMap<String, String> delete(@PathVariable("brdNum") int brdNum) {
 
         int serviceResult = 0;

@@ -59,5 +59,11 @@ public class ScheduleService {
         return scheduleMapper.skdCnt(id);
         
     }
+
+    public int delete(int skdNum) {
+
+        return scheduleMapper.delete(skdNum);
+
+    }
     
 }

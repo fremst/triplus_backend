@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 @Service
 public class SpotService {
@@ -17,6 +18,17 @@ public class SpotService {
     public int insert(SpotDto spotDto) {
 
         return spotMapper.insert(spotDto);
+
+    }
+
+    public HashMap<String, Integer> insertAndReturn(SpotDto spotDto) {
+
+        HashMap<String, Integer> result = new HashMap<>();
+
+        result.put("result", spotMapper.insert(spotDto));
+        result.put("spotNum", spotDto.getSpotNum());
+
+        return result;
 
     }
 

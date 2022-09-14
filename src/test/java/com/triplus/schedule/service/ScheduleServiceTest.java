@@ -44,4 +44,15 @@ public class ScheduleServiceTest {
 
     }
 
+
+    @Test
+    public void delete() {
+
+        int skdNum = 128;
+        int n = scheduleService.delete(skdNum);
+        logger.info("n: " + n);
+        assertTrue(n > 0);
+
+    }
+
 }

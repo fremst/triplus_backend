@@ -35,9 +35,4 @@
         WHERE SPOTNUM = #{spotNum}
     </delete>
 
-    <delete id="deleteAllBySkdNum" parameterType="com.triplus.schedule.dto.SpotDto">
-        DELETE FROM SPOT
-        WHERE SKDNUM = #{skdNum}
-    </delete>
-
 </mapper>

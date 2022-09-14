@@ -46,14 +46,4 @@ public class SpotMapperTest {
 
     }
 
-    @Test
-    public void deleteAllBySkdNum() {
-
-        int skdNum = 1;
-        int n = spotMapper.deleteAllBySkdNum(skdNum);
-        logger.info("n: " + n);
-        assertTrue(n > 0);
-
-    }
-
 }

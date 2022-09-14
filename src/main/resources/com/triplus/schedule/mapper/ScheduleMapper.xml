@@ -19,11 +19,11 @@
   <!--        VALUES (#{skdNum}, #{sDate}, #{eDate}, #{destination})-->
   <!--    </insert>-->
 
-      <select id="select" parameterType="int" resultType="com.triplus.schedule.dto.ScheduleDto">
-          SELECT *
-          FROM SCHEDULE
-          WHERE SKDNUM = #{skdNum}
-      </select>
+  <select id="select" parameterType="int" resultType="com.triplus.schedule.dto.ScheduleDto">
+      SELECT *
+      FROM SCHEDULE
+      WHERE SKDNUM = #{skdNum}
+  </select>
 
   <!--    <update id="update" parameterType="com.triplus.schedule.dto.ScheduleDto">-->
   <!--        UPDATE SCHEDULE-->
@@ -33,10 +33,10 @@
   <!--        WHERE SKDNUM = #{skdNum}-->
   <!--    </update>-->
 
-  <!--    <delete id="delete" parameterType="com.triplus.schedule.dto.ScheduleDto">-->
-  <!--        DELETE FROM SCHEDULE-->
-  <!--        WHERE SKDNUM = #{skdNum}-->
-  <!--    </delete>-->
+  <delete id="delete" parameterType="int">
+      DELETE FROM SCHEDULE
+      WHERE SKDNUM = #{skdNum}
+  </delete>
 
   <select id="selectMySkd" resultType="com.triplus.schedule.dto.ScheduleDto" parameterType="String">
       select *
