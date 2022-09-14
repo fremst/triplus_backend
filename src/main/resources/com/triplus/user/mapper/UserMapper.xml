@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.triplus.user.mapper.UserMapper">
+    <insert id="insert" parameterType="com.triplus.user.dto.UserDto">
+        insert into "USER"
+        values (#{id}, #{pwd}, #{auth}, #{name}, #{tel}, #{gender}, #{addr}, #{email}, #{bDate, jdbcType=DATE },
+                sysdate, #{active})
+    </insert>
+
+    <select id="login" parameterType="hashmap" resultType="com.triplus.user.dto.UserDto">
+        select *
+        from "USER"
+        where id = #{id, jdbcType=VARCHAR}
+          and pwd = #{pwd, jdbcType=VARCHAR}
+    </select>
+
+
+    <select id="identify" parameterType="hashmap" resultType="com.triplus.user.dto.UserDto">
+        select *
+        from "USER"
+        where name = #{name, jdbcType=VARCHAR}
+          and email = #{email, jdbcType=VARCHAR}
+    </select>
+
+    <select id="identifyId" resultType="com.triplus.user.dto.UserDto">
+        select *
+        from "USER"
+        where id = #{id, jdbcType=VARCHAR}
+    </select>
+
+    <select id="showId" parameterType="String" resultType="com.triplus.user.dto.UserDto">
+        select *
+        from "USER"
+        where name = #{name , jdbcType=VARCHAR}
+    </select>
+
+    <update id="changePwd" parameterType="hashmap">
+        update "USER"
+        set pwd = #{pwd, jdbcType=VARCHAR}
+        where id = #{id, jdbcType=VARCHAR}
+    </update>
+
+    <!-- 비밀번호 확인용  /// 비밀번호 복호화X 꺼내기 불가 -->
+    <!--    <select id="selectPwd" parameterType="String" resultType="String">-->
+    <!--        select pwd-->
+    <!--        from "USER"-->
+    <!--        where id = #{id, jdbcType=VARCHAR}-->
+    <!--    </select>-->
+
+    <select id="find" parameterType="String" resultType="com.triplus.user.dto.UserDto">
+        select *
+        from "USER"
+        where id = #{id}
+    </select>
+
+    <update id="update" parameterType="com.triplus.user.dto.UserDto">
+        update "USER"
+        set name  = #{name},
+            tel   = #{tel},
+            addr  = #{addr},
+            email = #{email}
+        where id = #{id}
+    </update>
+
+    <select id="findId" resultType="String" parameterType="String">
+        select id
+        from "USER"
+        where id = #{id, jdbcType=VARCHAR}
+    </select>
+
+    <select id="identifyUser" resultType="com.triplus.user.dto.UserDto" parameterType="hashmap">
+        select *
+        from "USER"
+        where id = #{id}
+          and pwd = #{pwd, jdbcType=VARCHAR }
+    </select>
+
+</mapper>

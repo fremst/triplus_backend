@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.triplus.reservation.mapper.ReservationMapper">
+
+    <insert id="insert" parameterType="com.triplus.reservation.dto.ReservationDto">
+        <choose>
+            <when test="cpnNum != null and cpnNum > 0">
+                INSERT INTO RESERVATION (OID, BRDNUM, ID, BOOKERNAME, BOOKEREMAIL, BOOKERTEL, CPNNUM, RESSTA)
+                VALUES (#{oid}, #{brdNum}, #{id}, #{bookerName}, #{bookerEmail}, #{bookerTel}, #{cpnNum},
+                #{resSta})
+            </when>
+            <otherwise>
+                INSERT INTO RESERVATION (OID, BRDNUM, ID, BOOKERNAME, BOOKEREMAIL, BOOKERTEL, CPNNUM, RESSTA)
+                VALUES (#{oid}, #{brdNum}, #{id}, #{bookerName}, #{bookerEmail}, #{bookerTel}, null,
+                #{resSta})
+            </otherwise>
+        </choose>
+
+    </insert>
+
+    <select id="select" parameterType="string" resultType="com.triplus.reservation.dto.ReservationDto">
+        SELECT *
+        FROM RESERVATION
+        where OID = #{oid}
+    </select>
+
+    <select id="selectByBrdNum" parameterType="int" resultType="com.triplus.reservation.dto.ReservationDto">
+        SELECT *
+        FROM RESERVATION
+        where BRDNUM = #{brdNum}
+    </select>
+
+    <select id="selectByBrdNumAndId" parameterType="hashmap" resultType="com.triplus.reservation.dto.ReservationDto">
+        SELECT *
+        FROM RESERVATION
+        WHERE BRDNUM = #{brdNum} AND ID = #{id};
+    </select>
+
+    <update id="updateResSta" parameterType="hashmap">
+        UPDATE RESERVATION
+        SET RESSTA = #{resSta}
+        where OID = #{oid}
+    </update>
+
+    <select id="getCountByResSta" parameterType="string" resultType="int">
+        SELECT COUNT(*)
+        FROM RESERVATION
+        WHERE RESSTA = #{resSta}
+    </select>
+
+    <select id="getRcrtCnt" parameterType="hashmap" resultType="int">
+        SELECT COUNT(*)
+        FROM RESERVATION
+        WHERE BRDNUM = #{brdNum}
+          AND RESSTA IN (${resSta})
+    </select>
+
+    <!-- 내 예약 보기  -->
+    <select id="selectWant" resultType="hashmap">
+        select b.title, p.sdate, p.edate, r.oid, r.RESSTA
+        from board b,
+             package p,
+             reservation r
+        where b.brdNum = p.brdNum
+          and p.brdNum = r.brdNum
+          and r.brdNum IN (select r.brdNum from RESERVATION r where id = #{id})
+          and id = #{id}
+    </select>
+
+    <select id="myreservationCnt" parameterType="String" resultType="int">
+        SELECT COUNT(*)
+        FROM RESERVATION
+        WHERE id = #{id}
+
+    </select>
+
+</mapper>

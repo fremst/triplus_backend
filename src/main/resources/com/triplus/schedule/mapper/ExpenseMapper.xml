@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.triplus.schedule.mapper.ExpenseMapper">
+	<select id="select" parameterType="int" resultType="com.triplus.schedule.dto.ExpenseDto">
+		select * from EXPENSES
+			where skdnum = #{skdNum}
+	</select>
+
+	<insert id="insert" parameterType="com.triplus.schedule.dto.ExpenseDto">
+		insert into EXPENSES values(#{skdNum}, #{jsonData})
+	</insert>
+
+	<update id="update" parameterType="com.triplus.schedule.dto.ExpenseDto">
+		update EXPENSES
+		set jsonData = #{jsonData}
+		where skdNum = #{skdNum}
+	</update>
+</mapper>
