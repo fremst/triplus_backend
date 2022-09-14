@@ -21,10 +21,9 @@ public class PayCancelController {
 
             response.setContentType("text/html");
             PrintWriter out = response.getWriter();
-            out.println("<script type=\"text/javascript\" src=\"https://stgstdpay.inicis.com/stdjs/INIStdPay_close.js \" charset=\"UTF-8\">console.log(11)</script>");
+            out.println("<script>window.top.postMessage({ msg: 'refresh'}, '*');</script>");
+            out.println("<script type=\"text/javascript\" src=\"https://stgstdpay.inicis.com/stdjs/INIStdPay_close.js \" charset=\"UTF-8\"></script>");
             out.flush();
-
-//            return "redirect:http://localhost:8081/section/packages/"+brdNum+"/reservation";
 
         } catch (IOException e) {
 

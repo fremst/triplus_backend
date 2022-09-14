@@ -15,6 +15,10 @@ public interface ReservationMapper {
 
     ArrayList<ReservationDto> selectByBrdNum(int brdNum);
 
+    ReservationDto selectByBrdNumAndId(HashMap<String, Object> map);
+
+    int getCountByResSta(String resSta);
+    
 //    int update(ReservationDto reservationDto);
 
 //    int delete(String tid);

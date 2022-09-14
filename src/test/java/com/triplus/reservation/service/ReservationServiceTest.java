@@ -51,4 +51,16 @@ public class ReservationServiceTest {
         assertNotNull(reservationDto);
 
     }
+
+    @Test
+    public void getCountByResSta() {
+
+        String resSta = "취소";
+
+        int n = reservationService.getCountByResSta(resSta);
+        logger.info("n: " + reservationService);
+
+        assertEquals(7, n);
+
+    }
 }

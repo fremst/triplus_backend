@@ -33,6 +33,18 @@ public class ReservationService {
 
     }
 
+    public ReservationDto selectBybrdNumAndId(HashMap<String, Object> cond) {
+
+        return reservationMapper.selectByBrdNumAndId(cond);
+
+    }
+
+    public int getCountByResSta(String resSta) {
+
+        return reservationMapper.getCountByResSta(resSta);
+
+    }
+
     /**
      * @param map oid, resSta 입력
      */
