@@ -5,6 +5,7 @@ import com.triplus.board.dto.BoardDto;
 import com.triplus.board.dto.QnaDto;
 import com.triplus.board.service.BoardService;
 import com.triplus.board.service.QnaService;
+import com.triplus.user.utils.PasswordUtils;
 import com.triplus.user.utils.VerifyUtils;
 import com.triplus.user.dto.UserDto;
 import com.triplus.user.service.UserService;
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -54,7 +57,7 @@ public class QnaController {
         if (!qnaDto.isPublished()) {
 
             // 유저 토큰이 있는 경우 (로그인을 한 경우)
-            if (token != null) {
+            if (token != null && !token.equalsIgnoreCase("null")) {
                 // 유효성 검사
                 UserDto user = VerifyUtils.checkToken(userService, id, token);
                 if (user != null && user.getId().equals(qnaDto.getWriterId())) {
@@ -78,7 +81,10 @@ public class QnaController {
         map.put("contents", "");
         QnaDto qnaDto = new QnaDto();
         qnaDto.setBrdNum(brdNum);
-        qnaDto.setTempPwd(pwd);
+
+        // 암호화
+        qnaDto.setTempPwd(PasswordUtils.encrypt(pwd));
+
         try {
             qnaDto = qnaService.selectPwd(qnaDto);
             if (qnaDto != null) {
@@ -102,20 +108,27 @@ public class QnaController {
             int answerNum, String title, String category,
             String tempEmail, String tempPwd, String contents, boolean published) {
 
+        System.out.println("user token = " + (token == null) + ", " + (token.length()));
         HashMap<String, Object> map = new HashMap<>();
         map.put("result", false);
         map.put("reason", "unknown");
 
+        // 임시 비번 암호화
+        tempPwd = PasswordUtils.encrypt(tempPwd);
+
         // 유저 토큰이 있는 경우 (로그인을 한 경우)
-        if (token != null) {
+        if (token != null && !token.equalsIgnoreCase("null")) {
             UserDto user = VerifyUtils.checkToken(userService, writerId, token);
             if (user == null) {
                 map.put("reason", "로그인 정보가 유효하지 않습니다.");
                 return map;
             }
+            System.out.println("user = " + user.toString());
             tempEmail = user.getEmail();
             tempPwd = user.getPwd();
         }
+
+        System.out.println("user tempPWD 2 = " + tempPwd);
 
         try {
             // 보드 시퀀스의 가장 최신값을 얻을 방법이 없다
@@ -161,8 +174,11 @@ public class QnaController {
         System.out.println(dto.getWriterId());
         System.out.println(dto.toString());
 
+        // 임시 비번 암호화
+        dto.setTempPwd(PasswordUtils.encrypt(dto.getTempPwd()));
+
         // 유저 토큰이 있는 경우 (로그인을 한 경우)
-        if (token != null) {
+        if (token != null && !token.equalsIgnoreCase("null")) {
             UserDto user = VerifyUtils.checkToken(userService, dto.getWriterId(), token);
             if (user == null) {
                 map.put("reason", "로그인 정보가 유효하지 않습니다.");
@@ -171,9 +187,6 @@ public class QnaController {
             dto.setTempEmail(user.getEmail());
             dto.setTempPwd(user.getPwd());
         }
-        UserDto user = userService.identifyId(dto.getWriterId());
-        dto.setTempEmail(user.getEmail());
-        dto.setTempPwd(user.getPwd());
 
         BoardDto board = boardService.select(dto.getBrdNum());
         dto.setTImg(new byte[]{});
@@ -211,7 +224,8 @@ public class QnaController {
 
         QnaDto dto = new QnaDto();
         dto.setBrdNum(brdNum);
-        dto.setTempPwd(pwd);
+        // 암호화
+        dto.setTempPwd(PasswordUtils.encrypt(pwd));
 
         try {
             // 문의글 DB 지우기
