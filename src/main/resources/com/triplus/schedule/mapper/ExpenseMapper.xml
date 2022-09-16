@@ -11,7 +11,7 @@
 	</select>
 
 	<insert id="insert" parameterType="com.triplus.schedule.dto.ExpenseDto">
-		insert into EXPENSES values(#{skdNum}, #{jsonData})
+		insert into EXPENSES values(EXPENSES_SEQ.nextval, #{skdNum}, #{jsonData})
 	</insert>
 
 	<update id="update" parameterType="com.triplus.schedule.dto.ExpenseDto">
