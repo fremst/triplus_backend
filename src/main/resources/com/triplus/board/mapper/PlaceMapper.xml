@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.triplus.board.mapper.PlaceMapper">
+
+    <select id="select" parameterType="int" resultType="com.triplus.board.dto.PlaceDto">
+        SELECT *
+        FROM PLACE
+                 INNER JOIN BOARD USING (BRDNUM)
+        WHERE BRDNUM = #{brdNum}
+    </select>
+
+    <select id="selectAll" resultType="com.triplus.board.dto.PlaceDto">
+        SELECT *
+        FROM PLACE
+                 INNER JOIN BOARD USING (BRDNUM)
+    </select>
+
+    <select id="selectAllById" parameterType="string" resultType="com.triplus.board.dto.PlaceDto">
+        SELECT *
+        FROM PLACE
+                 INNER JOIN BOARD USING (BRDNUM)
+        WHERE WRITERID IN ('admin', #{id})
+    </select>
+
+    <select id="selectAllByMcatNum" parameterType="int" resultType="com.triplus.board.dto.PlaceDto">
+        SELECT *
+        FROM PLACE
+                 INNER JOIN BOARD USING (BRDNUM)
+        WHERE MCATNUM = #{mcatNum}
+    </select>
+
+    <insert id="insert" parameterType="com.triplus.board.dto.PlaceDto">
+        INSERT INTO PLACE (BRDNUM, MCATNUM, SCATNUM, REGION, ADDR, TEL, MAPX, MAPY, URL)
+        VALUES (#{brdNum}, #{mcatNum}, #{scatNum}, #{region}, #{addr}, #{tel, jdbcType=VARCHAR}, #{mapx}, #{mapy}, #{url, jdbcType=VARCHAR})
+    </insert>
+
+    <delete id="delete" parameterType="int">
+        DELETE
+        FROM PLACE
+        WHERE BRDNUM = #{brdNum}
+    </delete>
+
+    <update id="update" parameterType="com.triplus.board.dto.PlaceDto">
+        UPDATE PLACE
+        SET MCATNUM = #{mcatNum},
+            SCATNUM = #{scatNum},
+            REGION  = #{region},
+            ADDR    = #{addr},
+            TEL     = #{tel, jdbcType=VARCHAR},
+            MAPX    = #{mapx},
+            MAPY    = #{mapy},
+            URL     = #{url, jdbcType=VARCHAR}
+        WHERE BRDNUM = #{brdNum}
+    </update>
+
+</mapper>

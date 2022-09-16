@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.triplus.board.mapper.PkgComMapper">
+
+    <insert id="insert" parameterType="com.triplus.board.dto.PkgComDto">
+        INSERT INTO PKGCOM(PKGCOMNUM, OID, PKGCOMCLASS, PKGCOMNAME, PKGCOMTEL, PKGCOMGENDER)
+        VALUES (PKGCOM_SEQ.NEXTVAL, #{oid}, #{pkgComClass}, #{pkgComName}, #{pkgComTel}, #{pkgComGender})
+    </insert>
+
+    <select id="selectAllByOid" parameterType="string" resultType="com.triplus.board.dto.PkgComDto">
+        SELECT *
+        FROM PKGCOM
+        WHERE OID = #{oid}
+    </select>
+
+    <select id="getRcrtCnt" parameterType="hashmap" resultType="int">
+        SELECT COUNT(*)
+        FROM PKGCOM
+        WHERE OID IN (SELECT OID
+                      FROM RESERVATION
+                      WHERE BRDNUM = #{brdNum}
+                        AND RESSTA IN (${resSta}))
+    </select>
+
+    <select id="getTotSales" resultType="com.triplus.board.dto.TotSalesDto">
+        SELECT OID, GENDER BOOKERGENDER, TOTSALES
+        FROM (SELECT OID, SUM(TOTPRICE) TOTSALES
+              FROM PAYMENT
+                       LEFT JOIN REFUND USING (TID)
+                       INNER JOIN RESERVATION USING (OID)
+              WHERE RTID IS NULL
+                AND RESSTA = '확정'
+              GROUP BY OID)
+                 INNER JOIN RESERVATION USING (OID)
+                 INNER JOIN "USER" USING (ID)
+    </select>
+
+    <select id="getTotPkgComCnt" parameterType="string" resultType="int">
+        SELECT COUNT(PKGCOMGENDER) MPKGCOMCNT
+        FROM PKGCOM
+        WHERE OID = #{oid}
+    </select>
+
+    <select id="getMPkgComCnt" parameterType="string" resultType="int">
+        SELECT COUNT(PKGCOMGENDER) MPKGCOMCNT
+        FROM PKGCOM
+        WHERE OID = #{oid}
+          AND PKGCOMGENDER = 'M'
+    </select>
+
+    <select id="getFPkgComCnt" parameterType="string" resultType="int">
+        SELECT COUNT(PKGCOMGENDER) FPKGCOMCNT
+        FROM PKGCOM
+        WHERE OID = #{oid}
+          AND PKGCOMGENDER = 'F'
+    </select>
+
+</mapper>

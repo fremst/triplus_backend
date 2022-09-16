@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.triplus.board.mapper.PackageMapper">
+
+    <insert id="insert" parameterType="com.triplus.board.dto.PackageDto">
+        INSERT INTO PACKAGE(BRDNUM, SDATE, EDATE, MTGPLACE, REGION, RCRTCNT, TRANS, ADULTPRICE, CHILDPRICE)
+        VALUES (#{brdNum}, #{sDate}, #{eDate}, #{mtgPlace}, #{region}, #{rcrtCnt}, #{trans}, #{adultPrice}, #{childPrice})
+    </insert>
+
+    <select id="select" parameterType="int" resultType="com.triplus.board.dto.PackageDto">
+        SELECT *
+        FROM BOARD
+                 JOIN PACKAGE USING (BRDNUM)
+        WHERE BRDNUM = #{brdNum}
+    </select>
+
+    <update id="update" parameterType="com.triplus.board.dto.PackageDto">
+        UPDATE PACKAGE
+        SET SDATE = #{sDate},
+            EDATE = #{eDate},
+            MTGPLACE = #{mtgPlace},
+            REGION = #{region},
+            RCRTCNT = #{rcrtCnt},
+            TRANS = #{trans},
+            ADULTPRICE = #{adultPrice},
+            CHILDPRICE = #{childPrice}
+        WHERE BRDNUM = #{brdNum}
+    </update>
+
+    <select id="selectAll" resultType="com.triplus.board.dto.PackageDto">
+        SELECT *
+        FROM BOARD
+                 JOIN PACKAGE USING (BRDNUM)
+    </select>
+
+    <select id="selectAllForAdmin" resultType="com.triplus.board.dto.PackageDto">
+        SELECT TITLE, BRDNUM, SDATE, EDATE, REGION, RCRTCNT, ADULTPRICE, CHILDPRICE, CANCELED, NOTIFIED
+        FROM BOARD
+                 JOIN PACKAGE USING (BRDNUM)
+    </select>
+
+</mapper>
